@@ -1,0 +1,3 @@
+[submodule "CottonEngine/submodules/spdlog"]
+	path = CottonEngine/submodules/spdlog
+	url = https://github.com/gabime/spdlog.git

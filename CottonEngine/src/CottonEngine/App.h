@@ -4,7 +4,7 @@
 
 namespace CE
 {
-	class CT_CREATE App
+	class CT_DLL App
 	{
 	public:
 		App();

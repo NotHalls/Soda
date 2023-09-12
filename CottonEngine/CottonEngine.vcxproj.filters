@@ -18,6 +18,9 @@
     <ClCompile Include="src\CottonEngine\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CottonEngine\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CottonEngine\App.h">
@@ -30,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CottonEngine\Start.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CottonEngine\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -57,8 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>CT_PLATFORM_WIN;CT_DLL_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CottonEngine\submodules\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -73,8 +72,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>CT_PLATFORM_WIN;CT_DLL_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CottonEngine\submodules\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,9 +82,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CottonEngine\Logger.cpp" />
     <ClCompile Include="src\CottonEngine\App.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CottonEngine\Logger.h" />
     <ClInclude Include="src\CE.h" />
     <ClInclude Include="src\CottonEngine\App.h" />
     <ClInclude Include="src\CottonEngine\Core.h" />

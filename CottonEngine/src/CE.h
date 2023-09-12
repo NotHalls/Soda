@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CottonEngine/App.h"
+#include "CottonEngine/Logger.h"
 
 
 //*********** THE START ***********//
