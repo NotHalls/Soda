@@ -1,6 +1,8 @@
-# CottonEngine
-This is my simple 2D game engine project <br>
-this engine will not have fancy UI and all. just some reusable code to make a simple 2D game. <br>
-it can't really do much. it will just render 2d images and animating them. it will also includes movement. <br>
+# Sodaaaa
+This is a game which can make basic 2D games with animations, audio and some other basic stuff<br>
 
-i might plan to add more to the Engine later on but i want to keep it simple for making a 2D game
+It might be basic now but i wanna make imporvements to it. I will add more and more features later on<br>
+Currently im the only one working on the project so it might take some time.
+
+
+<b>DRINK SODA</b>

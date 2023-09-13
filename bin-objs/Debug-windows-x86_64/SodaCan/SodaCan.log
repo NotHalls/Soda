@@ -1,0 +1,6 @@
+﻿  Playground.cpp
+C:\_dev\Projects\SodaEngine\Soda\src\Soda\Logger.h(21,43): warning C4251: 'Soda::Log::s_CoreLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'Soda::Log'
+C:\_dev\Projects\SodaEngine\Soda\submodules\spdlog\include\spdlog\details\registry.h(34,31): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+C:\_dev\Projects\SodaEngine\Soda\src\Soda\Logger.h(22,43): warning C4251: 'Soda::Log::s_ClientLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'Soda::Log'
+C:\_dev\Projects\SodaEngine\Soda\submodules\spdlog\include\spdlog\details\registry.h(34,31): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+  SodaCan.vcxproj -> C:\_dev\Projects\SodaEngine\bin\Debug-windows-x86_64\SodaCan\SodaCan.exe
