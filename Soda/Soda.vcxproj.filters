@@ -4,14 +4,30 @@
     <Filter Include="Soda">
       <UniqueIdentifier>{6C788C7C-58AF-8D0D-019C-7310EDB1090F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Soda\Events">
+      <UniqueIdentifier>{D0F210BA-3CA8-89AF-C59C-8386315180B3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SD_PCH.h" />
     <ClInclude Include="src\Soda.h" />
     <ClInclude Include="src\Soda\App.h">
       <Filter>Soda</Filter>
     </ClInclude>
     <ClInclude Include="src\Soda\Core.h">
       <Filter>Soda</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Soda\Events\AppEvents.h">
+      <Filter>Soda\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Soda\Events\Events.h">
+      <Filter>Soda\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Soda\Events\KeyboardEvents.h">
+      <Filter>Soda\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Soda\Events\MouseEvents.h">
+      <Filter>Soda\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Soda\Logger.h">
       <Filter>Soda</Filter>
@@ -21,6 +37,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SD_PCH.cpp" />
     <ClCompile Include="src\Soda\App.cpp">
       <Filter>Soda</Filter>
     </ClCompile>

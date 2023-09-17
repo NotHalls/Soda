@@ -9,3 +9,5 @@
 #else
 	#error Sorry bruh... Cotton Engine is only on Windows right now!
 #endif
+
+#define BIT(x) (1 << x)

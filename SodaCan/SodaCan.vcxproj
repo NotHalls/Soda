@@ -138,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Soda\Soda.vcxproj">
-      <Project>{6c788c7c-58af-8d0d-019c-7310edb1090f}</Project>
+      <Project>{6C788C7C-58AF-8D0D-019C-7310EDB1090F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

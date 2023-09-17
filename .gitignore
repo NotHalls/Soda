@@ -5,3 +5,6 @@ bin-temp/
 
 #Files-Types
 *.user
+*.sln
+*.vcxproj
+*.filters

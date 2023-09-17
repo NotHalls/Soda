@@ -1,3 +1,6 @@
 [submodule "CottonEngine/submodules/spdlog"]
 	path = CottonEngine/submodules/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Soda/submodules/spdlog"]
+	path = Soda/submodules/spdlog
+	url = https://github.com/gabime/spdlog.git

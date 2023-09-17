@@ -14,6 +14,7 @@ int main(int argc, char** argv)
 	SD_ERROR("HUH!!!");
 	SD_CORE_FATAL("UH HUHHH!!!");
 	SD_MSG("okk......");
+	SD_CORE_TRACE("there we go.");
 	
 	auto app = Soda::CreateApp();
 	app->Run();

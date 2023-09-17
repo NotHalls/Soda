@@ -23,6 +23,10 @@ project "Soda"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-objs/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "SD_PCH.h"
+    pchsource "%{prj.name}/src/SD_PCH.cpp"
+    
+    
     files
     {
         "%{prj.name}/src/**.h",
@@ -31,6 +35,7 @@ project "Soda"
 
     includedirs
     {
+        "%{prj.name}/src",
         "%{prj.name}/submodules/spdlog/include"
     }
 
@@ -87,7 +92,7 @@ project "SodaCan"
 
     links
     {
-        Soda
+        "Soda"
     }
 
     filter "system:windows"
