@@ -1,10 +1,10 @@
 # DIRs
 .vs
 bin/
-bin-temp/
+bin-objs/
 
 #Files-Types
-*.user
 *.sln
 *.vcxproj
+*.user
 *.filters
