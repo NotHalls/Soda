@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="PlatformSrc">
+      <UniqueIdentifier>{12DFBF34-7E94-382A-0789-3201733D2F2E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Soda">
       <UniqueIdentifier>{6C788C7C-58AF-8D0D-019C-7310EDB1090F}</UniqueIdentifier>
     </Filter>
@@ -9,6 +12,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PlatformSrc\WinWindow.h">
+      <Filter>PlatformSrc</Filter>
+    </ClInclude>
     <ClInclude Include="src\SD_PCH.h" />
     <ClInclude Include="src\Soda.h" />
     <ClInclude Include="src\Soda\App.h">
@@ -35,8 +41,14 @@
     <ClInclude Include="src\Soda\Start.h">
       <Filter>Soda</Filter>
     </ClInclude>
+    <ClInclude Include="src\Soda\Window.h">
+      <Filter>Soda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PlatformSrc\WinWindow.cpp">
+      <Filter>PlatformSrc</Filter>
+    </ClCompile>
     <ClCompile Include="src\SD_PCH.cpp" />
     <ClCompile Include="src\Soda\App.cpp">
       <Filter>Soda</Filter>

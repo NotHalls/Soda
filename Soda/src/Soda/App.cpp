@@ -11,7 +11,9 @@
 namespace Soda
 {
 	App::App()
-	{}
+	{
+		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create());
+	}
 
 	App::~App()
 	{}
@@ -19,9 +21,9 @@ namespace Soda
 
 	void App::Run()
 	{
-		WindowResizeEvent e(1920, 1080);
-		SD_CORE_TRACE(e);
-
-		while(true);
+		while (IsRunning)
+		{
+			m_MainWindow->OnUpdate();
+		}
 	}
 }

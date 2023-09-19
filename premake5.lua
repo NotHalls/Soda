@@ -9,9 +9,15 @@ configurations
 }
 
 
---{{ OUTPUT DIRECTORY }}--
+--{{ VARS DIRECTORY }}--
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
--- {{ /OUTPUT DIRECTORY }}--
+
+-- include dirs
+IncludeDirs = {}
+IncludeDirs["glfw"] = "Soda/submodules/glfw/include"
+
+include "Soda/submodules/glfw"
+-- {{ /VARS DIRECTORY }}--
 
 
 --{{ SODA PROJECT }}--
@@ -36,7 +42,14 @@ project "Soda"
     includedirs
     {
         "%{prj.name}/src",
-        "%{prj.name}/submodules/spdlog/include"
+        "%{prj.name}/submodules/spdlog/include",
+        "%{IncludeDirs.glfw}"
+    }
+
+    links
+    {
+        "glfw",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -60,7 +73,7 @@ project "Soda"
         symbols "On"
 
     filter "configurations:Release"
-        defines "SD_RELEASE"
+        defines { "SD_RELEASE", "SD_ENABLE_ASSERTS" }
         optimize "On"
     
     filter "configurations:Dist"

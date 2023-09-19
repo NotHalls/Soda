@@ -26,12 +26,12 @@ namespace Soda
 
 
 // core logging system
-#define SD_CORE_TRACE(...)	::Soda::Log::GetEngineLogger()->trace(__VA_ARGS__);
-#define SD_CORE_MSG(...)	::Soda::Log::GetEngineLogger()->debug(__VA_ARGS__);
-#define SD_CORE_INFO(...)	::Soda::Log::GetEngineLogger()->info(__VA_ARGS__);
-#define SD_CORE_WARN(...)	::Soda::Log::GetEngineLogger()->warn(__VA_ARGS__);
-#define SD_CORE_ERROR(...)	::Soda::Log::GetEngineLogger()->error(__VA_ARGS__);
-#define SD_CORE_FATAL(...)	::Soda::Log::GetEngineLogger()->critical(__VA_ARGS__);
+#define SD_ENGINE_TRACE(...)	::Soda::Log::GetEngineLogger()->trace(__VA_ARGS__);
+#define SD_ENGINE_MSG(...)	::Soda::Log::GetEngineLogger()->debug(__VA_ARGS__);
+#define SD_ENGINE_INFO(...)	::Soda::Log::GetEngineLogger()->info(__VA_ARGS__);
+#define SD_ENGINE_WARN(...)	::Soda::Log::GetEngineLogger()->warn(__VA_ARGS__);
+#define SD_ENGINE_ERROR(...)	::Soda::Log::GetEngineLogger()->error(__VA_ARGS__);
+#define SD_ENGINE_FATAL(...)	::Soda::Log::GetEngineLogger()->critical(__VA_ARGS__);
 							  
 // clien logging system		  
 #define SD_TRACE(...)		::Soda::Log::GetUserLogger()->trace(__VA_ARGS__);

@@ -1,6 +1,7 @@
-[submodule "CottonEngine/submodules/spdlog"]
-	path = CottonEngine/submodules/spdlog
-	url = https://github.com/gabime/spdlog.git
-[submodule "Soda/submodules/spdlog"]
+[submodule "spdlog"]
 	path = Soda/submodules/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "CottonGlfw"]
+	path = Soda/submodules/glfw
+	url = https://github.com/CottonBall74/glfw
+	branch = latest
