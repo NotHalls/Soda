@@ -1,5 +1,7 @@
 #pragma once
 
+// this is where all the application related events reside
+
 #include "Events.h"
 
 
@@ -8,6 +10,8 @@ namespace Soda
 	class SD_DLL WindowResizeEvent : public Event
 	{
 	public:
+		// these are those defines i talked about in Events.h
+		// they make life easier by setting the Event type and other stuff
 		EVENT_CLASS_TYPE(WindowResize)
 		EVENT_CLASS_CATEGORY(EventCategory_App)
 
@@ -20,6 +24,7 @@ namespace Soda
 		inline unsigned int GetWindowHeight() const
 		{ return m_windowHeight; }
 
+		// we have the ToString to print out what the event did when it was called
 		std::string ToString() const override
 		{
 			std::stringstream msg;
@@ -39,6 +44,13 @@ namespace Soda
 
 		WindowCloseEvent()
 		{}
+
+		std::string ToString() const override
+		{
+			std::stringstream msg;
+			msg << "Window Closed :(";
+			return msg.str();
+		}
 	};
 
 

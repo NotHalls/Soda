@@ -73,7 +73,7 @@ project "Soda"
         symbols "On"
 
     filter "configurations:Release"
-        defines { "SD_RELEASE", "SD_ENABLE_ASSERTS" }
+        defines "SD_RELEASE"
         optimize "On"
     
     filter "configurations:Dist"

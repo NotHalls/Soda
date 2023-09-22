@@ -1,5 +1,7 @@
 #pragma once
 
+// this is where all the mouse events reside
+
 #include "Events.h"
 
 
@@ -8,6 +10,9 @@ namespace Soda
 	class SD_DLL MouseMoveEvent : public Event
 	{
 	public:
+		// these are those defines i talked about in Events.h
+		// they make life easier by setting the Event type and other stuff
+		// you can see what this define exactly does in the Events.h file
 		EVENT_CLASS_TYPE(MouseMove)
 		EVENT_CLASS_CATEGORY(EventCategory_Mouse | EventCategory_Input)
 
@@ -52,11 +57,20 @@ namespace Soda
 			return m_WheelOffsetY;
 		}
 
+		std::string ToString() const override
+		{
+			std::stringstream msg;
+			msg << "Mouse Scrolled at: (x: " << m_WheelOffsetX << ", y: " << m_WheelOffsetY << ")";
+			return msg.str();
+		}
+
 	private:
 		float m_WheelOffsetX, m_WheelOffsetY;
 	};
 
 
+	// just like in KeyEvents, here we have MouseButtonEvent that will be inherited
+	// by our MousePress and MouseRelease events
 	class SD_DLL MouseButtonEvent : public Event
 	{
 	public:

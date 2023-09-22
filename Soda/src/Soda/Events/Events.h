@@ -1,5 +1,8 @@
 #pragma once
 
+// this is the main file for Events.
+// it is where the infamous Event class resides
+
 #include "SD_PCH.h"
 
 #include "Soda/Core.h"
@@ -12,10 +15,11 @@ namespace Soda
         None = 0,
         WindowClose, WindowResize, WindowFocus, WindowNoFocus, WindowMove,
         AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyRelease,
         MouseClick, MouseRelease, MouseMove, MouseScroll
     };
 
+    // so yea... we use BIT() here to make it easier for us to check if something is in a category without bools and shit
     enum EventCategory
     {
         None = 0,
@@ -26,7 +30,7 @@ namespace Soda
         EventCategory_MouseButton   = BIT(4)
     };
 
-
+    // the Event class will carry the basic abrivations for the Events like its Name, what category it is, and some other stuff
     class SD_DLL Event
     {
         friend class EventDispatcher;
@@ -46,13 +50,17 @@ namespace Soda
     };
 
 
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+    // who wants to type all the Event methods in each event we make dude... common
+    // thats why we made this define. To make life easier
+    #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
                                virtual EventType GetEventType() const override { return GetStaticType(); }\
                                virtual const char* GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
+    // same here... no typing big things... we just need the define
+    #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 
+    // this class dispatches the Events with the right function to execute
     class EventDispatcher
     {
         template<typename ET> // ET for Event Type

@@ -1,5 +1,7 @@
 #pragma once
 
+// the precompiled header file
+
 #include "Soda/Core.h"
 
 
