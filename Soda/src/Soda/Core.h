@@ -7,6 +7,9 @@
 // We use this BIT operation to make checking easier on the compiler without bools to check if an IsEventHappning is true or not
 #define BIT(x) (1 << x)
 
+// this is the binding function that binds the function you specify to a certain lamda
+#define BIND_FN(x) std::bind(&x, this, std::placeholders::_1)
+
 
 // if we are in Windows then we use this code
 #ifdef SD_PLATFORM_WIN

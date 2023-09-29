@@ -79,8 +79,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SD_PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;SD_DEBUG;SD_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;GLFW_INCLUDE_NONE;SD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;submodules\glad\include;submodules\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -102,8 +102,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SD_PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;SD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;GLFW_INCLUDE_NONE;SD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;submodules\glad\include;submodules\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -129,8 +129,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SD_PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;SD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SD_PLATFORM_WIN;SD_DLL_BUILD;GLFW_INCLUDE_NONE;SD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;submodules\spdlog\include;submodules\glfw\include;submodules\glad\include;submodules\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -152,6 +152,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\PlatformSrc\WinWindow.h" />
     <ClInclude Include="src\SD_PCH.h" />
     <ClInclude Include="src\Soda.h" />
@@ -161,21 +163,34 @@
     <ClInclude Include="src\Soda\Events\Events.h" />
     <ClInclude Include="src\Soda\Events\KeyboardEvents.h" />
     <ClInclude Include="src\Soda\Events\MouseEvents.h" />
+    <ClInclude Include="src\Soda\LayerStack.h" />
+    <ClInclude Include="src\Soda\Layers.h" />
     <ClInclude Include="src\Soda\Logger.h" />
     <ClInclude Include="src\Soda\Start.h" />
     <ClInclude Include="src\Soda\Window.h" />
+    <ClInclude Include="src\Soda\imgui\ImGuiLayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\PlatformSrc\WinWindow.cpp" />
     <ClCompile Include="src\SD_PCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Soda\App.cpp" />
+    <ClCompile Include="src\Soda\LayerStack.cpp" />
+    <ClCompile Include="src\Soda\Layers.cpp" />
     <ClCompile Include="src\Soda\Logger.cpp" />
+    <ClCompile Include="src\Soda\imgui\ImGuiLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="submodules\glfw\glfw.vcxproj">
       <Project>{9563977C-819A-980D-2A87-7E10169D140F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="submodules\glad\glad.vcxproj">
+      <Project>{DD62977C-C999-980D-7286-7E105E9C140F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="submodules\imgui\imgui.vcxproj">
+      <Project>{0098A80F-6CAC-D0C0-352E-7420A101CDF1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

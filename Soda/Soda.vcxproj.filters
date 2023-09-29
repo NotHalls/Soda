@@ -4,14 +4,26 @@
     <Filter Include="PlatformSrc">
       <UniqueIdentifier>{12DFBF34-7E94-382A-0789-3201733D2F2E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlatformSrc\OpenGL">
+      <UniqueIdentifier>{06A04C5F-F283-0DB5-5BE4-070847E7F736}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Soda">
       <UniqueIdentifier>{6C788C7C-58AF-8D0D-019C-7310EDB1090F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Soda\Events">
       <UniqueIdentifier>{D0F210BA-3CA8-89AF-C59C-8386315180B3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Soda\imgui">
+      <UniqueIdentifier>{D626E4F0-C2DE-253E-2BE6-FE9917BDC02E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3.h">
+      <Filter>PlatformSrc\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3_loader.h">
+      <Filter>PlatformSrc\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\PlatformSrc\WinWindow.h">
       <Filter>PlatformSrc</Filter>
     </ClInclude>
@@ -35,6 +47,12 @@
     <ClInclude Include="src\Soda\Events\MouseEvents.h">
       <Filter>Soda\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Soda\LayerStack.h">
+      <Filter>Soda</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Soda\Layers.h">
+      <Filter>Soda</Filter>
+    </ClInclude>
     <ClInclude Include="src\Soda\Logger.h">
       <Filter>Soda</Filter>
     </ClInclude>
@@ -44,8 +62,14 @@
     <ClInclude Include="src\Soda\Window.h">
       <Filter>Soda</Filter>
     </ClInclude>
+    <ClInclude Include="src\Soda\imgui\ImGuiLayer.h">
+      <Filter>Soda\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PlatformSrc\OpenGL\imgui_impl_opengl3.cpp">
+      <Filter>PlatformSrc\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\PlatformSrc\WinWindow.cpp">
       <Filter>PlatformSrc</Filter>
     </ClCompile>
@@ -53,8 +77,17 @@
     <ClCompile Include="src\Soda\App.cpp">
       <Filter>Soda</Filter>
     </ClCompile>
+    <ClCompile Include="src\Soda\LayerStack.cpp">
+      <Filter>Soda</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Soda\Layers.cpp">
+      <Filter>Soda</Filter>
+    </ClCompile>
     <ClCompile Include="src\Soda\Logger.cpp">
       <Filter>Soda</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Soda\imgui\ImGuiLayer.cpp">
+      <Filter>Soda\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

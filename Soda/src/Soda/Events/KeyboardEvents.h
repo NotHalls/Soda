@@ -31,14 +31,14 @@ namespace Soda
     };
 
 
-    class SD_DLL KeyPressedEvent : public KeyEvent
+    class SD_DLL KeyPressEvent : public KeyEvent
     {
     public:
         // this is the other define that makes your life easy by typing less shit
         // you can see what this does in the Events.h file
-        EVENT_CLASS_TYPE(KeyPressed)
+        EVENT_CLASS_TYPE(KeyPress)
 
-        KeyPressedEvent(int keycode, int Reapeter)
+        KeyPressEvent(int keycode, int Reapeter)
             : KeyEvent(keycode), m_Repeater(Reapeter)
         {}
 
@@ -70,6 +70,24 @@ namespace Soda
         {
             std::stringstream msg;
             msg << "KeyReleasedEvent: " << m_KeyCode;
+            return msg.str();
+        }
+    };
+
+
+    class SD_DLL KeyTypeEvent : public KeyEvent
+    {
+    public:
+        EVENT_CLASS_TYPE(KeyTyped)
+
+        KeyTypeEvent(int typedValue)
+            : KeyEvent(typedValue)
+        {}
+
+        std::string ToString() const override
+        {
+            std::stringstream msg;
+            msg << "KeyTypedEvent: " << m_KeyCode;
             return msg.str();
         }
     };

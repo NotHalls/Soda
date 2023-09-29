@@ -1,5 +1,7 @@
 #include "SD_PCH.h"
 
+#include "glad/glad.h"
+
 #include "WinWindow.h"
 
 #include "Soda/Logger.h"
@@ -61,6 +63,11 @@ namespace Soda
 		// which is our Engine Window
 		m_Window = glfwCreateWindow((int)windowInfo.Width, (int)windowInfo.Height, windowInfo.Name.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		
+		// initializing GLAD
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		SD_ENGINE_ASSERT(status, "Failed to initialize GLAD!");
+
 		// this function binds our m_WindowData to the m_Window to use the Data where ever we want
 		// without declaring it global
 		// because the data is bound to the m_Window, we can access the m_WindowData with the m_Window
@@ -105,15 +112,15 @@ namespace Soda
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressedEvent _KeyPressedEvent(key, 0);
-					windowData.CallbackFn(_KeyPressedEvent);
+					KeyPressEvent _KeyPressEvent(key, 0);
+					windowData.CallbackFn(_KeyPressEvent);
 					break;
 				}
 
 				case GLFW_REPEAT:
 				{
 					// alright for this we name it _KeyRepeatEvent...
-					KeyPressedEvent _KeyRepeatEvent(key, 1);
+					KeyPressEvent _KeyRepeatEvent(key, 1);
 					windowData.CallbackFn(_KeyRepeatEvent);
 					break;
 				}
@@ -125,6 +132,15 @@ namespace Soda
 					break;
 				}
 			}
+		});
+
+		glfwSetCharCallback(m_Window,
+		[](GLFWwindow* window, unsigned int character)
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			KeyTypeEvent _KeyTypedEvent(character);
+			windowData.CallbackFn(_KeyTypedEvent);
 		});
 
 

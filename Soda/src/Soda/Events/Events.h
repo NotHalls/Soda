@@ -15,7 +15,7 @@ namespace Soda
         None = 0,
         WindowClose, WindowResize, WindowFocus, WindowNoFocus, WindowMove,
         AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyRelease,
+        KeyPress, KeyRelease, KeyTyped,
         MouseClick, MouseRelease, MouseMove, MouseScroll
     };
 
@@ -45,7 +45,7 @@ namespace Soda
         {
             return GetCategoryFlags() & category;
         }
-    protected:
+    
         bool m_Handled = false;
     };
 

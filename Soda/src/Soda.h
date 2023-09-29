@@ -4,7 +4,10 @@
 
 
 #include "Soda/App.h"
+#include "Soda/Layers.h"
 #include "Soda/Logger.h"
+
+#include "Soda/imgui/ImGuiLayer.h"
 
 
 //*********** THE START ***********//
