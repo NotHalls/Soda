@@ -5,6 +5,7 @@
 
 #include "SD_PCH.h"
 
+#include "Input.h"
 #include "Window.h"
 
 #include "Core.h"

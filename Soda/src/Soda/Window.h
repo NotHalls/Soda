@@ -48,6 +48,9 @@ namespace Soda
 		virtual void SetVSync(bool status) = 0;
 		virtual bool GetVSyncStatus() const = 0;
 
+		// this is to get the Window of out app
+		virtual void* GetTheWindow() const = 0;
+
 		// this function creates the Window.
 		// We create the window inside specific platform class where we return the platform's Window
 		static SodaWindow* Create(const WindowInfo& props = WindowInfo());

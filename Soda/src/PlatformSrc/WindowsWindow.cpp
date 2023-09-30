@@ -2,7 +2,8 @@
 
 #include "glad/glad.h"
 
-#include "WinWindow.h"
+#include "WindowsWindow.h"
+#include "WindowsInput.h"
 
 #include "Soda/Logger.h"
 
@@ -26,20 +27,20 @@ namespace Soda
 	// the Create function returns the PlatformWindow class
 	SodaWindow* SodaWindow::Create(const WindowInfo& windowInfo)
 	{
-		return new WinWindow(windowInfo);
+		return new WindowsWindow(windowInfo);
 	}
 
 	// and the PlatformWindow class calls the Init() func with the given info
-	WinWindow::WinWindow(const WindowInfo& windowInfo)
+	WindowsWindow::WindowsWindow(const WindowInfo& windowInfo)
 	{
 		InitWindow(windowInfo);
 	}
-	WinWindow::~WinWindow()
+	WindowsWindow::~WindowsWindow()
 	{
 		CloseWindow();
 	}
 
-	void WinWindow::InitWindow(const WindowInfo& windowInfo)
+	void WindowsWindow::InitWindow(const WindowInfo& windowInfo)
 	{
 		// assigning the given data to our Window Data
 		m_WindowData.Name = windowInfo.Name;
@@ -187,18 +188,18 @@ namespace Soda
 		});
 	}
 
-	void WinWindow::CloseWindow()
+	void WindowsWindow::CloseWindow()
 	{
 		glfwDestroyWindow(m_Window);
 	}
 
-	void WinWindow::OnUpdate()
+	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}
 
-	void WinWindow::SetVSync(bool status)
+	void WindowsWindow::SetVSync(bool status)
 	{
 		if(status)
 			// this function waits the given amount of frames to swap buffersa
@@ -210,7 +211,7 @@ namespace Soda
 		m_WindowData.VSync = status;
 	}
 
-	bool WinWindow::GetVSyncStatus() const
+	bool WindowsWindow::GetVSyncStatus() const
 	{
 		return m_WindowData.VSync;
 	}

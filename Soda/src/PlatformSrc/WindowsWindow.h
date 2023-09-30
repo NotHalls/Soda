@@ -11,12 +11,12 @@
 namespace Soda
 {
 	// this is our window window class which inherits the SodaWindow (Default properties of a window)
-	class WinWindow : public SodaWindow
+	class WindowsWindow : public SodaWindow
 	{
 	public:
 		// this constructor will take Info of a window (defaults to WindowInfo default values if Info is not provided)
-		WinWindow(const WindowInfo& windowInfo);
-		virtual ~WinWindow();
+		WindowsWindow(const WindowInfo& windowInfo);
+		virtual ~WindowsWindow();
 
 		// each platform has it's own Update functions which has a specific set of instructions
 		void OnUpdate() override;
@@ -25,6 +25,11 @@ namespace Soda
 		{ return m_WindowData.Width; }
 		inline unsigned int GetWindowHeight() const override
 		{ return m_WindowData.Height; }
+
+
+		// returns the GLFWwindow
+		inline virtual void* GetTheWindow() const override
+		{ return m_Window; }
 
 		// and the platform will also have its own callback function
 		void SetCallbackFn(const EventCallbackFn& CallbackFn) override

@@ -1,5 +1,6 @@
-# DIRs
+#DIRs
 .vs/
+.vscode/
 bin/
 bin-objs/
 

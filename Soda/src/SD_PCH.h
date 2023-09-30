@@ -5,7 +5,8 @@
 #include "Soda/Core.h"
 #include "Soda/Logger.h"
 
-
+#include <iostream>
+#include <utility>
 #include <functional>
 #include <memory>
 

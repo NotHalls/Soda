@@ -155,8 +155,6 @@ namespace Soda
 		ImGuiIO& imguiIO = ImGui::GetIO();
 		imguiIO.MouseDown[event.GetButtonClicked()] = true;
 
-		SD_ENGINE_INFO(imguiIO.KeyMap[event.GetButtonClicked()]);
-
 		return false;
 	}
 

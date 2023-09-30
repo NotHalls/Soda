@@ -2,8 +2,6 @@
 
 // NOW This is where we have our ASSERTS and... well basically the MACROS we want to use in our project
 
-// #include "Logger.h"
-
 // We use this BIT operation to make checking easier on the compiler without bools to check if an IsEventHappning is true or not
 #define BIT(x) (1 << x)
 
@@ -24,6 +22,12 @@
 	// yeaaa ill add other platforms later... soon... idk.
 #endif
 
+
+#ifdef SD_DEBUG
+	#define SD_ENABLE_ASSERTS
+#endif
+
+// we dont include logger.h in this file cuz these are just defines that will be writen as-is in the ones you use them in
 #ifdef SD_ENABLE_ASSERTS // This sets if you want ASSERT functions in the project
 	// this is for the user
 	#define SD_ASSERT(x, ...)\
