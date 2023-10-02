@@ -8,10 +8,21 @@ public:
 		: Layer("Sample")
 	{}
 
+	void OnUpdate() override
+	{
+
+	}
+
 	void OnEvent(Soda::Event& event) override
 	{
-		// uncoment this if you wanna see what event was called
-		/* SD_MSG("{0}", event); */
+		if(event.GetEventType() == Soda::EventType::KeyPress)
+		{
+			Soda::KeyPressEvent& keyEvent = (Soda::KeyPressEvent&)event;
+			SD_MSG("{0}", (char)keyEvent.GetKeyCode());
+
+			if(Soda::Input::IsKeyPressed(SD_KEY_TAB))
+				SD_MSG("{0}, is pressed", "Menu");
+		}
 	}
 };
 

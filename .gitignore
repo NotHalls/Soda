@@ -9,3 +9,5 @@ bin-objs/
 *.vcxproj
 *.user
 *.filters
+
+Makefile

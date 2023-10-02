@@ -7,6 +7,10 @@
 #include "Soda/Layers.h"
 #include "Soda/Logger.h"
 
+#include "Soda/Input/Input.h"
+#include "Soda/Input/KeyboardCodes.h"
+#include "Soda/Input/MouseCodes.h"
+
 #include "Soda/imgui/ImGuiLayer.h"
 
 

@@ -18,6 +18,7 @@ IncludeDirs = {}
 IncludeDirs["glfw"] = "Soda/submodules/glfw/include"
 IncludeDirs["glad"] = "Soda/submodules/glad/include"
 IncludeDirs["imgui"] = "Soda/submodules/imgui"
+IncludeDirs["glm"] = "Soda/submodules/glm"
 
 group "dependencies"
     include "Soda/submodules/glfw"
@@ -44,16 +45,18 @@ project "Soda"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/submodules/glm/glm/**.hpp",
     }
 
     includedirs
     {
         "%{prj.name}/src",
         "%{prj.name}/submodules/spdlog/include",
+        "%{IncludeDirs.glm}",
         "%{IncludeDirs.glfw}",
         "%{IncludeDirs.glad}",
-        "%{IncludeDirs.imgui}"
+        "%{IncludeDirs.imgui}",
     }
 
     links
@@ -61,7 +64,7 @@ project "Soda"
         "glfw",
         "glad",
         "imgui",
-        "opengl32.lib"
+        "opengl32"
     }
     
     filter "system:windows"
@@ -110,13 +113,16 @@ project "SodaCan"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "Soda/submodules/glm/glm/**.hpp"
     }
 
     includedirs
     {
         "Soda/submodules/spdlog/include",
-        "Soda/src"
+        "Soda/src",
+        "Soda/submodules/glm",
+
     }
 
     links
@@ -148,4 +154,3 @@ project "SodaCan"
         runtime "Release"
         optimize "On"
 -- {{ /SODACAN PROJECT }}--
-

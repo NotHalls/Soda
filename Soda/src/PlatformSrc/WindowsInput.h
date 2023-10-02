@@ -4,7 +4,7 @@
 
 #include "Soda/Core.h"
 
-#include "Soda/Input.h"
+#include "Soda/Input/Input.h"
 
 
 namespace Soda

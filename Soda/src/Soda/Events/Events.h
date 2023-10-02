@@ -52,7 +52,7 @@ namespace Soda
 
     // who wants to type all the Event methods in each event we make dude... common
     // thats why we made this define. To make life easier
-    #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+    #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
                                virtual EventType GetEventType() const override { return GetStaticType(); }\
                                virtual const char* GetName() const override { return #type; }
 
