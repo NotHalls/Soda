@@ -15,6 +15,7 @@
 #include "Events/AppEvents.h"
 
 #include "LayerStack.h"
+#include "imgui/ImGuiLayer.h"
 
 
 namespace Soda
@@ -34,10 +35,12 @@ namespace Soda
 		{ return *m_MainWindow; }
 
 		inline static App& Get()
-		{ return *application; }
+		{ return *m_app; }
 
 	private:
-		static App* application;
+		static App* m_app;
+
+		ImGuiLayer* m_imguiLayer;
 		
 		// we want a unique pointer because we dont want to deal with all the deleting shit
 		// this is our MainWindow where we do the important stuff (we might have multiple windows later on).

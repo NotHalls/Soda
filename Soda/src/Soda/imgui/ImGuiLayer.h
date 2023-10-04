@@ -17,25 +17,13 @@ namespace Soda
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttach();
-		void OnDetach();
-		void OnUpdate();
-		void OnEvent(Event& event);
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
 
-	private:
-		// dock events
-		bool OnWindowResizeEvent(WindowResizeEvent& event);
+		void Begin();
+		void End();
 
-		// mouse events
-		bool OnMouseMoveEvent(MouseMoveEvent& event);
-		bool OnMouseScrollEvent(MouseScrollEvent& event);
-		bool OnMouseClickEvent(MouseClickedEvent& event);
-		bool OnMouseReleaseEvent(MouseReleasedEvent& event);
-
-		// keyboard events
-		bool OnKeyPressedEvent(KeyPressEvent& event);
-		bool OnKeyReleasedEvent(KeyReleaseEvent& event);
-		bool OnKeyTypedEvent(KeyTypeEvent& event);
 	private:
 		float m_time = 0.0f;
 	};

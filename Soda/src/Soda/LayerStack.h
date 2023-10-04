@@ -26,6 +26,6 @@ namespace Soda
     
     protected:
         std::vector<Layer*> m_Layers;
-        std::vector<Layer*>::iterator m_InsertedLayers;
+        unsigned int m_LayerIndex = 0;
     };
 }

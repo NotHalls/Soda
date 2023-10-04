@@ -7,7 +7,6 @@ namespace Soda
 {
     LayerStack::LayerStack()
     {
-        m_InsertedLayers = m_Layers.begin();
     }
 
     LayerStack::~LayerStack()
@@ -18,7 +17,8 @@ namespace Soda
 
     void LayerStack::PushLayer(Layer* layer)
     {
-        m_InsertedLayers = m_Layers.emplace(m_InsertedLayers, layer);
+        m_Layers.emplace(m_Layers.begin() + m_LayerIndex, layer);
+        m_LayerIndex++;
         layer->OnAttach();
     }
 
@@ -34,7 +34,7 @@ namespace Soda
         if(itr != m_Layers.end())
         {
             m_Layers.erase(itr);
-            m_InsertedLayers--;
+            m_LayerIndex--;
         }
     }
 

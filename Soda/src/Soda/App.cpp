@@ -11,16 +11,18 @@
 
 namespace Soda
 {
-	App* App::application = nullptr;
+	App* App::m_app = nullptr;
 
 	App::App()
 	{
-		SD_ENGINE_ASSERT(!application, "App already exists!");
-		application = this;
+		SD_ENGINE_ASSERT(!m_app, "App already exists!");
+		m_app = this;
 
 		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create());
 		m_MainWindow->SetCallbackFn(BIND_FN(App::OnEvent));
 
+		m_imguiLayer = new ImGuiLayer();
+		PushOverlay(m_imguiLayer);
 
 		unsigned int id;
 		glGenVertexArrays(1, &id);
@@ -37,7 +39,7 @@ namespace Soda
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_FN(App::OnWindowClose));
 
-		for (auto itr = m_LayerStack.end(); itr != m_LayerStack.begin();)
+		for(auto itr = m_LayerStack.end(); itr != m_LayerStack.begin();)
 		{
 			(*--itr)->OnEvent(event);
 
@@ -56,6 +58,11 @@ namespace Soda
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			m_imguiLayer->Begin();
+				for(Layer* layer : m_LayerStack)
+					m_imguiLayer->OnImGuiRender();
+			m_imguiLayer->End();
 
 			m_MainWindow->OnUpdate();
 		}

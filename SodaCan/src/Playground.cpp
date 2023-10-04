@@ -22,6 +22,12 @@ public:
 
 			if(Soda::Input::IsKeyPressed(SD_KEY_TAB))
 				SD_MSG("{0}, is pressed", "Menu");
+
+			
+			Soda::MouseButtonEvent& mouseEvent = (Soda::MouseButtonEvent&)event;
+
+			if(Soda::Input::IsMouseClicked(SD_MOUSE_BUTTON_0))
+				SD_MSG("{0}, was clicked", mouseEvent.GetButtonClicked());
 		}
 	}
 };
@@ -33,7 +39,6 @@ public:
 	Playground()
 	{
 		PushLayer(new SampleLayer());
-		PushOverlay(new Soda::ImGuiLayer());
 	}
 	
 	~Playground()
