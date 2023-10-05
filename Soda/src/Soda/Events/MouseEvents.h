@@ -7,7 +7,7 @@
 
 namespace Soda
 {
-	class SD_DLL MouseMoveEvent : public Event
+	class MouseMoveEvent : public Event
 	{
 	public:
 		// these are those defines i talked about in Events.h
@@ -38,7 +38,7 @@ namespace Soda
 	};
 
 
-	class SD_DLL MouseScrollEvent : public Event
+	class MouseScrollEvent : public Event
 	{
 	public:
 		EVENT_CLASS_TYPE(MouseScroll)
@@ -71,7 +71,7 @@ namespace Soda
 
 	// just like in KeyEvents, here we have MouseButtonEvent that will be inherited
 	// by our MousePress and MouseRelease events
-	class SD_DLL MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		EVENT_CLASS_CATEGORY(EventCategory_Mouse | EventCategory_Input)
@@ -87,7 +87,7 @@ namespace Soda
 		int m_MouseButton;
 	};
 
-	class SD_DLL MouseClickedEvent : public MouseButtonEvent
+	class MouseClickedEvent : public MouseButtonEvent
 	{
 	public:
 		EVENT_CLASS_TYPE(MouseClick)
@@ -104,7 +104,7 @@ namespace Soda
 		}
 	};
 
-	class SD_DLL MouseReleasedEvent : public MouseButtonEvent
+	class MouseReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		EVENT_CLASS_TYPE(MouseRelease)

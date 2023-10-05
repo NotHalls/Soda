@@ -9,20 +9,6 @@
 #define BIND_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 
-// if we are in Windows then we use this code
-#ifdef SD_PLATFORM_WIN
-	// shortening the __declspec(dllimport/dllexport) thing
-	#ifdef SD_DLL_BUILD
-		#define SD_DLL __declspec(dllexport)
-	#else
-		#define SD_DLL __declspec(dllimport)
-	#endif
-#else
-	#error Sorry bruh... Soda Engine is only on Windows right now!
-	// yeaaa ill add other platforms later... soon... idk.
-#endif
-
-
 #ifdef SD_DEBUG
 	#define SD_ENABLE_ASSERTS
 #endif

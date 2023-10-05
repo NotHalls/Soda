@@ -11,7 +11,7 @@
 
 namespace Soda
 {
-	class SD_DLL ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();

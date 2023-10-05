@@ -8,7 +8,7 @@
 
 namespace Soda
 {
-    class SD_DLL LayerStack
+    class LayerStack
     {
     public:
         LayerStack();

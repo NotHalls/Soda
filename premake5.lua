@@ -31,9 +31,10 @@ group ""
 --{{ SODA PROJECT }}--
 project "Soda"
     location "Soda"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-objs/" .. outputdir .. "/%{prj.name}")
@@ -67,20 +68,18 @@ project "Soda"
         "opengl32"
     }
     
-    filter "system:windows"
-    cppdialect "C++17"
-    systemversion "latest"
-    
     defines
     {
-        "SD_PLATFORM_WIN",
-        "SD_DLL_BUILD",
-        "GLFW_INCLUDE_NONE"
+        "GLFW_INCLUDE_NONE",
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
-        postbuildcommands
+    filter "system:windows"
+    systemversion "latest"
+    
+        defines
         {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/SodaCan")
+            "SD_PLATFORM_WIN"
         }
     
     filter "configurations:Debug"
@@ -105,7 +104,8 @@ project "SodaCan"
     location "SodaCan"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-objs/" .. outputdir .. "/%{prj.name}")
@@ -122,6 +122,7 @@ project "SodaCan"
         "Soda/submodules/spdlog/include",
         "Soda/src",
         "Soda/submodules/glm",
+        "Soda/submodules/imgui"
 
     }
 
@@ -131,7 +132,6 @@ project "SodaCan"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
 
         defines

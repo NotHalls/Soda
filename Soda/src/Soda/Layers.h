@@ -8,7 +8,7 @@
 
 namespace Soda
 {
-    class SD_DLL Layer
+    class Layer
     {
     public:
         Layer(const std::string layerName = "Layer");

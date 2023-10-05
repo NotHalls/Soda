@@ -7,7 +7,7 @@
 
 namespace Soda
 {
-	class SD_DLL Input
+	class Input
 	{
 	public:
 		inline static bool IsKeyPressed(int keycode)

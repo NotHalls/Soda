@@ -2,15 +2,12 @@
 
 #include "Soda/Core.h"
 
-
 #include "ImGuiLayer.h"
 
 #include "imgui.h"
 
-#define IMGUI_IMPL_API
 #include "backends/imgui_impl_glfw.h"	
 #include "backends/imgui_impl_opengl3.h"
-
 
 #include "Soda/App.h"
 
@@ -85,7 +82,7 @@ namespace Soda
 		App& app = App::Get();
 		ImGuiIO& imguiIO = ImGui::GetIO();
 
-		imguiIO.DisplaySize = ImVec2(app.GetWindow().GetWindowWidth(), app.GetWindow().GetWindowHeight());
+		imguiIO.DisplaySize = ImVec2((float)app.GetWindow().GetWindowWidth(), (float)app.GetWindow().GetWindowHeight());
 
 
 		ImGui::Render();

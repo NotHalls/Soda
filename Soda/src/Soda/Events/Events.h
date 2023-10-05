@@ -31,7 +31,7 @@ namespace Soda
     };
 
     // the Event class will carry the basic abrivations for the Events like its Name, what category it is, and some other stuff
-    class SD_DLL Event
+    class Event
     {
         friend class EventDispatcher;
     public:

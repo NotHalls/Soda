@@ -20,7 +20,7 @@
 
 namespace Soda
 {
-	class SD_DLL App
+	class App
 	{
 	public:
 		App();

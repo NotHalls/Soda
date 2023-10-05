@@ -9,7 +9,7 @@ namespace Soda
 {
     // first we make a base keyEvent class
     // this will be inherited by our both KeyPressed event and KeyRelease Event
-    class SD_DLL KeyEvent : public Event
+    class KeyEvent : public Event
     {
     public:
         // this is the define i talked about in Events.h
@@ -31,7 +31,7 @@ namespace Soda
     };
 
 
-    class SD_DLL KeyPressEvent : public KeyEvent
+    class KeyPressEvent : public KeyEvent
     {
     public:
         // this is the other define that makes your life easy by typing less shit
@@ -57,7 +57,7 @@ namespace Soda
     };
 
 
-    class SD_DLL KeyReleaseEvent : public KeyEvent
+    class KeyReleaseEvent : public KeyEvent
     {
     public:
         EVENT_CLASS_TYPE(KeyRelease)
@@ -75,7 +75,7 @@ namespace Soda
     };
 
 
-    class SD_DLL KeyTypeEvent : public KeyEvent
+    class KeyTypeEvent : public KeyEvent
     {
     public:
         EVENT_CLASS_TYPE(KeyTyped)

@@ -7,7 +7,7 @@
 
 namespace Soda
 {
-	class SD_DLL WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 	public:
 		// these are those defines i talked about in Events.h
@@ -36,7 +36,7 @@ namespace Soda
 		unsigned int m_windowWidth, m_windowHeight;
 	};
 
-	class SD_DLL WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 	public:
 		EVENT_CLASS_TYPE(WindowClose)
@@ -54,7 +54,7 @@ namespace Soda
 	};
 
 
-	class SD_DLL AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 	public:
 		EVENT_CLASS_TYPE(AppTick)
@@ -64,7 +64,7 @@ namespace Soda
 		{}
 	};
 
-	class SD_DLL AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 	public:
 		EVENT_CLASS_TYPE(AppUpdate)
@@ -74,7 +74,7 @@ namespace Soda
 		{}
 	};
 
-	class SD_DLL AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 	public:
 		EVENT_CLASS_TYPE(AppRender)

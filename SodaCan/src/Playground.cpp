@@ -1,6 +1,7 @@
 #include "Soda.h"
 
 
+
 class SampleLayer : public Soda::Layer
 {
 public:
@@ -29,6 +30,10 @@ public:
 			if(Soda::Input::IsMouseClicked(SD_MOUSE_BUTTON_0))
 				SD_MSG("{0}, was clicked", mouseEvent.GetButtonClicked());
 		}
+	}
+
+	void OnImGuiRender() override
+	{
 	}
 };
 

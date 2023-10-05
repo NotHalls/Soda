@@ -29,7 +29,7 @@ namespace Soda
 
 
 	// this is the class that is inherited by each of our platform window.
-	class SD_DLL SodaWindow
+	class SodaWindow
 	{
 	public:
 		// the Callback function we want to run when we get input in the window

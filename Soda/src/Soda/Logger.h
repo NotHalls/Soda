@@ -10,7 +10,7 @@
 
 namespace Soda
 {
-		class SD_DLL Log
+		class Log
 		{
 		public:
 			// we have to initialize the spdlog before proceding
