@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Soda/Core.h"
-
 #include "Soda/Layers.h"
 
 #include "Soda/Events/AppEvents.h"
@@ -19,7 +17,7 @@ namespace Soda
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
+		virtual void OnImGuiUpdate() override;
 
 		void Begin();
 		void End();

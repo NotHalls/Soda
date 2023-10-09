@@ -19,14 +19,14 @@
 	#define SD_ASSERT(x, ...)\
 		{if(!(x))\
 		{\
-			SD_ERROR("ERRORRR... while asserting {0}", __VA_ARGS__);\
+			SD_ERROR("ASSERT ERRORRR... {0}", __VA_ARGS__);\
 			__debugbreak();\
 		}}
 	// this is for the Engine
 	#define SD_ENGINE_ASSERT(x, ...)\
 		{if(!(x))\
 		{\
-			SD_ENGINE_ERROR("ERRORRR... while asserting {0}", __VA_ARGS__);\
+			SD_ENGINE_ERROR("ASSERT ERRORRR... {0}", __VA_ARGS__);\
 			__debugbreak();\
 		}}
 #else

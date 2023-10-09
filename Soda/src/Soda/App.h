@@ -5,9 +5,6 @@
 
 #include "SD_PCH.h"
 
-#include "Soda/Input/Input.h"
-#include "Window.h"
-
 #include "Core.h"
 
 #include "Window.h"
@@ -15,7 +12,11 @@
 #include "Events/AppEvents.h"
 
 #include "LayerStack.h"
-#include "imgui/ImGuiLayer.h"
+#include "Soda/imgui/ImGuiLayer.h"
+
+#include "Renderer/Shaderer.h"
+
+#include "Soda/Renderer/Bufferer.h"
 
 
 namespace Soda
@@ -27,6 +28,8 @@ namespace Soda
 		virtual ~App();
 
 		void Run();
+
+		void OnEvent(Event& event);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
@@ -40,14 +43,21 @@ namespace Soda
 	private:
 		static App* m_app;
 
-		ImGuiLayer* m_imguiLayer;
+		unsigned int vertexBufferID, elementBufferID, arrayBufferID;
+
+		std::unique_ptr<Shader>(m_BasicShader);
+
 		
 		// we want a unique pointer because we dont want to deal with all the deleting shit
 		// this is our MainWindow where we do the important stuff (we might have multiple windows later on).
 		std::unique_ptr<SodaWindow> m_MainWindow;
+		std::unique_ptr<VertexBuffer> m_VB;
+		std::unique_ptr<IndexBuffer> m_IB;
+
+		ImGuiLayer* m_imguiLayer; // the ImGui Layer
+
 		LayerStack m_LayerStack; // this is where are layers will be stored.
 
-		void OnEvent(Event& event);
 
 		bool OnWindowClose(WindowCloseEvent& _WindowCloseEvent);
 

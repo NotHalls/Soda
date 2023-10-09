@@ -1,11 +1,8 @@
 #include "SD_PCH.h"
 
-#include "Soda/Core.h"
-
 #include "ImGuiLayer.h"
 
 #include "imgui.h"
-
 #include "backends/imgui_impl_glfw.h"	
 #include "backends/imgui_impl_opengl3.h"
 
@@ -36,11 +33,11 @@ namespace Soda
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		// io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-		//io.ConfigViewportsNoAutoMerge = true;
-		//io.ConfigViewportsNoTaskBarIcon = true;
+		// io.ConfigViewportsNoAutoMerge = true;
+		// io.ConfigViewportsNoTaskBarIcon = true;
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsClassic();
@@ -57,11 +54,11 @@ namespace Soda
 		GLFWwindow* imWindow = static_cast<GLFWwindow*>(app.GetWindow().GetTheWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(imWindow, true);
-		ImGui_ImplOpenGL3_Init("#version 410");
+		ImGui_ImplOpenGL3_Init("#version 410 core");
 	}
 
-	
-    void ImGuiLayer::OnDetach()
+
+	void ImGuiLayer::OnDetach()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -79,19 +76,18 @@ namespace Soda
 
 	void ImGuiLayer::End()
 	{
-		App& app = App::Get();
 		ImGuiIO& imguiIO = ImGui::GetIO();
-
+		App& app = App::Get();
 		imguiIO.DisplaySize = ImVec2((float)app.GetWindow().GetWindowWidth(), (float)app.GetWindow().GetWindowHeight());
 
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		if(imguiIO.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		if (imguiIO.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			GLFWwindow* suckedWindow = glfwGetCurrentContext();
-			
+
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 
@@ -99,7 +95,7 @@ namespace Soda
 		}
 	}
 
-	void ImGuiLayer::OnImGuiRender()
+	void ImGuiLayer::OnImGuiUpdate()
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);

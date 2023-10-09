@@ -1,6 +1,6 @@
 #include "Soda.h"
 
-
+#include "imgui.h"
 
 class SampleLayer : public Soda::Layer
 {
@@ -9,31 +9,32 @@ public:
 		: Layer("Sample")
 	{}
 
-	void OnUpdate() override
-	{
-
-	}
 
 	void OnEvent(Soda::Event& event) override
 	{
 		if(event.GetEventType() == Soda::EventType::KeyPress)
 		{
 			Soda::KeyPressEvent& keyEvent = (Soda::KeyPressEvent&)event;
-			SD_MSG("{0}", (char)keyEvent.GetKeyCode());
+			SD_LOG("{0}", (char)keyEvent.GetKeyCode());
 
 			if(Soda::Input::IsKeyPressed(SD_KEY_TAB))
-				SD_MSG("{0}, is pressed", "Menu");
+				SD_LOG("{0}, is pressed", "Menu");
 
 			
 			Soda::MouseButtonEvent& mouseEvent = (Soda::MouseButtonEvent&)event;
 
 			if(Soda::Input::IsMouseClicked(SD_MOUSE_BUTTON_0))
-				SD_MSG("{0}, was clicked", mouseEvent.GetButtonClicked());
+				SD_LOG("{0}, was clicked", mouseEvent.GetButtonClicked());
 		}
 	}
 
-	void OnImGuiRender() override
+
+	void OnImGuiUpdate() override
 	{
+		ImGui::Begin("HEHS");
+		ImGui::Text("sage");
+		ImGui::Text("damn");
+		ImGui::End();
 	}
 };
 

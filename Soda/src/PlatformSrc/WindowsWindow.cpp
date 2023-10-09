@@ -1,11 +1,9 @@
 #include "SD_PCH.h"
 
-#include "glad/glad.h"
-
 #include "WindowsWindow.h"
 #include "WindowsInput.h"
 
-#include "Soda/Logger.h"
+#include "Soda/Renderer/OpenGL/OpenGLContext.h"
 
 // Events
 #include "Soda/Events/AppEvents.h"
@@ -47,14 +45,12 @@ namespace Soda
 		m_WindowData.Width = windowInfo.Width;
 		m_WindowData.Height = windowInfo.Height;
 
-		SD_ENGINE_ASSERT("Creating Window {0} with dimentions x: {1}, y: {2}", windowInfo.Name, windowInfo.Width, windowInfo.Height);
+
 
 		if(!s_IsGLFWInitialized)
 		{
 			int sucess = glfwInit();
-
 			SD_ENGINE_ASSERT(sucess, "Failed to initialize GLFW!");
-
 			glfwSetErrorCallback(GLFW_ErrorCallback);
 
 			s_IsGLFWInitialized = true;
@@ -64,10 +60,10 @@ namespace Soda
 		// which is our Engine Window
 		m_Window = glfwCreateWindow((int)windowInfo.Width, (int)windowInfo.Height, windowInfo.Name.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		SD_ENGINE_LOG("Creating Window '{0}'  With Dimentions x : {1}, y : {2}", windowInfo.Name, windowInfo.Width, windowInfo.Height);
 		
-		// initializing GLAD
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		SD_ENGINE_ASSERT(status, "Failed to initialize GLAD!");
+		m_renderContext = new SodaGL();
+		m_renderContext->Init();
 
 		// this function binds our m_WindowData to the m_Window to use the Data where ever we want
 		// without declaring it global

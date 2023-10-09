@@ -5,6 +5,8 @@
 
 #include "Soda/Window.h"
 
+#include "Soda/Renderer/RenderContext.h"
+
 #include "GLFW/glfw3.h"
 
 
@@ -47,6 +49,7 @@ namespace Soda
 		virtual void CloseWindow();
 	private:
 		GLFWwindow* m_Window;
+		RenderContext* m_renderContext;
 
 		// we have a struct for this just to organize the properties of our window
 		// it looks neat... right
