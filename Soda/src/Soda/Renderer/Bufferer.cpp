@@ -12,10 +12,10 @@ namespace Soda
 	{
 		switch (RenderAPI::GetAPI())
 		{
-		case API::None:
+		case RenderAPI::API::None:
 			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
 		
-		case API::OpenGL:
+		case RenderAPI::API::OpenGL:
 			return new GLVertexBuffer(vertices, size);
 		}
 	}
@@ -24,10 +24,10 @@ namespace Soda
 	{
 		switch (RenderAPI::GetAPI())
 		{
-		case API::None:
+		case RenderAPI::API::None:
 			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
 
-		case API::OpenGL:
+		case RenderAPI::API::OpenGL:
 			return new GLIndexBuffer(indices, size);
 		}
 	}

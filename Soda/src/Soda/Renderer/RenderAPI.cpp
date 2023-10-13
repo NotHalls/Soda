@@ -5,5 +5,5 @@
 
 namespace Soda
 {
-	API RenderAPI::m_whatAPI = API::OpenGL;
+	RenderAPI::API RenderAPI::m_API = RenderAPI::API::OpenGL;
 }

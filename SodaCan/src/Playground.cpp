@@ -27,15 +27,6 @@ public:
 				SD_LOG("{0}, was clicked", mouseEvent.GetButtonClicked());
 		}
 	}
-
-
-	void OnImGuiUpdate() override
-	{
-		ImGui::Begin("HEHS");
-		ImGui::Text("sage");
-		ImGui::Text("damn");
-		ImGui::End();
-	}
 };
 
 

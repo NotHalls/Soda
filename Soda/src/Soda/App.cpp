@@ -8,7 +8,7 @@
 
 #include "App.h"
 
-#include "glad/glad.h"
+#include "Renderer/Render.h"
 
 
 namespace Soda
@@ -26,37 +26,86 @@ namespace Soda
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
 
-		glGenVertexArrays(1, &arrayBufferID);
-		glBindVertexArray(arrayBufferID);
+
+		m_VA.reset(VertexArray::Create());
+
+
+		//*** Obj 1 ***//
 
 		float vertices[3 * 6]
 		{
-			 0.0f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f, // 0
-			-0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f, // 1
-			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f, // 2
+			 0.0f,  0.5f, 0.0f,		1.0f,  0.25f, 0.25f, // 0
+			-0.5f, -0.5f, 0.0f,		0.25f, 1.0f,  0.25f, // 1
+			 0.5f, -0.5f, 0.0f,		0.25f, 0.25f, 1.0f, // 2
 		};
 		int indices[3]
 		{
 			0, 1, 2
 		};
 
+		std::shared_ptr<VertexBuffer> m_VB;
 		m_VB.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_VB->Bind();
 
-		m_IB.reset(IndexBuffer::Create(indices, sizeof(indices)));
+		std::shared_ptr<IndexBuffer> m_IB;
+		m_IB.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(int)));
 		m_IB->Bind();
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-		
-		
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
-		// shader code
+		BufferLoadout loadout = {
+			{ "a_position", ShaderDataType::Vec3 },
+			{ "a_color", ShaderDataType::Vec3 }
+		};
+
+		m_VB->SetLoadout(loadout);
+
+		m_VA->AddVertexBuffer(m_VB);
+		m_VA->AddIndexBuffer(m_IB);
+
+		//***/ Obj 1 /***//
+
+
+		//*** Obj 2 ***//
+
+		m_squareVA.reset(VertexArray::Create());
+
+		float squareVertices[4 * 6]
+		{
+			-0.65f,  0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 0
+			 0.65f,  0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 1
+			 0.65f, -0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 2
+			-0.65f, -0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 3
+
+		};
+		int squareIndices[6]
+		{
+			0, 1, 2, 0, 2, 3
+		};
+
+		BufferLoadout SquareLoadout = {
+			{ "a_squarePosition", ShaderDataType::Vec3 },
+			{ "a_squareColor", ShaderDataType::Vec3 }
+		};
+
+		std::shared_ptr<VertexBuffer> m_squareVB;
+		m_squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		m_squareVB->Bind();
+
+		std::shared_ptr<IndexBuffer> m_squareIB;
+		m_squareIB.reset(IndexBuffer::Create(squareIndices, 24));
+		m_squareIB->Bind();
+
+		m_squareVB->SetLoadout(SquareLoadout);
+
+		m_squareVA->AddVertexBuffer(m_squareVB);
+		m_squareVA->AddIndexBuffer(m_squareIB);
+
+		//***/ Obj 2 /***//
+
+
+
+		//*** shader ***//
 			// vertx. shdr.
 		std::string vrtxShdr = R"(
 			#version 410 core
@@ -85,6 +134,7 @@ namespace Soda
 		)";
 
 		m_BasicShader.reset(new Shader(vrtxShdr, fragShdr));
+
 	}
 
 	App::~App()
@@ -112,13 +162,16 @@ namespace Soda
 		// our main gameloop (engineloop i guess)
 		while (IsRunning)
 		{
-			glBindVertexArray(arrayBufferID);
 			m_BasicShader->Bind();
 
+			Renderer::StartRenderer();
+			{
+				RenderCommand::ClearScreen();
 
-			glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+				Renderer::PushThis(m_squareVA);
+				Renderer::PushThis(m_VA);
+			}
+			Renderer::StopRenderer();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
