@@ -2,14 +2,17 @@
 
 #include "imgui.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 class SampleLayer : public Soda::Layer
 {
 public:
+
 	SampleLayer()
 		: Layer("Sample"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		m_VA.reset(Soda::VertexArray::Create());
-
 
 		//*** Obj 1 ***//
 
@@ -53,10 +56,10 @@ public:
 
 		float squareVertices[4 * 6]
 		{
-			-0.65f,  0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 0
-			 0.65f,  0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 1
-			 0.65f, -0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 2
-			-0.65f, -0.65f, 0.0f,		1.0f, 0.9f, 0.8f, // 3
+			-0.5f,  0.5f, 0.0f,		1.0f, 0.9f, 0.8f, // 0
+			 0.5f,  0.5f, 0.0f,		1.0f, 0.9f, 0.8f, // 1
+			 0.5f, -0.5f, 0.0f,		1.0f, 0.9f, 0.8f, // 2
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.9f, 0.8f, // 3
 
 		};
 		int squareIndices[6]
@@ -85,44 +88,6 @@ public:
 		//***/ Obj 2 /***//
 
 
-		//*** Obj 3 ***//
-
-		m_sA.reset(Soda::VertexArray::Create());
-
-		float sVertices[4 * 6]
-		{
-			 1.6f,   0.0f, 0.0f,		0.0f, 0.9f, 0.8f, // 0
-			 2.0f,   0.0f, 0.0f,		0.0f, 0.9f, 0.8f, // 1
-			 2.0f,  -0.1f, 0.0f,		0.0f, 0.9f, 0.8f, // 2
-			 1.6f,  -0.1f, 0.0f,		0.0f, 0.9f, 0.8f, // 3
-
-		};
-		int sIndices[6]
-		{
-			0, 1, 2, 0, 2, 3
-		};
-
-		Soda::BufferLoadout sLoadout = {
-			{ "a_sPosition", Soda::ShaderDataType::Vec3 },
-			{ "a_sColor", Soda::ShaderDataType::Vec3 }
-		};
-
-		std::shared_ptr<Soda::VertexBuffer> m_sVB;
-		m_sVB.reset(Soda::VertexBuffer::Create(sVertices, sizeof(sVertices)));
-		m_sVB->Bind();
-
-		std::shared_ptr<Soda::IndexBuffer> m_sIB;
-		m_sIB.reset(Soda::IndexBuffer::Create(sIndices, 24));
-		m_sIB->Bind();
-
-		m_sVB->SetLoadout(sLoadout);
-
-		m_sA->AddVertexBuffer(m_sVB);
-		m_sA->AddIndexBuffer(m_sIB);
-
-		//***/ Obj 3 /***//
-
-
 		//*** shader ***//
 			// vertx. shdr.
 		std::string vrtxShdr = R"(
@@ -133,10 +98,11 @@ public:
 			out vec3 o_objColor;
 
 			uniform mat4 u_PVMat;
+			uniform mat4 u_ModelMat;
 
 			void main()
 			{
-				gl_Position = u_PVMat * vec4(a_vrtxPosition, 1.0);
+				gl_Position = u_PVMat * u_ModelMat * vec4(a_vrtxPosition, 1.0);
 				o_objColor = a_color;
 			}
 		)";
@@ -162,46 +128,63 @@ public:
 		if(event.GetEventType() == Soda::EventType::KeyPress)
 		{
 			Soda::KeyPressEvent& keyEvent = (Soda::KeyPressEvent&)event;
-			SD_LOG("{0}", (char)keyEvent.GetKeyCode());
 
-			if(Soda::Input::IsKeyPressed(SD_KEY_TAB))
-				SD_LOG("{0}, is pressed", "Menu");
-
-			
-			Soda::MouseButtonEvent& mouseEvent = (Soda::MouseButtonEvent&)event;
-
-			if(Soda::Input::IsMouseClicked(SD_MOUSE_BUTTON_0))
-				SD_LOG("{0}, was clicked", mouseEvent.GetButtonClicked());
+			if (Soda::Input::IsKeyPressed(SD_KEY_PERIOD))
+				camSpeed += 2.5f;
+			else if (Soda::Input::IsKeyPressed(SD_KEY_COMMA) && camSpeed > 5.0)
+				camSpeed -= 2.5f;
 		}
 	}
 
+	void OnImGuiUpdate()
+	{
+		ImGui::Begin("Stats");
+		ImGui::Text("FPS: %d", FPS);
+		ImGui::End();
+
+
+		ImGui::Begin("Camera");
+		ImGui::Text("Transform");
+		ImGui::DragFloat2("Camera Position", &camPosition.x, 0.1f);
+		ImGui::DragFloat("Camera Rotation", &camRotation, 0.1f);
+		ImGui::Text("");
+		ImGui::Text("Properties");
+		ImGui::DragFloat("Camera Speed", &camSpeed, 0.1f);
+		ImGui::End();
+
+
+		ImGui::Begin("Box");
+		ImGui::Text("Transform");
+		ImGui::DragFloat2("Box Position", &boxPosition.x, 0.1f);
+		ImGui::DragFloat("Box Rotation", &boxRotation, 0.1f);
+		ImGui::DragFloat2("Box Scale", &boxScale.x, 0.1f);
+		ImGui::End();
+	}
 
 	void OnUpdate(Soda::Timestep dt) override
 	{
-		SD_LOG(dt);
+		FPS = 1.0f / dt;
 
-		if (Soda::Input::IsKeyPressed(SD_KEY_W))
+		boxTransform = glm::translate(glm::mat4(1.0f), boxPosition) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(boxRotation), glm::vec3(0, 0, 1)) *
+			glm::scale(glm::mat4(1.0f), boxScale);
+
+		// camera movement
+		if (Soda::Input::IsKeyPressed(SD_KEY_UP))
 			camPosition.y += 0.1 * camSpeed * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_S))
+		else if (Soda::Input::IsKeyPressed(SD_KEY_DOWN))
 			camPosition.y -= 0.1 * camSpeed * dt;
 
-		if (Soda::Input::IsKeyPressed(SD_KEY_A))
+		if (Soda::Input::IsKeyPressed(SD_KEY_LEFT))
 			camPosition.x -= 0.1 * camSpeed * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_D))
+		else if (Soda::Input::IsKeyPressed(SD_KEY_RIGHT))
 			camPosition.x += 0.1 * camSpeed * dt;
 
 
-		if (Soda::Input::IsKeyPressed(SD_KEY_Q))
+		if (Soda::Input::IsKeyPressed(SD_KEY_KP_SUBTRACT))
 			camRotation += 180.0 * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_E))
+		else if (Soda::Input::IsKeyPressed(SD_KEY_KP_ADD))
 			camRotation -= 180.0 * dt;
-
-
-		// suggest not using these right now
-		if (Soda::Input::IsKeyPressed(SD_KEY_PERIOD))
-			camSpeed += 2.5f;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_COMMA) && camSpeed > 5.0)
-			camSpeed -= 2.5f;
 
 
 		Soda::Renderer::StartScene(m_Camera);
@@ -211,8 +194,7 @@ public:
 			m_Camera.SetPosition(camPosition);
 			m_Camera.SetRotation(camRotation);
 
-			Soda::Renderer::PushThis(m_sA, m_BasicShader);
-			Soda::Renderer::PushThis(m_squareVA, m_BasicShader);
+			Soda::Renderer::PushThis(m_squareVA, m_BasicShader, boxTransform);
 			Soda::Renderer::PushThis(m_VA, m_BasicShader);
 		}
 		Soda::Renderer::StopScene();
@@ -225,13 +207,18 @@ private:
 
 	std::shared_ptr<Soda::VertexArray> m_VA;
 	std::shared_ptr<Soda::VertexArray> m_squareVA;
-	std::shared_ptr<Soda::VertexArray> m_sA;
 
 private:
+	uint32_t FPS = 0.0f;
+
 	glm::vec3 camPosition = {0.0f, 0.0f, 0.0f};
 	float camRotation = 0.0f;
-
 	float camSpeed = 25.0f;
+
+	glm::vec3 boxPosition = { 0.0f, 0.0f, 0.0f };
+	float boxRotation = 0.0f;
+	glm::vec3 boxScale = glm::vec3(1.5);
+	glm::mat4 boxTransform;
 };
 
 

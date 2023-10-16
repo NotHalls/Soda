@@ -16,7 +16,7 @@ namespace Soda
 		static void	StartScene(OrthoCamera& camera);
 		static void StopScene();
 
-		static void PushThis(const std::shared_ptr<VertexArray>& VA, const std::shared_ptr<Shader>& shader);
+		static void PushThis(const std::shared_ptr<VertexArray>& VA, const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
 
 
 		static RenderAPI::API GetAPI()
