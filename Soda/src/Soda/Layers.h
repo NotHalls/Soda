@@ -2,6 +2,8 @@
 
 #include "SD_PCH.h"
 
+#include "Soda/Renderer/Timestep.h"
+
 #include "Core.h"
 #include "Soda/Events/Events.h"
 
@@ -16,7 +18,7 @@ namespace Soda
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnUpdate() {}
+        virtual void OnUpdate(Timestep dt) {}
         virtual void OnImGuiUpdate() {}
         virtual void OnEvent(Event& event) {}
 

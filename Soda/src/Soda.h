@@ -11,6 +11,15 @@
 #include "Soda/Input/KeyboardCodes.h"
 #include "Soda/Input/MouseCodes.h"
 
+#include "Soda/Renderer/Render.h"
+#include "Soda/Renderer/RenderCommand.h"
+
+#include "Soda/Renderer/Shaderer.h"
+#include "Soda/Renderer/Bufferer.h"
+#include "Soda/Renderer/VertexArray.h"
+
+#include "Soda/Camera.h"
+
 #include "Soda/imgui/ImGuiLayer.h"
 
 

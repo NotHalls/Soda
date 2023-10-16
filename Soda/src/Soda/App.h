@@ -14,10 +14,6 @@
 #include "LayerStack.h"
 #include "Soda/imgui/ImGuiLayer.h"
 
-#include "Renderer/Shaderer.h"
-#include "Soda/Renderer/Bufferer.h"
-#include "Soda/Renderer/VertexArray.h"
-
 
 namespace Soda
 {
@@ -43,15 +39,11 @@ namespace Soda
 	private:
 		static App* m_app;
 
-
+		float m_LastFrameTime = 0.0f; // to calculate the delta time
 		
 		// we want a unique pointer because we dont want to deal with all the deleting shit
 		// this is our MainWindow where we do the important stuff (we might have multiple windows later on).
 		std::unique_ptr<SodaWindow> m_MainWindow;
-		std::shared_ptr<Shader> m_BasicShader;
-
-		std::shared_ptr<VertexArray> m_VA;
-		std::shared_ptr<VertexArray> m_squareVA;
 
 		ImGuiLayer* m_imguiLayer; // the ImGui Layer
 
