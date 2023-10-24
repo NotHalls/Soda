@@ -14,6 +14,7 @@
 #include "Soda/Renderer/Render.h"
 #include "Soda/Renderer/RenderCommand.h"
 
+#include "Soda/Renderer/Texture.h"
 #include "Soda/Renderer/Shaderer.h"
 #include "Soda/Renderer/Bufferer.h"
 #include "Soda/Renderer/VertexArray.h"

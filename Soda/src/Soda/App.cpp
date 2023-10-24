@@ -31,6 +31,8 @@ namespace Soda
 		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create());
 		m_MainWindow->SetCallbackFn(BIND_FN(App::OnEvent));
 
+		Renderer::Init();
+
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
 	}

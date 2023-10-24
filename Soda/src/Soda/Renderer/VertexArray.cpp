@@ -18,5 +18,8 @@ namespace Soda
 		case RenderAPI::API::OpenGL:
 			return new GLVertexArray();
 		}
+
+		SD_ENGINE_ASSERT(!nullptr, "Invalid API Selection :O");
+		return nullptr;
 	}
 }

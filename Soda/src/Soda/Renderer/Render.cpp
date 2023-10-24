@@ -2,10 +2,18 @@
 
 #include "Render.h"
 
+#include "Soda/Renderer/OpenGL/OpenGLShader.h"
+
 
 namespace Soda
 {
 	Renderer::SceneData* Renderer::m_SceneData = new SceneData;
+
+
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
 
 	void Renderer::StartScene(OrthoCamera& camera)
 	{
@@ -21,8 +29,8 @@ namespace Soda
 		shader->Bind();
 		VA->Bind();
 
-		shader->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
-		shader->SetUniformMat4("u_ModelMat", transform);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_ModelMat", transform);
 
 		RenderCommand::DrawThis(VA);
 	}

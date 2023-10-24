@@ -19,6 +19,7 @@ IncludeDirs["glfw"] = "Soda/submodules/glfw/include"
 IncludeDirs["glad"] = "Soda/submodules/glad/include"
 IncludeDirs["imgui"] = "Soda/submodules/imgui"
 IncludeDirs["glm"] = "Soda/submodules/glm"
+IncludeDirs["stb_image"] = "Soda/submodules/stb_image"
 
 group "dependencies"
     include "Soda/submodules/glfw"
@@ -47,6 +48,8 @@ project "Soda"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/submodules/stb_image/**.h",
+        "%{prj.name}/submodules/stb_image/**.cpp",
         "%{prj.name}/submodules/glm/glm/**.hpp",
     }
 
@@ -58,6 +61,7 @@ project "Soda"
         "%{IncludeDirs.glfw}",
         "%{IncludeDirs.glad}",
         "%{IncludeDirs.imgui}",
+        "%{IncludeDirs.stb_image}",
     }
 
     links

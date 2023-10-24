@@ -1,25 +1,17 @@
 #pragma once
 
-#include "SD_PCH.h"
-
-#include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
-
 
 namespace Soda
 {
-    class Shader
-    {
-    public:
-        Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        virtual ~Shader();
+	class Shader
+	{
+	public:
+		virtual ~Shader() = default;
 
-        void Bind();
-        void Unbind();
+		virtual void Bind() = 0;
+		virtual void Unbind() = 0;
 
-        void SetUniformMat4(const std::string& name, const glm::mat4& matrix);
-
-    private:
-        uint32_t m_ShaderID;
-    };
+		static Shader* Create(const std::string& filepath);
+		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+	};
 }
