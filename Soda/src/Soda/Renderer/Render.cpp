@@ -10,12 +10,16 @@ namespace Soda
 	Renderer::SceneData* Renderer::m_SceneData = new SceneData;
 
 
-	void Renderer::Init()
+	void Renderer::Init(unsigned int width, unsigned int height)
 	{
-		RenderCommand::Init();
+		RenderCommand::Init(width, height);
 	}
 
 	void Renderer::StartScene(OrthoCamera& camera)
+	{
+		m_SceneData->ProjectionViewMat = camera.GetProjectionViewMat();
+	}
+	void Renderer::StartScene(PerspectiveCamera& camera)
 	{
 		m_SceneData->ProjectionViewMat = camera.GetProjectionViewMat();
 	}

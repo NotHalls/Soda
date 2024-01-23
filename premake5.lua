@@ -1,4 +1,4 @@
-workspace "SodaEngine"
+workspace "SodaEngine3D"
 architecture "x64"
 startproject "SodaCan"
 
