@@ -2,6 +2,7 @@
 
 #include "SD_PCH.h"
 
+#include "spdlog/fmt/fmt.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 

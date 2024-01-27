@@ -40,6 +40,8 @@ namespace Soda
 		void SetVSync(bool status) override;
 		bool GetVSyncStatus() const override;
 
+		void ShowCursor(bool status) override;
+
 
 	private:
 		// Init window is where we initialize our window by giving it the given details, setting Propeties like VSync.

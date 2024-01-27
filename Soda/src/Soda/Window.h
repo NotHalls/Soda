@@ -48,6 +48,8 @@ namespace Soda
 		virtual void SetVSync(bool status) = 0;
 		virtual bool GetVSyncStatus() const = 0;
 
+		virtual void ShowCursor(bool status) = 0;
+
 		// this is to get the Window of out app
 		virtual void* GetTheWindow() const = 0;
 

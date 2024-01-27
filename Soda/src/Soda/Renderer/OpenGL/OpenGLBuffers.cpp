@@ -55,7 +55,6 @@ namespace Soda
 		glDeleteBuffers(1, &m_bufferID);
 	}
 
-
 	void GLIndexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferID);

@@ -19,6 +19,8 @@
 #include "Soda/Renderer/Bufferer.h"
 #include "Soda/Renderer/VertexArray.h"
 
+#include "Soda/Light.h"
+
 #include "Soda/Camera.h"
 
 #include "Soda/imgui/ImGuiLayer.h"

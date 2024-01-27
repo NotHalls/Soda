@@ -28,10 +28,10 @@ namespace Soda
 		SD_ENGINE_ASSERT(!m_app, "App already exists!");
 		m_app = this;
 
-		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create());
+		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create(Soda::WindowInfo("Soda Engine", 1000, 1000)));
 		m_MainWindow->SetCallbackFn(BIND_FN(App::OnEvent));
 
-		Renderer::Init();
+		Renderer::Init(m_MainWindow->GetWindowWidth(), m_MainWindow->GetWindowHeight());
 
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
