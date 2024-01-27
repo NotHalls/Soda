@@ -14,9 +14,8 @@ public:
 	SampleLayer()
 		: Layer("Sample"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
-		m_VA.reset(Soda::VertexArray::Create());
-
 		//*** Obj 1 ***//
+		m_VA.reset(Soda::VertexArray::Create());
 
 		float vertices[3 * 6]
 		{
@@ -34,9 +33,8 @@ public:
 		m_VB->Bind();
 
 		std::shared_ptr<Soda::IndexBuffer> m_IB;
-		m_IB.reset(Soda::IndexBuffer::Create(indices, sizeof(indices) / sizeof(int)));
+		m_IB.reset(Soda::IndexBuffer::Create(indices, sizeof(indices)));
 		m_IB->Bind();
-
 
 
 		Soda::BufferLoadout loadout = {
@@ -79,7 +77,7 @@ public:
 		m_squareVB->Bind();
 
 		std::shared_ptr<Soda::IndexBuffer> m_squareIB;
-		m_squareIB.reset(Soda::IndexBuffer::Create(squareIndices, 24));
+		m_squareIB.reset(Soda::IndexBuffer::Create(squareIndices, sizeof(squareIndices)));
 		m_squareIB->Bind();
 
 		m_squareVB->SetLoadout(SquareLoadout);
@@ -166,7 +164,7 @@ public:
 
 		m_Texture = Soda::Texture2D::Create("assets/textures/GingerCat.png");
 
-		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_BasicShader)->Bind();
+		// std::dynamic_pointer_cast<Soda::OpenGLShader>(m_BasicShader)->Bind();
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_TextureShader)->SetUniformInt("u_Texture", 0);
 	}
 

@@ -42,12 +42,12 @@ namespace Soda
 	/*****************************************************************/
 
 	GLIndexBuffer::GLIndexBuffer(int* indices, uint32_t size)
-		: m_indexes(size)
+		: m_indexes(size / sizeof(int))
 	{
 		glCreateBuffers(1, &m_bufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferID);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexes, indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 	}
 
 	GLIndexBuffer::~GLIndexBuffer()
