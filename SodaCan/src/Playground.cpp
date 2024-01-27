@@ -432,6 +432,45 @@ public:
 		m_CubeVA->AddIndexBuffer(m_CubeIB);
 		//***// Cube //***//
 
+
+		//*** Light Cube ***//
+		m_LightCubeVA.reset(Soda::VertexArray::Create());
+
+		float lightCube[] = {
+			// pos              
+			// front
+			-0.5f, -0.5f,  0.5f, // 0
+			 0.5f, -0.5f,  0.5f, // 1
+			 0.5f,  0.5f,  0.5f, // 2
+			-0.5f,  0.5f,  0.5f, // 3
+
+			// back
+			-0.5f, -0.5f, -0.5f, // 4
+			 0.5f, -0.5f, -0.5f, // 5
+			 0.5f,  0.5f, -0.5f, // 6
+			-0.5f,  0.5f, -0.5f, // 7
+		};
+
+		int lightIndices[] = {
+			// front
+			0, 1, 2,
+			2, 3, 0,
+
+			// back
+			4, 5, 6,
+			6, 7, 4,
+
+			// left
+			8, 9, 10,
+			10, 11, 8,
+
+			// right
+			12, 13, 14,
+			14, 15, 12,
+		};
+
+
+
 		m_Shader.reset(Soda::Shader::Create("assets/shaders/Shader.glsl"));
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->Bind();
 
@@ -442,18 +481,34 @@ public:
 
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->SetUniformInt("u_DiffuseTexture", 0);
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->SetUniformInt("u_SpecularTexture", 1);
+
+		m_DirectionalLight.reset(Soda::Light::SetLightType(Soda::LightType::Directional, m_Shader));
 	}
 
 	void OnImGuiUpdate() override
 	{
+		ImGui::Begin("FPS");
+		{
+			ImGui::Text("FPS: %d", (int)fps);
+		}
+		ImGui::End();
+
 		ImGui::Begin("Stats");
 		{
 			ImGui::DragFloat3("Cube Position", &m_CubePosition.x, 0.1f);
-			ImGui::DragFloat("Cube Rotation", &m_CubeRotation, 0.1f);
+			ImGui::DragFloat3("Cube Rotation", &m_CubeRotation.x, 0.1f);
 			ImGui::DragFloat3("Cube Scale", &m_CubeScale.x, 0.1f);
 			ImGui::ColorEdit4("Cube Color", &m_CubeColor.x);
 			ImGui::Text("");
 			ImGui::DragFloat("Camera Speed", &camSpeed, 0.1f);
+		}
+		ImGui::End();
+
+		ImGui::Begin("Lights");
+		{
+			ImGui::Text("Directional Light");
+			ImGui::DragFloat3("Direction", &dirLightDirection.x, 0.1f);
+			ImGui::ColorEdit3("Color", &dirLightColor.x);
 		}
 		ImGui::End();
 	}
@@ -529,9 +584,17 @@ public:
 
 	void OnUpdate(Soda::Timestep dt) override
 	{
+		fps = 1.0f / dt;
+
+
 		m_CubeTransform = glm::translate(glm::mat4(1.0f), m_CubePosition) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(m_CubeRotation), glm::vec3(0, 1, 0)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(m_CubeRotation.x), glm::vec3(1, 0, 0)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(m_CubeRotation.y), glm::vec3(0, 1, 0)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(m_CubeRotation.z), glm::vec3(0, 0, 1)) *
 			glm::scale(glm::mat4(1.0f), m_CubeScale);
+
+		m_DirectionalLight->SetDirection(dirLightDirection);
+		m_DirectionalLight->SetColor(dirLightColor);
 
 		
 		if (isMovable > 0)
@@ -586,6 +649,9 @@ private:
 
 	std::shared_ptr<Soda::Shader> m_Shader;
 
+	std::shared_ptr<Soda::Light> m_DirectionalLight;
+
+
 	std::shared_ptr<Soda::Texture2D> m_BoxDiffTexture;
 	std::shared_ptr<Soda::Texture2D> m_BoxSpecTexture;
 
@@ -593,13 +659,29 @@ private:
 	std::shared_ptr<Soda::VertexBuffer> m_CubeVB;
 	std::shared_ptr<Soda::IndexBuffer> m_CubeIB;
 
+	std::shared_ptr<Soda::VertexArray> m_LightCubeVA;
+	std::shared_ptr<Soda::VertexBuffer> m_LightCubeVB;
+	std::shared_ptr<Soda::IndexBuffer> m_LightCubeIB;
+
 private:
 	glm::vec3 m_CubePosition = { 0.0f, 0.0f, 0.0f };
-	float m_CubeRotation = 45.0f;
+	glm::vec3 m_CubeRotation = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 m_CubeScale = { 1.0f, 1.0f, 1.0f };
 	glm::mat4 m_CubeTransform;
 
 	glm::vec4 m_CubeColor = { 0.9f, 0.6f, 0.2f, 1.0f };
+
+	
+	glm::vec3 m_LightCubePosition = { 0.0f, 1.0f, 2.0f };
+	float m_LightCubeRotation = 45.0f;
+	glm::vec3 m_LightCubeScale = { 1.0f, 1.0f, 1.0f };
+	glm::mat4 m_LightCubeTransform;
+
+	glm::vec4 m_LightCubeColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+
+	glm::vec3 dirLightDirection = { -0.2f, -1.0f, -0.3f };
+	glm::vec3 dirLightColor = { 1.0f, 1.0f, 1.0f };
 
 
 	glm::vec3 camPosition = { 0.0f, 0.0f, 3.0f };
@@ -612,8 +694,12 @@ private:
 	float yaw = -90.0f;
 	float pitch = 0.0f;
 
+	float lightInensity = 1.0f;
+
 
 	char isMovable = 0;
+
+	float fps = 0.0f;
 };
 
 

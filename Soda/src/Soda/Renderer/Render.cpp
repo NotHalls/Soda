@@ -22,6 +22,7 @@ namespace Soda
 	void Renderer::StartScene(PerspectiveCamera& camera)
 	{
 		m_SceneData->ProjectionViewMat = camera.GetProjectionViewMat();
+		m_SceneData->CameraPosition = camera.GetPosition();
 	}
 
 	void Renderer::StopScene()
@@ -35,6 +36,7 @@ namespace Soda
 
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_ModelMat", transform);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
 
 		RenderCommand::DrawThis(VA);
 	}

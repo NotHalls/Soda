@@ -31,6 +31,7 @@ namespace Soda
 		struct SceneData
 		{
 			glm::mat4 ProjectionViewMat;
+			glm::vec3 CameraPosition;
 		};
 
 		static SceneData* m_SceneData;
