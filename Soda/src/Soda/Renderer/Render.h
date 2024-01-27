@@ -13,9 +13,10 @@ namespace Soda
 	class Renderer
 	{
 	public:
-		static void Init();
+		static void Init(unsigned int width, unsigned int height);
 
 		static void	StartScene(OrthoCamera& camera);
+		static void StartScene(PerspectiveCamera& camera);
 		static void StopScene();
 
 		static void PushThis(const std::shared_ptr<VertexArray>& VA,
@@ -30,6 +31,7 @@ namespace Soda
 		struct SceneData
 		{
 			glm::mat4 ProjectionViewMat;
+			glm::vec3 CameraPosition;
 		};
 
 		static SceneData* m_SceneData;

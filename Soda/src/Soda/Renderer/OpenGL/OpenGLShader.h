@@ -26,8 +26,14 @@ namespace Soda
         std::unordered_map<GLenum, std::string> ProcessSource(const std::string& source);
         void CompileShader(const std::unordered_map<GLenum, std::string>& shaderSources);
 
+
+        void SetUniformShort(const std::string& name, short value);
         void SetUniformInt(const std::string& name, int value);
+		void SetUniformFloat(const std::string& name, float value);
+
+        void SetUniformVec3(const std::string& name, const glm::vec3& vector);
         void SetUniformVec4(const std::string& name, const glm::vec4& vector);
+        
         void SetUniformMat4(const std::string& name, const glm::mat4& matrix);
 
     private:

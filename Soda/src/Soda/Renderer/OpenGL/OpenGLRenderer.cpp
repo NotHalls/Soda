@@ -8,9 +8,12 @@
 
 namespace Soda
 {
-	void OpenGLRenderer::Init()
+	void OpenGLRenderer::Init(unsigned int width, unsigned int height)
 	{
+		glViewport(0, 0, width, height);
+
 		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
@@ -18,7 +21,7 @@ namespace Soda
 	void OpenGLRenderer::ClearScreen(const glm::vec4& color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	}
 

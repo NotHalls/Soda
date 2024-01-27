@@ -9,8 +9,8 @@ namespace Soda
 	class RenderCommand
 	{
 	public:
-		inline static void Init()
-		{ m_renderAPI->Init(); }
+		inline static void Init(unsigned int width, unsigned int height)
+		{ m_renderAPI->Init(width, height); }
 
 		inline static void ClearScreen(const glm::vec4& color = { 1.0f, 0.0f, 0.8f, 1.0f })
 		{ m_renderAPI->ClearScreen(color); }
