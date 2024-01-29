@@ -346,10 +346,6 @@ public:
 	ThreeDLayer()
 		: Layer("3D"), m_Camera(45.0f, 1280 / 720, 0.1f, 100.0f)
 	{
-<<<<<<< HEAD
-		//*** Obj 1 ***//
-		m_VA.reset(Soda::VertexArray::Create());
-=======
 		//*** Cube ***//
 		m_CubeVA.reset(Soda::VertexArray::Create());
 
@@ -360,7 +356,6 @@ public:
 			 0.5f, -0.5f,  0.5f,    1.0f, 1.0f, 1.0f, 1.0f,    1.0f, 0.0f,     0.0f,  0.0f,  1.0f, // 1
 			 0.5f,  0.5f,  0.5f,    1.0f, 1.0f, 1.0f, 1.0f,    1.0f, 1.0f,     0.0f,  0.0f,  1.0f, // 2
 			-0.5f,  0.5f,  0.5f,    1.0f, 1.0f, 1.0f, 1.0f,    0.0f, 1.0f,     0.0f,  0.0f,  1.0f, // 3
->>>>>>> Soda3D/master
 
 			// back
 			-0.5f, -0.5f, -0.5f,    1.0f, 1.0f, 1.0f, 1.0f,    0.0f, 0.0f,     0.0f,  0.0f, -1.0f, // 4
@@ -398,22 +393,14 @@ public:
 			0, 1, 2,
 			2, 3, 0,
 
-<<<<<<< HEAD
-		std::shared_ptr<Soda::IndexBuffer> m_IB;
-		m_IB.reset(Soda::IndexBuffer::Create(indices, sizeof(indices)));
-		m_IB->Bind();
-=======
 			// back
 			4, 5, 6,
 			6, 7, 4,
->>>>>>> Soda3D/master
 
 			// left
 			8, 9, 10,
 			10, 11, 8,
 
-<<<<<<< HEAD
-=======
 			// right
 			12, 13, 14,
 			14, 15, 12,
@@ -432,7 +419,6 @@ public:
 		m_CubeIB.reset(Soda::IndexBuffer::Create(indices, sizeof(indices)));
 		m_CubeIB->Bind();
 
->>>>>>> Soda3D/master
 		Soda::BufferLoadout loadout = {
 			{ "a_position", Soda::ShaderDataType::Vec3 },
 			{ "a_color", Soda::ShaderDataType::Vec4 },
@@ -483,24 +469,6 @@ public:
 			14, 15, 12,
 		};
 
-<<<<<<< HEAD
-		std::shared_ptr<Soda::VertexBuffer> m_squareVB;
-		m_squareVB.reset(Soda::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		m_squareVB->Bind();
-
-		std::shared_ptr<Soda::IndexBuffer> m_squareIB;
-		m_squareIB.reset(Soda::IndexBuffer::Create(squareIndices, sizeof(squareIndices)));
-		m_squareIB->Bind();
-
-		m_squareVB->SetLoadout(SquareLoadout);
-
-		m_squareVA->AddVertexBuffer(m_squareVB);
-		m_squareVA->AddIndexBuffer(m_squareIB);
-
-		//***/ Obj 2 /***//
-=======
->>>>>>> Soda3D/master
-
 
 		m_Shader.reset(Soda::Shader::Create("assets/shaders/Shader.glsl"));
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->Bind();
@@ -513,69 +481,8 @@ public:
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->SetUniformInt("u_DiffuseTexture", 0);
 		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_Shader)->SetUniformInt("u_SpecularTexture", 1);
 
-<<<<<<< HEAD
-		std::string fragShdr = R"(
-			#version 410 core
-
-			layout(location = 0) out vec4 Color;
-			in vec3 o_objColor;
-
-			uniform vec4 u_color;
-
-			void main()
-			{
-				Color = u_color;
-			}
-		)";
-
-		m_BasicShader.reset(Soda::Shader::Create(vrtxShdr, fragShdr));
-
-
-		// vertx. shdr.
-
-		std::string cvs = R"(
-			#version 410 core
-			
-			layout(location = 0) in vec3 a_vrtxPosition;
-			layout(location = 1) in vec3 a_color;
-			out vec3 o_objColor;
-
-			uniform mat4 u_PVMat;
-			uniform mat4 u_ModelMat;
-
-			void main()
-			{
-				gl_Position = u_PVMat * u_ModelMat * vec4(a_vrtxPosition, 1.0);
-				o_objColor = a_color;
-			}
-		)";
-
-		std::string cfs = R"(
-			#version 410 core
-
-			layout(location = 0) out vec4 Color;
-			in vec3 o_objColor;
-
-			void main()
-			{
-				Color = vec4(o_objColor, 1.0f);
-			}
-		)";
-
-		m_positionColor.reset(Soda::Shader::Create(cvs, cfs));
-
-
-		
-		m_TextureShader.reset(Soda::Shader::Create("assets/shaders/Texture.glsl"));
-
-
-		m_Texture = Soda::Texture2D::Create("assets/textures/GingerCat.png");
-
-		// std::dynamic_pointer_cast<Soda::OpenGLShader>(m_BasicShader)->Bind();
-		std::dynamic_pointer_cast<Soda::OpenGLShader>(m_TextureShader)->SetUniformInt("u_Texture", 0);
-=======
 		m_DirectionalLight.reset(Soda::Light::SetLightType(Soda::LightType::Directional, m_Shader));
->>>>>>> Soda3D/master
+ 
 	}
 
 	void OnImGuiUpdate() override
