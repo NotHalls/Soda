@@ -344,7 +344,7 @@ class ThreeDLayer : public Soda::Layer
 {
 public:
 	ThreeDLayer()
-		: Layer("3D"), m_Camera(45.0f, 1280 / 720, 0.1f, 100.0f)
+		: Layer("3D"), m_Camera(45.0f, 1920.0 / 1080.0, 0.1f, 100.0f)
 	{
 		//*** Cube ***//
 		m_CubeVA.reset(Soda::VertexArray::Create());

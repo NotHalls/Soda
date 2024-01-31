@@ -11,6 +11,8 @@ namespace Soda
 
 		virtual void ClearScreen(const glm::vec4& color = { 1.0f, 0.0f, 0.8f, 1.0f }) override;
 
+		virtual void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
+
 		virtual void DrawThis(const std::shared_ptr<VertexArray>& VA) override;
 	};
 }

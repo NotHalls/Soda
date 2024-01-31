@@ -28,7 +28,7 @@ namespace Soda
 		SD_ENGINE_ASSERT(!m_app, "App already exists!");
 		m_app = this;
 
-		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create(Soda::WindowInfo("Soda Engine", 1000, 1000)));
+		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create(Soda::WindowInfo("Soda Engine", 1820, 980)));
 		m_MainWindow->SetCallbackFn(BIND_FN(App::OnEvent));
 
 		Renderer::Init(m_MainWindow->GetWindowWidth(), m_MainWindow->GetWindowHeight());
@@ -47,6 +47,7 @@ namespace Soda
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_FN(App::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_FN(App::OnWindowResize));
 
 		for (auto itr = m_LayerStack.end(); itr != m_LayerStack.begin();)
 		{
@@ -59,15 +60,18 @@ namespace Soda
 
 	void App::Run()
 	{
-		// our main gameloop (engineloop i guess)
+		// our main gameloop (engineloop)
 		while (IsRunning)
 		{
 		 	float time = glfwGetTime();
 		 	Timestep dt = time - m_LastFrameTime;
 		 	m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(dt);
+			if (!IsMinimized)
+			{
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(dt);
+			}
 
 			m_imguiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
@@ -92,6 +96,22 @@ namespace Soda
 	bool App::OnWindowClose(WindowCloseEvent& _WindowCloseEvent)
 	{
 		IsRunning = false;
+		return true;
+	}
+
+	bool App::OnWindowResize(WindowResizeEvent& _WindowResizeEvent)
+	{
+		if(_WindowResizeEvent.GetWindowHeight() == 0 || _WindowResizeEvent.GetWindowWidth() == 0)
+		{
+			IsMinimized = true;
+			return false;
+		}
+
+		Renderer::OnWindowResize(_WindowResizeEvent.GetWindowHeight(), _WindowResizeEvent.GetWindowWidth());
+
+		IsMinimized = false;
+
+
 		return true;
 	}
 }

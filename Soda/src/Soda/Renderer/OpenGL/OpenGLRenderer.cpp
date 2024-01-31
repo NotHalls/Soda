@@ -22,7 +22,11 @@ namespace Soda
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
+	void OpenGLRenderer::SetViewport(unsigned int x, unsigned int y, unsigned int height, unsigned int width)
+	{
+		glViewport(x, y, width, height);
 	}
 
 	void OpenGLRenderer::DrawThis(const std::shared_ptr<VertexArray>& VA)

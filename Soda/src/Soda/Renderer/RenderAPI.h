@@ -20,6 +20,8 @@ namespace Soda
 
 		virtual void ClearScreen(const glm::vec4& color = {1.0f, 0.0f, 0.8f, 1.0f}) = 0;
 
+		virtual void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) = 0;
+
 		virtual void DrawThis(const std::shared_ptr<VertexArray>& VA) = 0;
 
 		inline static API GetAPI()

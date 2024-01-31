@@ -28,6 +28,11 @@ namespace Soda
 	void Renderer::StopScene()
 	{}
 
+	void Renderer::OnWindowResize(unsigned int height, unsigned int width)
+	{
+		RenderCommand::SetViewport(0, 0, height, width);
+	}
+
 
 	void Renderer::PushThis(const std::shared_ptr<VertexArray>& VA, const std::shared_ptr<Shader>& shader, const glm::mat4& transform)
 	{

@@ -90,6 +90,7 @@ in vec3 Normal;
 out vec4 fragColor;
 
 uniform sampler2D u_DiffuseTexture;
+uniform sampler2D u_SpecularTexture;
 
 
 vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
@@ -126,7 +127,7 @@ vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 	
 	vec3 ambient = (light.ambientStrength * light.color) * texture(u_DiffuseTexture, texCoord).rgb;
 	vec3 diffuse = diff * light.color * texture(u_DiffuseTexture, texCoord).rgb;
-	vec3 specular = spec * (5.0 * light.color) * texture(u_DiffuseTexture, texCoord).rgb;
+	vec3 specular = spec * (2.0 * light.color) * texture(u_SpecularTexture, texCoord).rgb;
 	
 	return (ambient + diffuse + specular);
 }

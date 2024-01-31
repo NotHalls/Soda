@@ -40,6 +40,8 @@ namespace Soda
 		static App* m_app;
 
 		float m_LastFrameTime = 0.0f; // to calculate the delta time
+
+		bool IsMinimized = false; // to check if the window is minimized or not
 		
 		// we want a unique pointer because we dont want to deal with all the deleting shit
 		// this is our MainWindow where we do the important stuff (we might have multiple windows later on).
@@ -51,6 +53,7 @@ namespace Soda
 
 
 		bool OnWindowClose(WindowCloseEvent& _WindowCloseEvent);
+		bool OnWindowResize(WindowResizeEvent& _WindowResizeEvent);
 
 		bool IsRunning = true; // to check if the App is running or not
 	};
