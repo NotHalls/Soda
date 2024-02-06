@@ -6,6 +6,11 @@
 Soda is an open-source Game Engine I'm making to learn more about graphics development. <br>
 
 
+## Progress Till Now
+![Screenshot 2024-01-13 150425](https://github.com/CottonBall74/Soda/assets/64028676/d20d27b9-496f-442f-b62b-59df58f3aea4)
+![SodaEngine2D](https://github.com/CottonBall74/Soda/assets/64028676/98a43d97-fb66-4201-8d7d-488a839f04a7)
+![SodaEngine](https://github.com/CottonBall74/Soda/assets/64028676/83cd7163-aa3b-4547-9df4-0ef8b37fdfd1)
+
 
 ## Roadmap
 
