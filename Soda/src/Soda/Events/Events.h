@@ -63,20 +63,18 @@ namespace Soda
     // this class dispatches the Events with the right function to execute
     class EventDispatcher
     {
-        template<typename ET> // ET for Event Type
-        using EventFn = std::function<bool(ET&)>;
-    
     public:
         EventDispatcher(Event& event)
             : m_Event(event)
         {}
 
-        template<typename ET>
-        bool Dispatch(EventFn<ET> fn)
+        // F will be deduced by the compiler
+        template<typename T, typename F>
+        bool Dispatch(const F& func)
         {
-            if(m_Event.GetEventType() == ET::GetStaticType())
+            if(m_Event.GetEventType() == T::GetStaticType())
             {
-                m_Event.m_Handled = fn(*(ET*)&m_Event);
+                m_Event.m_Handled = func(static_cast<T&>(m_Event));
                 return true;
             }
             return false;
