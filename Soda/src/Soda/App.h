@@ -1,6 +1,3 @@
-// In this class, we make a window and apply functions to the window
-
-
 #pragma once
 
 #include "SD_PCH.h"
@@ -24,7 +21,6 @@ namespace Soda
 		virtual ~App();
 
 		void Run();
-
 		void OnEvent(Event& event);
 
 		void PushLayer(Layer* layer);

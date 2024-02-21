@@ -107,10 +107,8 @@ namespace Soda
 			return false;
 		}
 
-		Renderer::OnWindowResize(_WindowResizeEvent.GetWindowHeight(), _WindowResizeEvent.GetWindowWidth());
-
 		IsMinimized = false;
-
+		Renderer::OnWindowResize(_WindowResizeEvent.GetWindowWidth(), _WindowResizeEvent.GetWindowHeight());
 
 		return true;
 	}

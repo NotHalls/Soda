@@ -14,6 +14,12 @@ namespace Soda
 		m_viewProjectionMat = m_projectionMat * m_viewMat;
 	}
 
+	void OrthoCamera::SetProjection(float left, float right, float down, float up)
+	{
+		m_projectionMat = glm::ortho(left, right, down, up, -1.0f, 1.0f);
+		m_viewProjectionMat = m_projectionMat * m_viewMat;
+	}
+
 
 	void PerspectiveCamera::RecalculateMatrices()
 	{

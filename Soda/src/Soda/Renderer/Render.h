@@ -2,7 +2,7 @@
 
 #include "RenderCommand.h"
 
-#include "Soda/Camera.h"
+#include "Soda/Renderer/Camera.h"
 #include "Shaderer.h"
 
 #include "glm/glm.hpp"

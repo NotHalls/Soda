@@ -15,6 +15,9 @@ namespace Soda
 			  m_viewProjectionMat(m_projectionMat * m_viewMat)
 		{}
 
+		void SetProjection(float left, float right, float down, float up);
+		
+
 		void SetPosition(const glm::vec3& position)
 		{ m_position = position; RecalculateMatrices(); }
 		const glm::vec3& GetPosition() const

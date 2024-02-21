@@ -24,7 +24,7 @@ namespace Soda
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRenderer::SetViewport(unsigned int x, unsigned int y, unsigned int height, unsigned int width)
+	void OpenGLRenderer::SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 	{
 		glViewport(x, y, width, height);
 	}

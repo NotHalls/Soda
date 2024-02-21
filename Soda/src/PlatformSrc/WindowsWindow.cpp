@@ -83,7 +83,7 @@ namespace Soda
 			windowData.Width = width;
 			windowData.Height = height;
 
-			// i created a EventType class and named the class like this... _<EventClassName>
+			// we created a EventType class and named the class like this... _<EventClassName>
 			// then we give the _Event as callback.
 			WindowResizeEvent _WindowResizeEvent(width, height);
 			windowData.CallbackFn(_WindowResizeEvent);

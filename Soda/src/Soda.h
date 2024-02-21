@@ -20,8 +20,9 @@
 #include "Soda/Renderer/VertexArray.h"
 
 #include "Soda/Light.h"
+#include "Soda/OrthoCameraController.h"
 
-#include "Soda/Camera.h"
+#include "Soda/Renderer/Camera.h"
 
 #include "Soda/imgui/ImGuiLayer.h"
 

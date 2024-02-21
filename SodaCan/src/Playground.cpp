@@ -12,7 +12,7 @@ class SampleLayer : public Soda::Layer
 public:
 
 	SampleLayer()
-		: Layer("Sample"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+		: Layer("Sample"), m_Camera(1280.0f / 720.0f, true)
 	{
 		m_VA.reset(Soda::VertexArray::Create());
 
@@ -173,6 +173,8 @@ public:
 
 	void OnEvent(Soda::Event& event) override
 	{
+		m_Camera.OnEvent(event);
+
 		if(event.GetEventType() == Soda::EventType::KeyPress)
 		{
 			Soda::KeyPressEvent& keyEvent = (Soda::KeyPressEvent&)event;
@@ -193,8 +195,8 @@ public:
 
 		ImGui::Begin("Camera");
 		ImGui::Text("Transform");
-		ImGui::DragFloat2("Camera Position", &camPosition.x, 0.1f);
-		ImGui::DragFloat("Camera Rotation", &camRotation, 0.1f);
+		// ImGui::DragFloat2("Camera Position", &m_Camera.GetCamera().GetPosition().x, 0.1f);
+		// ImGui::DragFloat("Camera Rotation", &m_Camera.GetCamera().GetRotation(), 0.1f);
 		ImGui::Text("");
 		ImGui::Text("Properties");
 		ImGui::DragFloat("Camera Speed", &camSpeed, 0.1f);
@@ -232,6 +234,8 @@ public:
 	{
 		FPS = 1.0f / dt;
 
+		m_Camera.OnUpdate(dt);		
+
 		boxTransform =
 			glm::translate(glm::mat4(1.0f), boxPosition) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(boxRotation), glm::vec3(0, 0, 1)) *
@@ -243,43 +247,24 @@ public:
 			glm::scale(glm::mat4(1.0f), playerScale);
 
 
-
-		// camera movement
-		if (Soda::Input::IsKeyPressed(SD_KEY_UP))
-			camPosition.y += 0.1 * camSpeed * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_DOWN))
-			camPosition.y -= 0.1 * camSpeed * dt;
-
-		if (Soda::Input::IsKeyPressed(SD_KEY_LEFT))
-			camPosition.x -= 0.1 * camSpeed * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_RIGHT))
-			camPosition.x += 0.1 * camSpeed * dt;
-
-
-		if (Soda::Input::IsKeyPressed(SD_KEY_KP_SUBTRACT))
-			camRotation += 180.0 * dt;
-		else if (Soda::Input::IsKeyPressed(SD_KEY_KP_ADD))
-			camRotation -= 180.0 * dt;
-
-
 		// player movement
-		if (Soda::Input::IsKeyPressed(SD_KEY_W))
+		if (Soda::Input::IsKeyPressed(SD_KEY_UP))
 		{
 			playerPos.y += 0.1 * playerSpeed * dt;
 			playerRotation = 0.0f;
 		}
-		else if (Soda::Input::IsKeyPressed(SD_KEY_S))
+		else if (Soda::Input::IsKeyPressed(SD_KEY_DOWN))
 		{
 			playerPos.y -= 0.1 * playerSpeed * dt;
 			playerRotation = 180.0f;
 		}
 
-		if (Soda::Input::IsKeyPressed(SD_KEY_A))
+		if (Soda::Input::IsKeyPressed(SD_KEY_LEFT))
 		{
 			playerPos.x -= 0.1 * playerSpeed * dt;
 			playerRotation = 90.0f;
 		}
-		else if (Soda::Input::IsKeyPressed(SD_KEY_D))
+		else if (Soda::Input::IsKeyPressed(SD_KEY_RIGHT))
 		{
 			playerPos.x += 0.1 * playerSpeed * dt;
 			playerRotation = -90.0f;
@@ -287,12 +272,9 @@ public:
 
 
 
-		Soda::Renderer::StartScene(m_Camera);
+		Soda::Renderer::StartScene(m_Camera.GetCamera());
 		{
 			Soda::RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
-			 
-			m_Camera.SetPosition(camPosition);
-			m_Camera.SetRotation(camRotation);
 
 			Soda::Renderer::PushThis(m_squareVA, m_BasicShader, boxTransform);
 			std::dynamic_pointer_cast<Soda::OpenGLShader>(m_BasicShader)->SetUniformVec4("u_color", color);
@@ -305,7 +287,7 @@ public:
 	}
 
 private:
-	Soda::OrthoCamera m_Camera;
+	Soda::OrthoCameraController m_Camera;
 
 	std::shared_ptr<Soda::Shader> m_positionColor;
 	std::shared_ptr<Soda::Shader> m_BasicShader;
@@ -319,8 +301,7 @@ private:
 private:
 	uint32_t FPS = 0.0f;
 
-	glm::vec3 camPosition = {0.0f, 0.0f, 0.0f};
-	float camRotation = 0.0f;
+	float camRotationSpeed = 0.0f;
 	float camSpeed = 40.0f;
 
 	glm::vec3 boxPosition = { 0.7f, 0.5f, 0.0f };

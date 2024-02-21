@@ -77,6 +77,7 @@ namespace Soda
                 m_Event.m_Handled = func(static_cast<T&>(m_Event));
                 return true;
             }
+
             return false;
         }
 

@@ -28,9 +28,9 @@ namespace Soda
 	void Renderer::StopScene()
 	{}
 
-	void Renderer::OnWindowResize(unsigned int height, unsigned int width)
+	void Renderer::OnWindowResize(unsigned int width, unsigned int height)
 	{
-		RenderCommand::SetViewport(0, 0, height, width);
+		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
 
