@@ -9,9 +9,9 @@
 #include "App.h"
 
 #include "Soda/Input/Input.h"
-#include "Input/KeyboardCodes.h"
+#include "Soda/Input/KeyboardCodes.h"
 
-#include "Renderer/Render.h"
+#include "Soda/Renderer/Render.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"

@@ -3,9 +3,9 @@
 #pragma once
 
 
-#include "Soda/App.h"
-#include "Soda/Layers.h"
-#include "Soda/Logger.h"
+#include "Soda/_Main/App.h"
+#include "Soda/_Main/Layers.h"
+#include "Soda/_Main/Logger.h"
 
 #include "Soda/Input/Input.h"
 #include "Soda/Input/KeyboardCodes.h"
@@ -28,5 +28,5 @@
 
 
 //*********** THE START ***********//
-#include "Soda/Start.h"
+#include "Soda/_Main/Start.h"
 //********************************//

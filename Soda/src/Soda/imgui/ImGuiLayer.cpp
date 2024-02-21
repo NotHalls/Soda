@@ -6,7 +6,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include "Soda/App.h"
+#include "Soda/_Main/App.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"

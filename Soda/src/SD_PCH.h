@@ -2,8 +2,8 @@
 
 // the precompiled header file
 
-#include "Soda/Core.h"
-#include "Soda/Logger.h"
+#include "Soda/_Main/Core.h"
+#include "Soda/_Main/Logger.h"
 
 #include <iostream>
 #include <utility>

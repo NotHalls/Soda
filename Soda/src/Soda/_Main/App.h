@@ -5,8 +5,8 @@
 #include "Core.h"
 
 #include "Window.h"
-#include "Events/Events.h"
-#include "Events/AppEvents.h"
+#include "Soda/Events/Events.h"
+#include "Soda/Events/AppEvents.h"
 
 #include "LayerStack.h"
 #include "Soda/imgui/ImGuiLayer.h"
