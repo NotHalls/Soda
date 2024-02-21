@@ -19,8 +19,6 @@ namespace Soda
 
     void OrthoCameraController::OnUpdate(float dt)
     {
-        SD_ENGINE_LOG("{0}", m_AspectRatio);
-
         if (Input::IsKeyPressed(SD_KEY_A))
             m_CameraPosition.x -= m_CameraTranslationSpeed * dt;
         else if (Input::IsKeyPressed(SD_KEY_D))
@@ -67,9 +65,6 @@ namespace Soda
     {
         m_AspectRatio = (float)wrEvent.GetWindowWidth() / (float)wrEvent.GetWindowHeight();
         m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-
-        SD_ENGINE_LOG("Resized to {0} x {1}", wrEvent.GetWindowWidth(), wrEvent.GetWindowHeight());
-        SD_ENGINE_LOG("Aspect Ratio: {0}", m_AspectRatio);
 
         return false;
     }

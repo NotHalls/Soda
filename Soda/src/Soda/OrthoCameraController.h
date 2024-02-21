@@ -37,6 +37,11 @@ namespace Soda
         void SetCameraRotationSpeed(const float& speed)
         { m_CameraRotationSpeed = speed; }
 
+        float GetZoomLevel() const
+        { return m_ZoomLevel; }
+        void SetZoomLevel(const float& zoomLevel)
+        { m_ZoomLevel = zoomLevel; }
+
     private:
         bool OnMouseScrolled(MouseScrollEvent& msEvent);
         bool OnWindowResized(WindowResizeEvent& wrEvent);
