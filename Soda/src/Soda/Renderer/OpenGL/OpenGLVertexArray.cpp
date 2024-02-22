@@ -37,7 +37,7 @@ namespace Soda
 		glBindVertexArray(m_bufferID);
 	}
 
-	void GLVertexArray::UnBind() const
+	void GLVertexArray::Unbind() const
 	{
 		glBindVertexArray(0);
 	}

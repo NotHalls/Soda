@@ -12,7 +12,7 @@ namespace Soda
 		virtual ~GLVertexArray() {}
 
 		virtual void Bind() const override;
-		virtual void UnBind() const override;
+		virtual void Unbind() const override;
 
 		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
 		virtual void AddIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;

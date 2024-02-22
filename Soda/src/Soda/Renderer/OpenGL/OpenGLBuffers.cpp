@@ -30,7 +30,7 @@ namespace Soda
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
 	}
 
-	void GLVertexBuffer::UnBind() const
+	void GLVertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_VERTEX_ARRAY, 0);
 	}
@@ -60,7 +60,7 @@ namespace Soda
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferID);
 	}
 
-	void GLIndexBuffer::UnBind() const
+	void GLIndexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
