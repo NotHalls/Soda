@@ -15,8 +15,8 @@ namespace Soda
 	public:
 		static void Init(unsigned int width, unsigned int height);
 
-		static void	StartScene(OrthoCamera& camera);
-		static void StartScene(PerspectiveCamera& camera);
+		static void	StartScene(const OrthoCamera& camera);
+		static void StartScene(const PerspectiveCamera& camera);
 		static void StopScene();
 
 		// Resize callback function

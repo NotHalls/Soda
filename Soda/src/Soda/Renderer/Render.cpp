@@ -15,11 +15,11 @@ namespace Soda
 		RenderCommand::Init(width, height);
 	}
 
-	void Renderer::StartScene(OrthoCamera& camera)
+	void Renderer::StartScene(const OrthoCamera& camera)
 	{
 		m_SceneData->ProjectionViewMat = camera.GetProjectionViewMat();
 	}
-	void Renderer::StartScene(PerspectiveCamera& camera)
+	void Renderer::StartScene(const PerspectiveCamera& camera)
 	{
 		m_SceneData->ProjectionViewMat = camera.GetProjectionViewMat();
 		m_SceneData->CameraPosition = camera.GetPosition();
@@ -39,8 +39,9 @@ namespace Soda
 		shader->Bind();
 		VA->Bind();
 
+		/* TODO: add interfaces to the shader class
+	 	   so that we dont need to dynamicly cast the shader to OpenGLShader */
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_ModelMat", transform);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
 
 		RenderCommand::DrawThis(VA);

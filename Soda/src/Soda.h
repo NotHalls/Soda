@@ -13,6 +13,7 @@
 
 #include "Soda/Renderer/Render.h"
 #include "Soda/Renderer/RenderCommand.h"
+#include "Soda/Renderer/Renderer2D.h"
 
 #include "Soda/Renderer/Texture.h"
 #include "Soda/Renderer/Shaderer.h"
