@@ -694,8 +694,7 @@ public:
 	}
 	
 	~Playground()
-	{
-	}
+	{}
 };
 
 Soda::App* Soda::CreateApp()

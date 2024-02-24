@@ -24,7 +24,6 @@ namespace Soda
     {
         m_QuadStorage = new QuadStorage(); // dont worry, we delete this in the Shutdown function
         m_QuadStorage->m_Shader.reset(Shader::Create("assets/shaders/Shader2D.glsl"));
-        m_QuadStorage->m_Texture = Texture2D::Create("assets/textures/GingerCat.png");
 
 
         m_QuadStorage->m_VA.reset(VertexArray::Create());
@@ -59,6 +58,9 @@ namespace Soda
 
         m_QuadStorage->m_VA->AddVertexBuffer(m_VB);
         m_QuadStorage->m_VA->AddIndexBuffer(m_IB);
+
+        m_QuadStorage->m_Shader->Bind();
+        m_QuadStorage->m_Shader->SetUniformInt("u_Texture", 0);
     }
 
     void Renderer2D::Shutdown()
@@ -69,8 +71,6 @@ namespace Soda
 
     void Renderer2D::StartScene(const OrthoCamera& camera)
     {
-        // Renderer::StartScene(camera);
-
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
     }
@@ -85,7 +85,6 @@ namespace Soda
     {
         Renderer2D::DrawQuad({ position.x, position.y, zIndex * 0.1 }, rotation, scale, color);
     }
-
     void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color)
     {
         // this will take one extra draw call to bind if we already bound it in the StartScene function.
@@ -101,5 +100,26 @@ namespace Soda
         m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture, const glm::vec4& tint, int zIndex)
+    {
+        Renderer2D::DrawQuad({ position.x, position.y, zIndex}, rotation, scale, texture, tint);
+    }
+    void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture, const glm::vec4& tint)
+    {
+        m_QuadStorage->m_Shader->Bind();
+        m_QuadStorage->m_VA->Bind();
+        texture->Bind();
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+                              glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+
+        m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
+        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", tint);
+
+        RenderCommand::DrawThis(m_QuadStorage->m_VA);
+        texture->Unbind();
     }
 }

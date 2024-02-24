@@ -11,7 +11,7 @@ namespace Soda
 		virtual ~Textrue() = default;
 
 		virtual void Bind(uint32_t slot = 0) = 0;
-		virtual void Unbind(uint32_t slot) = 0;
+		virtual void Unbind(uint32_t slot = 0) = 0;
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;

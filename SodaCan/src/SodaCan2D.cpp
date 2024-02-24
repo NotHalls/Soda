@@ -13,7 +13,9 @@ SodaCan2D::SodaCan2D()
 {}
 
 void SodaCan2D::OnAttach()
-{}
+{
+    m_BoxTexture = Soda::Texture2D::Create("assets/textures/GingerCat.png");
+}
 
 void SodaCan2D::OnUpdate(Soda::Timestep dt)
 {
@@ -25,6 +27,8 @@ void SodaCan2D::OnUpdate(Soda::Timestep dt)
 
         Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
         Soda::Renderer2D::DrawQuad({ 10.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
+
+        Soda::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 20.0f, 20.0f }, m_BoxTexture);
     }
     Soda::Renderer2D::StopScene();
 }
@@ -48,6 +52,4 @@ void SodaCan2D::OnImGuiUpdate()
 }
 
 void SodaCan2D::OnDetach()
-{
-    Soda::Renderer2D::Shutdown();
-}
+{}
