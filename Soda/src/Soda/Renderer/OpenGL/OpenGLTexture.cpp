@@ -33,6 +33,9 @@ namespace Soda
 			externalFormat = GL_RGB;
 		}
 
+		m_InternalFormat = internalFormat;
+		m_DataFormat = externalFormat;
+
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Width, m_Height);
 
@@ -43,6 +46,26 @@ namespace Soda
 
 		stbi_image_free(data);
 	}
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+		: m_Width(width), m_Height(height)
+	{
+		m_DataFormat = GL_RGBA;
+		m_InternalFormat = GL_RGBA8;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
+		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Width, m_Height);
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	{
+		uint32_t bytesPerPixel = m_DataFormat == GL_RGBA ? 4 : 3;
+		SD_ENGINE_ASSERT(size == m_Width * m_Height * bytesPerPixel, "Data must be entire texture!");
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+	}
+
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{

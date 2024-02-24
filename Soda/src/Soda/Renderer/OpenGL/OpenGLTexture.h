@@ -9,6 +9,7 @@ namespace Soda
 	{
 	public:
 		OpenGLTexture2D(const std::string& path);
+		OpenGLTexture2D(uint32_t width, uint32_t height);
 		virtual ~OpenGLTexture2D();
 
 		virtual void Bind(uint32_t slot = 0) override;
@@ -19,6 +20,8 @@ namespace Soda
 		virtual unsigned int GetHeight() const override
 		{ return m_Height; }
 
+		virtual void SetData(void* data, uint32_t size) override;
+
 		virtual const std::string& GetFilePath() const override
 		{ return m_Path; }
 		virtual const uint32_t GetTextureID() const override
@@ -28,5 +31,7 @@ namespace Soda
 		std::string m_Path;
 		uint32_t m_Width, m_Height;
 		uint32_t m_TextureID;
+
+		int m_DataFormat, m_InternalFormat;
 	};
 }

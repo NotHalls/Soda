@@ -14,7 +14,7 @@ namespace Soda
     {
         std::shared_ptr<VertexArray> m_VA;
         std::shared_ptr<Shader> m_Shader;
-        std::shared_ptr<Texture2D> m_Texture;
+        std::shared_ptr<Texture2D> m_DefaultTexture;
     };
 
     static QuadStorage* m_QuadStorage;
@@ -61,6 +61,10 @@ namespace Soda
 
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_Shader->SetUniformInt("u_Texture", 0);
+
+        m_QuadStorage->m_DefaultTexture = Texture2D::Create(1, 1);
+        uint32_t whiteTextureData = 0xffffffff;
+        m_QuadStorage->m_DefaultTexture->SetData(&whiteTextureData, sizeof(uint32_t));
     }
 
     void Renderer2D::Shutdown()
@@ -91,6 +95,7 @@ namespace Soda
         // we will later check for cache memory to see if we need to bind the shader and vertex array.
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_VA->Bind();
+        m_QuadStorage->m_DefaultTexture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
                               glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
@@ -120,6 +125,5 @@ namespace Soda
         m_QuadStorage->m_Shader->SetUniformVec4("u_Color", tint);
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
-        texture->Unbind();
     }
 }
