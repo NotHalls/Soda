@@ -1,8 +1,7 @@
 #include "SD_PCH.h"
 
 #include "Render.h"
-
-#include "Soda/Renderer/OpenGL/OpenGLShader.h"
+#include "Renderer2D.h"
 
 
 namespace Soda
@@ -13,6 +12,7 @@ namespace Soda
 	void Renderer::Init(unsigned int width, unsigned int height)
 	{
 		RenderCommand::Init(width, height);
+		Soda::Renderer2D::Init();
 	}
 
 	void Renderer::StartScene(const OrthoCamera& camera)
@@ -39,10 +39,9 @@ namespace Soda
 		shader->Bind();
 		VA->Bind();
 
-		/* TODO: add interfaces to the shader class
-	 	   so that we dont need to dynamicly cast the shader to OpenGLShader */
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
+		shader->SetUniformMat4("u_PVMat", m_SceneData->ProjectionViewMat);
+		shader->SetUniformMat4("u_ModelMat", transform);
+		shader->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
 
 		RenderCommand::DrawThis(VA);
 	}

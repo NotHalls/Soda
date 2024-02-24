@@ -7,8 +7,6 @@
 #include "Soda/Renderer/Shaderer.h"
 #include "Soda/Renderer/Texture.h"
 
-#include "Soda/Renderer/OpenGL/OpenGLShader.h"
-
 
 namespace Soda
 {
@@ -71,14 +69,15 @@ namespace Soda
 
     void Renderer2D::StartScene(const OrthoCamera& camera)
     {
-        Renderer::StartScene(camera);
+        // Renderer::StartScene(camera);
 
         m_QuadStorage->m_Shader->Bind();
+        m_QuadStorage->m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
     }
 
     void Renderer2D::StopScene()
     {
-        Renderer::StopScene();
+        
     }
 
 
@@ -89,13 +88,18 @@ namespace Soda
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color)
     {
+        // this will take one extra draw call to bind if we already bound it in the StartScene function.
+        // we will later check for cache memory to see if we need to bind the shader and vertex array.
+        m_QuadStorage->m_Shader->Bind();
+        m_QuadStorage->m_VA->Bind();
+
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
                               glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
                               glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 
-        Renderer::PushThis(m_QuadStorage->m_VA, m_QuadStorage->m_Shader, transform);
+        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", color);
+        m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
 
-        std::dynamic_pointer_cast<OpenGLShader>(m_QuadStorage->m_Shader)->SetUniformVec4("u_Color", color);
-        std::dynamic_pointer_cast<OpenGLShader>(m_QuadStorage->m_Shader)->SetUniformMat4("u_ModelMat", transform);
+        RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }
 }

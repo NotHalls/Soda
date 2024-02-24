@@ -7,30 +7,26 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-#include "Soda/Renderer/OpenGL/OpenGLShader.h"
-
 
 SodaCan2D::SodaCan2D()
     : Layer("SodaCan2D"), m_CameraController(1280.0f / 720.0f, true)
 {}
 
 void SodaCan2D::OnAttach()
-{
-    Soda::Renderer2D::Init();
-}
+{}
 
 void SodaCan2D::OnUpdate(Soda::Timestep dt)
 {
     m_CameraController.OnUpdate(dt);
 
-    Soda::Renderer::StartScene(m_CameraController.GetCamera());
+    Soda::Renderer2D::StartScene(m_CameraController.GetCamera());
     {
         Soda::RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
 
         Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
         Soda::Renderer2D::DrawQuad({ 10.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
     }
-    Soda::Renderer::StopScene();
+    Soda::Renderer2D::StopScene();
 }
 
 
