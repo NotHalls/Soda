@@ -18,11 +18,11 @@ public:
 private:
     Soda::OrthoCameraController m_CameraController;
 
-    std::shared_ptr<Soda::Texture2D> m_BoxTexture;
+    Soda::Ref<Soda::Texture2D> m_BoxTexture;
 
-    // temp, this will std::shared_ptr<Soda::Sprite> m_Sprite;
-    std::shared_ptr<Soda::VertexArray> m_BoxVA;
-    std::shared_ptr<Soda::Shader> m_Shader2D;
+    // could make a Object2D class to store all of this data
+    Soda::Ref<Soda::VertexArray> m_BoxVA;
+    Soda::Ref<Soda::Shader> m_Shader2D;
 private:
     glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.0f };
     glm::vec2 m_BoxScale = { 1.0f, 1.0f };

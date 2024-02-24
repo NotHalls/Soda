@@ -43,7 +43,7 @@ namespace Soda
 	}
 
 
-	void GLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void GLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		SD_ENGINE_ASSERT(vertexBuffer->GetLoadout().GetAttribs().size(), "You Gave Me NO LOADOUT :(! Did You Call SetLoadout First");
 
@@ -66,7 +66,7 @@ namespace Soda
 
 		m_vertexBuffers.push_back(vertexBuffer);
 	}
-	void GLVertexArray::AddIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+	void GLVertexArray::AddIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(m_bufferID);
 		indexBuffer->Bind();

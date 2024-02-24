@@ -64,11 +64,11 @@ namespace Soda
 
 		virtual ~Light() = default;
 
-		static Light* SetLightType(LightType type, const std::shared_ptr<Shader>& shader);
+		static Light* SetLightType(LightType type, const Ref<Shader>& shader);
 
-		virtual void UpdateInformation(const std::shared_ptr<Shader>& shader) = 0; // Updates the light's nLights, position, direction, color
-		virtual void UpdateSettings(const std::shared_ptr<Shader>& shader) = 0; // Updates the light's ambientStrength, specularStrength
-		virtual void UpdateCutOffAndAttenuation(const std::shared_ptr<Shader>& shader) = 0; // Updates the light's cutOff and attenuation
+		virtual void UpdateInformation(const Ref<Shader>& shader) = 0; // Updates the light's nLights, position, direction, color
+		virtual void UpdateSettings(const Ref<Shader>& shader) = 0; // Updates the light's ambientStrength, specularStrength
+		virtual void UpdateCutOffAndAttenuation(const Ref<Shader>& shader) = 0; // Updates the light's cutOff and attenuation
 
 
 
@@ -81,7 +81,7 @@ namespace Soda
 	class DirectionalLight : public Light
 	{
 	public:
-		DirectionalLight(const std::shared_ptr<Shader>& shader, const glm::vec3& direction = glm::vec3(-0.2f, -1.0f, -0.3f), const glm::vec3& color = glm::vec3(1.0f),
+		DirectionalLight(const Ref<Shader>& shader, const glm::vec3& direction = glm::vec3(-0.2f, -1.0f, -0.3f), const glm::vec3& color = glm::vec3(1.0f),
 						 float ambientStrength = 0.1f, float specularStrength = 32.0f)
 			: m_Direction(direction), m_Color(color),
 			  m_Settings({ ambientStrength, specularStrength }), m_Shader(shader)
@@ -116,9 +116,9 @@ namespace Soda
 
 
 	private:
-		virtual void UpdateInformation(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateSettings(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateCutOffAndAttenuation(const std::shared_ptr<Shader>& shader) override
+		virtual void UpdateInformation(const Ref<Shader>& shader) override;
+		virtual void UpdateSettings(const Ref<Shader>& shader) override;
+		virtual void UpdateCutOffAndAttenuation(const Ref<Shader>& shader) override
 		{  }
 
 	private:
@@ -127,7 +127,7 @@ namespace Soda
 
 		Settings m_Settings;
 
-		const std::shared_ptr<Shader>& m_Shader;
+		const Ref<Shader>& m_Shader;
 	};
 
 
@@ -136,7 +136,7 @@ namespace Soda
 	class PointLight : public Light
 	{
 	public:
-		PointLight(const std::shared_ptr<Shader>& shader, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& color = glm::vec3(1.0f),
+		PointLight(const Ref<Shader>& shader, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& color = glm::vec3(1.0f),
 				   float constant = 1.0f, float linear = 0.09f, float quad = 0.032f,
 				   float ambientStrength = 0.1f, float specularStrength = 32.0f)
 			: m_Position(position), m_Color(color),
@@ -182,9 +182,9 @@ namespace Soda
 		{ return m_nLights; }
 
 	private:
-		virtual void UpdateInformation(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateSettings(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateCutOffAndAttenuation(const std::shared_ptr<Shader>& shader) override;
+		virtual void UpdateInformation(const Ref<Shader>& shader) override;
+		virtual void UpdateSettings(const Ref<Shader>& shader) override;
+		virtual void UpdateCutOffAndAttenuation(const Ref<Shader>& shader) override;
 
 	private:
 		glm::vec3 m_Position;
@@ -196,7 +196,7 @@ namespace Soda
 
 		int m_nLights = 0;
 
-		const std::shared_ptr<Shader>& m_Shader;
+		const Ref<Shader>& m_Shader;
 	};
 
 
@@ -204,7 +204,7 @@ namespace Soda
 	class SpotLight : public Light
 	{
 	public:
-		SpotLight(const std::shared_ptr<Shader>& shader, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& direction = glm::vec3(0.0f, -1.0f, 0.0f),
+		SpotLight(const Ref<Shader>& shader, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& direction = glm::vec3(0.0f, -1.0f, 0.0f),
 				  const glm::vec3& color = glm::vec3(1.0f), float inner = 12.5f, float outer = 15.0f, float constant = 1.0f,
 			      float linear = 0.09f, float quad = 0.032f,
 				  float ambientStrength = 0.1f, float specularStrength = 32.0f)
@@ -264,9 +264,9 @@ namespace Soda
 		{ return m_nLights; }
 
 	private:
-		virtual void UpdateInformation(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateSettings(const std::shared_ptr<Shader>& shader) override;
-		virtual void UpdateCutOffAndAttenuation(const std::shared_ptr<Shader>& shader) override;
+		virtual void UpdateInformation(const Ref<Shader>& shader) override;
+		virtual void UpdateSettings(const Ref<Shader>& shader) override;
+		virtual void UpdateCutOffAndAttenuation(const Ref<Shader>& shader) override;
 
 	private:
 		glm::vec3 m_Position;
@@ -284,6 +284,6 @@ namespace Soda
 
 		int m_nLights = 0;
 
-		const std::shared_ptr<Shader>& m_Shader;
+		const Ref<Shader>& m_Shader;
 	};
 }

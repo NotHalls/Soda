@@ -18,7 +18,7 @@ namespace Soda
 		inline static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 		{ m_renderAPI->SetViewport(0, 0, width, height); }
 
-		inline static void DrawThis(const std::shared_ptr<VertexArray>& VA)
+		inline static void DrawThis(const Ref<VertexArray>& VA)
 		{ m_renderAPI->DrawThis(VA); }
 
 	private:

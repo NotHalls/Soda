@@ -22,7 +22,7 @@ namespace Soda
 
 		virtual void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) = 0;
 
-		virtual void DrawThis(const std::shared_ptr<VertexArray>& VA) = 0;
+		virtual void DrawThis(const Ref<VertexArray>& VA) = 0;
 
 		inline static API GetAPI()
 		{ return m_API; }

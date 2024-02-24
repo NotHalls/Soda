@@ -12,9 +12,9 @@ namespace Soda
 {
     struct QuadStorage
     {
-        std::shared_ptr<VertexArray> m_VA;
-        std::shared_ptr<Shader> m_Shader;
-        std::shared_ptr<Texture2D> m_DefaultTexture;
+        Ref<VertexArray> m_VA;
+        Ref<Shader> m_Shader;
+        Ref<Texture2D> m_DefaultTexture;
     };
 
     static QuadStorage* m_QuadStorage;
@@ -42,10 +42,10 @@ namespace Soda
             0, 2, 3
         };
 
-        std::shared_ptr<VertexBuffer> m_VB;
+        Ref<VertexBuffer> m_VB;
         m_VB.reset(VertexBuffer::Create(boxVertices, sizeof(boxVertices)));
         m_VB->Bind();
-        std::shared_ptr<IndexBuffer> m_IB;
+        Ref<IndexBuffer> m_IB;
         m_IB.reset(IndexBuffer::Create(boxIndices, 24));
         m_IB->Bind();
 
@@ -107,11 +107,11 @@ namespace Soda
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture, const glm::vec4& tint, int zIndex)
+    void Renderer2D::DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint, int zIndex)
     {
         Renderer2D::DrawQuad({ position.x, position.y, zIndex}, rotation, scale, texture, tint);
     }
-    void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture, const glm::vec4& tint)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint)
     {
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_VA->Bind();

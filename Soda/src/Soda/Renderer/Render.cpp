@@ -34,7 +34,7 @@ namespace Soda
 	}
 
 
-	void Renderer::PushThis(const std::shared_ptr<VertexArray>& VA, const std::shared_ptr<Shader>& shader, const glm::mat4& transform)
+	void Renderer::PushThis(const Ref<VertexArray>& VA, const Ref<Shader>& shader, const glm::mat4& transform)
 	{
 		shader->Bind();
 		VA->Bind();

@@ -29,7 +29,7 @@ namespace Soda
 		glViewport(x, y, width, height);
 	}
 
-	void OpenGLRenderer::DrawThis(const std::shared_ptr<VertexArray>& VA)
+	void OpenGLRenderer::DrawThis(const Ref<VertexArray>& VA)
 	{
 		glDrawElements(GL_TRIANGLES, VA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
