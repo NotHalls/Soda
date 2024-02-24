@@ -16,8 +16,8 @@ Soda is an open-source Game Engine I'm making to learn more about graphics devel
 
 | Version           | Features and Improvements                                      | Status         |
 |-------------------|----------------------------------------------------------------|----------------|
-| **1.0.0**         | • 3D Support.<br>• Lighting System.<br>• Support For Importing Models. | In-Progress       |
-| **1.1.0**         | • Physics Engine Integration: Integrating a physics engine for realistic simulations.<br>• Advanced Audio System: Integration of an advanced audio system for enhanced sound experiences. <br>• UI for the Game Engine| Upcoming      |
+| **1.0.0**         | • 2D Physics Integration: Physics integration with Box2D. <br>• Audio System. <br>• UI for the Game Engine | In-Progress       |
+| **1.1.0**         | • 3D Support.<br>• Lighting System.<br>• Support For Importing Models. | Upcoming      |
 | **1.2.0**         | • Editor Improvements: Enhancing the game editor for a smoother development workflow. <br>• Cross-Platform Support: Expanding compatibility to additional operating systems. | Planned       |
 | **Future Plans**  | • AI Integration: Adding artificial intelligence capabilities for game characters. <br>• Networking Module: Implementation of a networking module for multiplayer support.<br>• Scripting API: Exposing a scripting API for extending engine functionality.  | Far Away  |
 
