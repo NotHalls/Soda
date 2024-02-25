@@ -19,18 +19,25 @@ void SodaCan2D::OnAttach()
 
 void SodaCan2D::OnUpdate(Soda::Timestep dt)
 {
-    m_CameraController.OnUpdate(dt);
 
-    Soda::Renderer2D::StartScene(m_CameraController.GetCamera());
+    {
+        m_CameraController.OnUpdate(dt);
+    }
+
     {
         Soda::RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
-
-        Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
-        Soda::Renderer2D::DrawQuad({ 10.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
-
-        Soda::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 20.0f, 20.0f }, m_BoxTexture);
     }
-    Soda::Renderer2D::StopScene();
+    
+    {
+        Soda::Renderer2D::StartScene(m_CameraController.GetCamera());
+        {
+            Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
+            Soda::Renderer2D::DrawQuad({ 10.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
+
+            Soda::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 20.0f, 20.0f }, m_BoxTexture);
+        }
+        Soda::Renderer2D::StopScene();
+    }
 }
 
 

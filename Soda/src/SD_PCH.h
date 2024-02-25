@@ -3,7 +3,7 @@
 // the precompiled header file
 
 #include "Soda/_Main/Core.h"
-#include "Soda/_Main/Logger.h"
+#include "Soda/Tools/Logger.h"
 
 #include <iostream>
 #include <utility>

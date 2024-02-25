@@ -6,7 +6,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
-#include "Core.h"
+#include "Soda/_Main/Core.h"
 
 
 namespace Soda

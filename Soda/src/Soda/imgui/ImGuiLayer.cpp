@@ -97,7 +97,7 @@ namespace Soda
 
 	void ImGuiLayer::OnImGuiUpdate()
 	{
-		// static bool show = true;
-		// ImGui::ShowDemoWindow(&show);
+	// 	static bool show = true;
+	// 	ImGui::ShowDemoWindow(&show);
 	}
 }

@@ -5,7 +5,7 @@
 
 #include "Soda/_Main/App.h"
 #include "Soda/_Main/Layers.h"
-#include "Soda/_Main/Logger.h"
+#include "Soda/Tools/Logger.h"
 
 #include "Soda/Input/Input.h"
 #include "Soda/Input/KeyboardCodes.h"
