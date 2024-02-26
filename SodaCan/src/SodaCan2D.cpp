@@ -31,10 +31,10 @@ void SodaCan2D::OnUpdate(Soda::Timestep dt)
     {
         Soda::Renderer2D::StartScene(m_CameraController.GetCamera());
         {
-            Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
-            Soda::Renderer2D::DrawQuad({ 10.0f, 0.0f}, 0.0f, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
+            Soda::Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxColor);
+            Soda::Renderer2D::DrawRotatedQuad({2.0f, 0.0f}, glm::radians(45.0f), { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
 
-            Soda::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, 0.0f, { 5.0f, 5.0f }, m_BoxTexture);
+            Soda::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 5.0f, 5.0f }, m_BoxTexture);
         }
         Soda::Renderer2D::StopScene();
     }

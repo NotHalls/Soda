@@ -20,12 +20,22 @@ namespace Soda
         static void StopScene();
 
         // DrawQuad takes a position, size, color, and either the zIndex or a vec3 position
-        static void DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color, int zIndex = 0);
-        static void DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color);
+        static void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, int zIndex = 0);
+        static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
 
         // DrawQuad takes a position, size, texture, and either the zIndex or a vec3 position
-        static void DrawQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f), int zIndex = 0);
-        static void DrawQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f));
+        static void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f), int zIndex = 0);
+        static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f));
+
+
+        // rotation takes aq lot of shit to calculate, so we are making seperate function for rotated quads
+        // DrawQuad takes a position, size, color, and either the zIndex or a vec3 position
+        static void DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color, int zIndex = 0);
+        static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color);
+
+        // DrawQuad takes a position, size, texture, and either the zIndex or a vec3 position
+        static void DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f), int zIndex = 0);
+        static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint = glm::vec4(1.0f));
     };
 }
 

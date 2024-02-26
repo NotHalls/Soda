@@ -19,6 +19,8 @@ namespace Soda
 		virtual const float GetTextureScale() const = 0;
 		virtual const void SetTextureScale(const float texScale) = 0;
 
+		
+
 		virtual void SetData(void* data, uint32_t size) = 0;
 
 		virtual const std::string& GetFilePath() const = 0;
