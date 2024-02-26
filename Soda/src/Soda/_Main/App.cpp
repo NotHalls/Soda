@@ -82,6 +82,11 @@ namespace Soda
 		}
 	}
 
+	void App::CloseApp()
+	{
+		IsRunning = false;
+	}
+
 	void App::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);

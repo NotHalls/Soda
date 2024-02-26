@@ -20,6 +20,8 @@ namespace Soda
 		App();
 		virtual ~App();
 
+		void CloseApp();
+
 		void Run();
 		void OnEvent(Event& event);
 
