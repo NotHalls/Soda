@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Soda/_Main/Core.h"
+#include "glm/glm.hpp"
 
 
 namespace Soda
@@ -19,7 +20,8 @@ namespace Soda
 		virtual const float GetTextureScale() const = 0;
 		virtual const void SetTextureScale(const float texScale) = 0;
 
-		
+		virtual const glm::vec4& GetTextureTint() const = 0;
+		virtual const void SetTextureTint(const glm::vec4& tint) = 0;
 
 		virtual void SetData(void* data, uint32_t size) = 0;
 
@@ -34,6 +36,6 @@ namespace Soda
 		virtual ~Texture2D() = default;
 
 		static std::unique_ptr<Texture2D> Create(uint32_t width, uint32_t height);
-		static std::unique_ptr<Texture2D> Create(const std::string& path, float texScale = 1.0f);
+		static std::unique_ptr<Texture2D> Create(const std::string& path);
 	};
 }

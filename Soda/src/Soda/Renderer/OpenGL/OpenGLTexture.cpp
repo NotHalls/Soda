@@ -8,8 +8,8 @@
 
 namespace Soda
 {
-	OpenGLTexture2D::OpenGLTexture2D(const std::string& path, float texScale)
-		: m_Path(path), m_Width(0), m_Height(0), m_TextureID(0), m_TextureScale(texScale)
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
+		: m_Path(path), m_Width(0), m_Height(0), m_TextureID(0), m_TextureScale(1.0f), m_TextureTint(glm::vec4(1.0f))
 	{
 		stbi_set_flip_vertically_on_load(1);
 		
@@ -69,16 +69,6 @@ namespace Soda
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_TextureID);
-	}
-
-
-	const float OpenGLTexture2D::GetTextureScale() const
-	{
-		return m_TextureScale;
-	}
-	const void OpenGLTexture2D::SetTextureScale(const float texScale)
-	{
-		m_TextureScale = texScale;
 	}
 
 

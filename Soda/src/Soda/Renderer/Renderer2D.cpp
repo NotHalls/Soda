@@ -67,6 +67,7 @@ namespace Soda
         m_QuadStorage->m_DefaultTexture->SetData(&whiteTextureData, sizeof(uint32_t));
     }
 
+    // !!! TODO: we are not calling this func anywhere so the m_QuadStorage is not deleted when the renderer is closed !!! //
     void Renderer2D::Shutdown()
     {
         delete m_QuadStorage;
@@ -108,11 +109,11 @@ namespace Soda
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint, int zIndex)
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D>& texture, int zIndex)
     {
-        Renderer2D::DrawQuad({ position.x, position.y, zIndex}, scale, texture, tint);
+        Renderer2D::DrawQuad({ position.x, position.y, zIndex}, scale, texture);
     }
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_VA->Bind();
@@ -122,7 +123,7 @@ namespace Soda
                               glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 
         m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
-        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", tint);
+        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", texture->GetTextureTint());
         m_QuadStorage->m_Shader->SetUniformFloat("u_TextureScale", texture->GetTextureScale());
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
@@ -153,11 +154,11 @@ namespace Soda
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }
 
-    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint, int zIndex)
+    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, int zIndex)
     {
-        Renderer2D::DrawRotatedQuad({ position.x, position.y, zIndex}, rotation, scale, texture, tint);
+        Renderer2D::DrawRotatedQuad({ position.x, position.y, zIndex}, rotation, scale, texture);
     }
-    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& tint)
+    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
         m_QuadStorage->m_Shader->Bind();
         m_QuadStorage->m_VA->Bind();
@@ -168,7 +169,7 @@ namespace Soda
                               glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
 
         m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
-        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", tint);
+        m_QuadStorage->m_Shader->SetUniformVec4("u_Color", texture->GetTextureTint());
         m_QuadStorage->m_Shader->SetUniformFloat("u_TextureScale", texture->GetTextureScale());
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
