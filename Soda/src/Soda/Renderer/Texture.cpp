@@ -25,7 +25,7 @@ namespace Soda
 	}
 
 
-	std::unique_ptr<Texture2D> Texture2D::Create(const std::string& path)
+	std::unique_ptr<Texture2D> Texture2D::Create(const std::string& path, float texScale)
 	{
 		switch (RenderAPI::GetAPI())
 		{
@@ -33,7 +33,7 @@ namespace Soda
 			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
 
 		case RenderAPI::API::OpenGL:
-			return std::make_unique<OpenGLTexture2D>(path);
+			return std::make_unique<OpenGLTexture2D>(path, texScale);
 		}
 
 		SD_ENGINE_ASSERT(!nullptr, "Invalid API :O");

@@ -103,6 +103,7 @@ namespace Soda
 
         m_QuadStorage->m_Shader->SetUniformVec4("u_Color", color);
         m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
+        m_QuadStorage->m_Shader->SetUniformFloat("u_TextureScale", 1.0f);
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }
@@ -123,6 +124,7 @@ namespace Soda
 
         m_QuadStorage->m_Shader->SetUniformMat4("u_ModelMat", transform);
         m_QuadStorage->m_Shader->SetUniformVec4("u_Color", tint);
+        m_QuadStorage->m_Shader->SetUniformFloat("u_TextureScale", texture->GetTextureScale());
 
         RenderCommand::DrawThis(m_QuadStorage->m_VA);
     }

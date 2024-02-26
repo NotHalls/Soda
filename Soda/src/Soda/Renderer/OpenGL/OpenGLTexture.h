@@ -8,7 +8,7 @@ namespace Soda
 	class OpenGLTexture2D : public Texture2D
 	{
 	public:
-		OpenGLTexture2D(const std::string& path);
+		OpenGLTexture2D(const std::string& path, float texScale);
 		OpenGLTexture2D(uint32_t width, uint32_t height);
 		virtual ~OpenGLTexture2D();
 
@@ -19,6 +19,9 @@ namespace Soda
 		{ return m_Width; }
 		virtual unsigned int GetHeight() const override
 		{ return m_Height; }
+
+		virtual const float GetTextureScale() const override;
+		virtual const void SetTextureScale(const float texScale) override;
 
 		virtual void SetData(void* data, uint32_t size) override;
 
@@ -31,6 +34,8 @@ namespace Soda
 		std::string m_Path;
 		uint32_t m_Width, m_Height;
 		uint32_t m_TextureID;
+
+		float m_TextureScale;
 
 		int m_DataFormat, m_InternalFormat;
 	};
