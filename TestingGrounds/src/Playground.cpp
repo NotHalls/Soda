@@ -6,7 +6,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "SodaCan2D.h"
+#include "2DGround.h"
 
 
 // class SampleLayer : public Soda::Layer
@@ -690,7 +690,7 @@ class Playground : public Soda::App
 public:
 	Playground()
 	{
-		PushLayer(new SodaCan2D());
+		PushLayer(new Test2D());
 	}
 	
 	~Playground()

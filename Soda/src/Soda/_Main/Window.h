@@ -20,9 +20,9 @@ namespace Soda
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowInfo( const std::string& p_Name = "Soda Engine",
-					unsigned int p_Width = 1280,
-					unsigned int p_Height = 720 )
+		WindowInfo( const std::string& p_Name = "Unnamed Soda Application",
+					unsigned int p_Width = 1600,
+					unsigned int p_Height = 900 )
 			: Name(p_Name), Width(p_Width), Height(p_Height)
 		{}
 	};

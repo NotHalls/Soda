@@ -17,7 +17,7 @@ namespace Soda
 	class App
 	{
 	public:
-		App();
+		App(const std::string& windowName = "Soda Application");
 		virtual ~App();
 
 		void CloseApp();

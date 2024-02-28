@@ -23,12 +23,12 @@ namespace Soda
 {
 	App* App::m_app = nullptr;
 
-	App::App()
+	App::App(const std::string& windowName)
 	{
 		SD_ENGINE_ASSERT(!m_app, "App already exists!");
 		m_app = this;
 
-		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create(Soda::WindowInfo("Soda Engine", 1820, 980)));
+		m_MainWindow = std::unique_ptr<SodaWindow>(SodaWindow::Create(Soda::WindowInfo(windowName)));
 		m_MainWindow->SetCallbackFn(BIND_FN(App::OnEvent));
 
 		Renderer::Init(m_MainWindow->GetWindowWidth(), m_MainWindow->GetWindowHeight());

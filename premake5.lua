@@ -1,6 +1,6 @@
 workspace "SodaEngine"
 architecture "x64"
-startproject "TestingGrounds"
+startproject "SodaCan"
 
 configurations
 {
@@ -101,6 +101,65 @@ project "Soda"
         runtime "Release"
         optimize "On"
 -- {{ /SODA PROJECT }}--
+
+
+--{{ SODACAN PROJECT }}--
+project "SodaCan"
+    location "SodaCan"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-objs/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+        "Soda/submodules/glm/glm/**.hpp"
+    }
+
+    includedirs
+    {
+        "Soda/submodules/spdlog/include",
+        "Soda/src",
+        "Soda/submodules/glm",
+        "Soda/submodules/imgui"
+
+    }
+
+    links
+    {
+        "Soda"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+
+        defines
+        {
+            "SD_PLATFORM_WIN"
+        }
+
+    filter "configurations:Debug"
+        defines "SD_DEBUG"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        defines "SD_RELEASE"
+        runtime "Release"
+        optimize "On"
+
+    filter "configurations:Dist"
+        defines "SD_DIST"
+        runtime "Release"
+        optimize "On"
+-- {{ /SODACAN PROJECT }}--
+
+
 
 
 --{{ TestingGround PROJECT }}--

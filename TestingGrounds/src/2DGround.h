@@ -3,11 +3,11 @@
 #include "Soda.h"
 
 
-class SodaCan2D : public Soda::Layer
+class Test2D : public Soda::Layer
 {
 public:
-	SodaCan2D();
-    virtual ~SodaCan2D() = default;
+	Test2D();
+    virtual ~Test2D() = default;
 
     void OnAttach() override;
     void OnDetach() override;
@@ -24,8 +24,6 @@ private:
     // could make a Object2D class to store all of this data
     Soda::Ref<Soda::VertexArray> m_BoxVA;
     Soda::Ref<Soda::Shader> m_Shader2D;
-
-    Soda::Ref<Soda::Framebuffer> m_Framebuffer;
 private:
     glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.0f };
     glm::vec2 m_BoxScale = { 1.0f, 1.0f };
