@@ -15,10 +15,16 @@ SodaCan2D::SodaCan2D()
 void SodaCan2D::OnAttach()
 {
     m_BoxTexture = Soda::Texture2D::Create("assets/textures/Grid.png");
+
+    Soda::FramebufferInfo m_FramebufferInfo;
+    m_FramebufferInfo.width = 1280;
+    m_FramebufferInfo.height = 720;
+    m_Framebuffer = Soda::Framebuffer::Create(m_FramebufferInfo);
 }
 
 void SodaCan2D::OnUpdate(Soda::Timestep dt)
 {
+    m_Framebuffer->Bind();
 
     {
         m_CameraController.OnUpdate(dt);
@@ -38,6 +44,8 @@ void SodaCan2D::OnUpdate(Soda::Timestep dt)
         }
         Soda::Renderer2D::StopScene();
     }
+
+    m_Framebuffer->Unbind();
 }
 
 
@@ -115,6 +123,12 @@ void SodaCan2D::OnImGuiUpdate()
             ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
             ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
             ImGui::ColorEdit4("Box Color", &m_BoxColor.x);
+        }
+        ImGui::End();
+
+        ImGui::Begin("Scene");
+        {
+            ImGui::Image((void*)m_Framebuffer->GetFrameTextureID(), ImVec2(1280.0f, 720.0f));
         }
         ImGui::End();
 

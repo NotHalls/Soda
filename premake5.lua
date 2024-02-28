@@ -1,6 +1,6 @@
 workspace "SodaEngine"
 architecture "x64"
-startproject "SodaCan"
+startproject "TestingGrounds"
 
 configurations
 {
@@ -10,7 +10,7 @@ configurations
 }
 
 
---{{ VARS DIRECTORY }}--
+--{{ VARS }}--
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- include dirs
@@ -103,9 +103,9 @@ project "Soda"
 -- {{ /SODA PROJECT }}--
 
 
---{{ SODACAN PROJECT }}--
-project "SodaCan"
-    location "SodaCan"
+--{{ TestingGround PROJECT }}--
+project "TestingGrounds"
+    location "TestingGrounds"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
@@ -157,4 +157,4 @@ project "SodaCan"
         defines "SD_DIST"
         runtime "Release"
         optimize "On"
--- {{ /SODACAN PROJECT }}--
+-- {{ /TestingGround PROJECT }}--
