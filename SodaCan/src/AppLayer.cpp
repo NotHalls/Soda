@@ -128,11 +128,26 @@ namespace Soda
             }
             ImGui::End();
 
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
             ImGui::Begin("Scene");
             {
-                ImGui::Image((void*)m_Framebuffer->GetFrameTextureID(), ImVec2(1280.0f, 720.0f), ImVec2(0, 1), ImVec2(1, 0));
+                // put this inside a OnWindowResize Callback somehow
+                // because we dont wanna check the scene/viewport each frame,
+                // we only wanna do it when we resize.
+                ImVec2 sceneSize = ImGui::GetContentRegionAvail();
+                SD_LOG("x: {0}, y:{1}", sceneSize.x, sceneSize.y);
+                if(m_ViewportSize != *((glm::vec2*)&sceneSize))
+                {
+                    m_ViewportSize = {sceneSize.x, sceneSize.y};
+                    m_Framebuffer->Redo(m_ViewportSize.x, m_ViewportSize.y);
+
+                    m_CameraController.WhenResized(m_ViewportSize.x, m_ViewportSize.y);
+                }
+                // till here...
+                ImGui::Image((void*)m_Framebuffer->GetFrameTextureID(), ImVec2(sceneSize.x, sceneSize.y), ImVec2(0, 1), ImVec2(1, 0));
             }
             ImGui::End();
+            ImGui::PopStyleVar();
 
         }
 

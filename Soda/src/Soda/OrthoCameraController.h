@@ -21,6 +21,8 @@ namespace Soda
         void OnUpdate(float dt);
         void OnEvent(Event& event);
 
+        void WhenResized(float width, float height);
+
 
         OrthoCamera& GetCamera()
         { return m_Camera; }

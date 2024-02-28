@@ -19,6 +19,8 @@ namespace Soda
         void OnImGuiUpdate() override;
         
     private:
+        glm::vec2 m_ViewportSize = glm::vec2(0.0f);
+    private:
         OrthoCameraController m_CameraController;
 
         Ref<Texture2D> m_BoxTexture;

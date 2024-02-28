@@ -13,10 +13,31 @@ namespace Soda
     { Refresh(); }
 
     OpenGLFramebuffer::~OpenGLFramebuffer()
-    { glDeleteFramebuffers(1, &m_FramebufferID); }
+    {
+        glDeleteFramebuffers(1, &m_FramebufferID);
+        glDeleteTextures(1, &m_FrameTextureID);
+        glDeleteTextures(1, &m_DepthBufferID);
+    }
+    
+
+    void OpenGLFramebuffer::Redo(uint32_t width, uint32_t height)
+    {
+        glDeleteFramebuffers(1, &m_FramebufferID);
+        glDeleteTextures(1, &m_FrameTextureID);
+        glDeleteTextures(1, &m_DepthBufferID);
+
+        m_FramebufferInfo.width = width;
+        m_FramebufferInfo.height = height;
+
+        Refresh();
+    }
+    
 
     void OpenGLFramebuffer::Bind() const
-    { glBindFramebuffer(GL_FRAMEBUFFER, m_FramebufferID); }
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, m_FramebufferID);
+        glViewport(0, 0, m_FramebufferInfo.width, m_FramebufferInfo.height);
+    }
 
     void OpenGLFramebuffer::Unbind() const
     { glBindFramebuffer(GL_FRAMEBUFFER, 0); }

@@ -63,9 +63,15 @@ namespace Soda
 
     bool OrthoCameraController::OnWindowResized(WindowResizeEvent& wrEvent)
     {
-        m_AspectRatio = (float)wrEvent.GetWindowWidth() / (float)wrEvent.GetWindowHeight();
-        m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        WhenResized((float)wrEvent.GetWindowWidth(), (float)wrEvent.GetWindowHeight());
 
         return false;
+    }
+
+    
+    void OrthoCameraController::WhenResized(float width, float height)
+    {
+        m_AspectRatio = width / height;
+        m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
     }
 }
