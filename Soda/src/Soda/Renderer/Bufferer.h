@@ -124,14 +124,15 @@ namespace Soda
 		virtual const BufferLoadout& GetLoadout() const = 0;
 		virtual void SetLoadout(const BufferLoadout& loadout) = 0;
 
-		static VertexBuffer* Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
 
 	class IndexBuffer
 	{
 	public:
-		static IndexBuffer* Create(int* indices, uint32_t size);
+		static Ref<IndexBuffer> Create(int* indices, uint32_t count);
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

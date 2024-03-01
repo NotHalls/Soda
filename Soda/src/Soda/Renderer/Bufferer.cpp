@@ -8,7 +8,7 @@
 
 namespace Soda
 {
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
 	{
 		switch (RenderAPI::GetAPI())
 		{
@@ -16,11 +16,26 @@ namespace Soda
 			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
 		
 		case RenderAPI::API::OpenGL:
-			return new GLVertexBuffer(vertices, size);
+			return  CreateRef<GLVertexBuffer>(size);
 		}
 	}
 
-	IndexBuffer* IndexBuffer::Create(int* indices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	{
+		switch (RenderAPI::GetAPI())
+		{
+		case RenderAPI::API::None:
+			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
+		
+		case RenderAPI::API::OpenGL:
+			return CreateRef<GLVertexBuffer>(vertices, size);
+		}
+	}
+
+	
+	
+	
+	Ref<IndexBuffer> IndexBuffer::Create(int* indices, uint32_t count)
 	{
 		switch (RenderAPI::GetAPI())
 		{
@@ -28,7 +43,7 @@ namespace Soda
 			SD_ENGINE_ASSERT(!nullptr, "No API Selected :/");
 
 		case RenderAPI::API::OpenGL:
-			return new GLIndexBuffer(indices, size);
+			return CreateRef<GLIndexBuffer>(indices, count);
 		}
 	}
 }
