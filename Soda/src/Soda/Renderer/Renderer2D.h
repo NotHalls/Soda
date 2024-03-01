@@ -15,9 +15,12 @@ namespace Soda
         static void Init();
         static void Shutdown();
 
-        // StartScene and StopScene are like the Begin and End of the class
+        // These command handle the batch rendering stuff and default shader uniform stuff
         static void StartScene(const OrthoCamera& camera);
         static void StopScene();
+
+        // this is the draw call we make
+        static void DrawBatch();
 
         // DrawQuad takes a position, size, color, and either the zIndex or a vec3 position
         static void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, int zIndex = 0);

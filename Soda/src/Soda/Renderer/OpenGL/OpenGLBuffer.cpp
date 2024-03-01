@@ -8,8 +8,16 @@
 namespace Soda
 {
 	/*****************************************************************/
-	/* Index Index ***************************************************/
+	/* Vertex Index **************************************************/
 	/*****************************************************************/
+
+	GLVertexBuffer::GLVertexBuffer(uint32_t size)
+	{
+		glCreateBuffers(1, &m_bufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
+
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
 
 	GLVertexBuffer::GLVertexBuffer(float* vertices, uint32_t size)
 	{
@@ -25,6 +33,12 @@ namespace Soda
 	}
 
 
+	void GLVertexBuffer::SetData(void* data, uint32_t dataSize, uint32_t offset)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, dataSize, data);
+	}
+	
 	void GLVertexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
@@ -41,13 +55,14 @@ namespace Soda
 	/* Index Buffer **************************************************/
 	/*****************************************************************/
 
-	GLIndexBuffer::GLIndexBuffer(int* indices, uint32_t size)
-		: m_indexes(size / sizeof(int))
+	GLIndexBuffer::GLIndexBuffer(uint32_t* indices, uint32_t count)
+		: m_indexes(count)
 	{
 		glCreateBuffers(1, &m_bufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferID);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+		// @QUESTION: will this work better with a GL_DYNAMIC_DRAW or GL_STATIC_DRAW?
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 	GLIndexBuffer::~GLIndexBuffer()

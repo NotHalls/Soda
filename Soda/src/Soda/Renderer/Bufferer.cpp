@@ -8,7 +8,7 @@
 
 namespace Soda
 {
-	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+    Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
 	{
 		switch (RenderAPI::GetAPI())
 		{
@@ -35,7 +35,7 @@ namespace Soda
 	
 	
 	
-	Ref<IndexBuffer> IndexBuffer::Create(int* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (RenderAPI::GetAPI())
 		{

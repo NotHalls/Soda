@@ -29,8 +29,9 @@ namespace Soda
 		glViewport(x, y, width, height);
 	}
 
-	void OpenGLRenderer::DrawThis(const Ref<VertexArray>& VA)
+	void OpenGLRenderer::DrawThis(const Ref<VertexArray>& VA, uint32_t indicesCount)
 	{
-		glDrawElements(GL_TRIANGLES, VA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		uint32_t count = (indicesCount == 0) ? VA->GetIndexBuffer()->GetCount() : indicesCount;
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
 }

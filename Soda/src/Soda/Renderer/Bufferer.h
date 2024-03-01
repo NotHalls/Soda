@@ -121,6 +121,8 @@ namespace Soda
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
+		virtual void SetData(void* data, uint32_t dataSize, uint32_t offset = 0) = 0;
+
 		virtual const BufferLoadout& GetLoadout() const = 0;
 		virtual void SetLoadout(const BufferLoadout& loadout) = 0;
 
@@ -132,7 +134,7 @@ namespace Soda
 	class IndexBuffer
 	{
 	public:
-		static Ref<IndexBuffer> Create(int* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

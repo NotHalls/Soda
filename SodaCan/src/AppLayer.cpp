@@ -35,14 +35,15 @@ namespace Soda
         {
             RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
         }
-        
+
         {
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
                 Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxColor);
-                Renderer2D::DrawRotatedQuad({2.0f, 0.0f}, glm::radians(45.0f), { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
+                // Renderer2D::DrawRotatedQuad({2.0f, 0.0f}, glm::radians(45.0f), { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
+                Renderer2D::DrawQuad({2.0f, 0.0f, 0.1f}, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 
-                Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.9f }, { 5.0f, 5.0f }, m_BoxTexture);
+                // Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.9f }, { 5.0f, 5.0f }, m_BoxTexture);
             }
             Renderer2D::StopScene();
         }

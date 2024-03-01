@@ -13,6 +13,6 @@ namespace Soda
 
 		virtual void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
 
-		virtual void DrawThis(const Ref<VertexArray>& VA) override;
+		virtual void DrawThis(const Ref<VertexArray>& VA, uint32_t indicesCount = 0) override;
 	};
 }
