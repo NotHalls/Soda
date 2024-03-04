@@ -43,4 +43,4 @@ namespace Soda
 }
 
 // when you make a Renderer3D, dont forget about
-// std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
+// std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition); // i forgot what this was about

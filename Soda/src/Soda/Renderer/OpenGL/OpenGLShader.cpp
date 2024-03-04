@@ -169,7 +169,11 @@ namespace Soda
     {
         UploadUniformInt(name, value);
     }
-    void OpenGLShader::SetUniformFloat(const std::string& name, float value)
+    void OpenGLShader::SetUniformIntArray(const std::string& name, int* values, uint32_t count)
+    {
+        UploadUniformIntArray(name, values, count);
+    }
+    void OpenGLShader::SetUniformFloat(const std::string &name, float value)
     {
         UploadUniformFloat(name, value);
     }
@@ -210,7 +214,14 @@ namespace Soda
 
         glUniform1i(location, value);
     }
-    void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
+    void OpenGLShader::UploadUniformIntArray(const std::string& name, int* values, uint32_t count)
+    {
+        int location = glGetUniformLocation(m_ShaderID, name.c_str());
+        SD_ENGINE_ASSERT(location != -1, "Uniform {0} doesn't exist!", name);
+
+        glUniform1iv(location, count, values);
+    }
+    void OpenGLShader::UploadUniformFloat(const std::string &name, float value)
     {
         int location = glGetUniformLocation(m_ShaderID, name.c_str());
         SD_ENGINE_ASSERT(location != -1, "Uniform {0} doesn't exist!", name);

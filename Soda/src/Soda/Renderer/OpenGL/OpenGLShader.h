@@ -30,6 +30,7 @@ namespace Soda
         // these are the calls from the shaderer.h file that will call the OpenGL specific functions
         virtual void SetUniformShort(const std::string& name, short value) override;
         virtual void SetUniformInt(const std::string& name, int value) override;
+        virtual void SetUniformIntArray(const std::string& name, int* values, uint32_t count) override;
 		virtual void SetUniformFloat(const std::string& name, float value) override;
 		
 		virtual void SetUniformVec2(const std::string& name, const glm::vec2& value) override;
@@ -43,6 +44,7 @@ namespace Soda
         // these are the OpenGL functions that will upload given data to the GPU
         void UploadUniformShort(const std::string& name, short value);
         void UploadUniformInt(const std::string& name, int value);
+        void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
 		void UploadUniformFloat(const std::string& name, float value);
 
         void UploadUniformVec2(const std::string& name, const glm::vec2& vector);

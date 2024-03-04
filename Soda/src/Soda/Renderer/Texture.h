@@ -27,6 +27,8 @@ namespace Soda
 
 		virtual const std::string& GetFilePath() const = 0;
 		virtual const uint32_t GetTextureID() const = 0;
+
+		virtual const bool operator==(const Textrue& texture) const = 0;
 	};
 
 

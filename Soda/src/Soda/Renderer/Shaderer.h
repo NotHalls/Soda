@@ -15,6 +15,7 @@ namespace Soda
 
 		virtual void SetUniformShort(const std::string& name, short value) = 0;
 		virtual void SetUniformInt(const std::string& name, int value) = 0;
+		virtual void SetUniformIntArray(const std::string& name, int* values, uint32_t count) = 0;
 		virtual void SetUniformFloat(const std::string& name, float value) = 0;
 		
 		virtual void SetUniformVec2(const std::string& name, const glm::vec2& value) = 0;

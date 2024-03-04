@@ -11,6 +11,9 @@ namespace Soda
 	{
 		switch (sdt)
 		{
+		case ShaderDataType::Int:	return GL_INT;
+		case ShaderDataType::Float: return GL_FLOAT;
+
 		case ShaderDataType::IVec2:	return GL_INT;
 		case ShaderDataType::IVec3: return GL_INT;
 		case ShaderDataType::IVec4: return GL_INT;
@@ -23,6 +26,8 @@ namespace Soda
 		case ShaderDataType::Mat3:  return GL_FLOAT;
 		case ShaderDataType::Mat4:  return GL_FLOAT;
 		}
+
+		SD_ENGINE_ASSERT(false, "Unknown ShaderDataType");
 	}
 
 

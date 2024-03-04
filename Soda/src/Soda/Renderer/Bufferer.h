@@ -9,6 +9,8 @@ namespace Soda
 
 	enum class ShaderDataType
 	{
+		Int,	Float,
+
 		IVec2,	Vec2,	Mat2, 
 		IVec3,	Vec3,	Mat3, 
 		IVec4,	Vec4,	Mat4, 
@@ -17,6 +19,9 @@ namespace Soda
 	{
 		switch (sdt)
 		{
+			case ShaderDataType::Int:	return 4;
+			case ShaderDataType::Float:	return 4;
+
 			case ShaderDataType::IVec2:	return 4 * 2;
 			case ShaderDataType::IVec3: return 4 * 3;
 			case ShaderDataType::IVec4: return 4 * 4;
@@ -29,6 +34,8 @@ namespace Soda
 			case ShaderDataType::Mat3:  return 4 * 3 * 3;
 			case ShaderDataType::Mat4:  return 4 * 4 * 4;
 		}
+
+		SD_ENGINE_ASSERT("No Correct ShaderDataType Found");
 	}
 	
 
@@ -51,6 +58,9 @@ namespace Soda
 		{
 			switch(m_type)
 			{
+				case ShaderDataType::Int: 	return 1;
+				case ShaderDataType::Float: return 1;
+
 				case ShaderDataType::IVec2:	return 2;
 				case ShaderDataType::IVec3: return 3;
 				case ShaderDataType::IVec4: return 4;
@@ -63,6 +73,8 @@ namespace Soda
 				case ShaderDataType::Mat3:  return 3 * 3;
 				case ShaderDataType::Mat4:  return 4 * 4;
 			}
+
+			SD_ENGINE_ASSERT("No ShaderDataType Found");
 		}
 	};
 
@@ -121,13 +133,13 @@ namespace Soda
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		virtual void SetData(void* data, uint32_t dataSize, uint32_t offset = 0) = 0;
+		virtual void SetData(const void* data, uint32_t dataSize, uint32_t offset = 0) = 0;
 
 		virtual const BufferLoadout& GetLoadout() const = 0;
 		virtual void SetLoadout(const BufferLoadout& loadout) = 0;
 
 		static Ref<VertexBuffer> Create(uint32_t size);
-		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(const float* vertices, uint32_t size);
 	};
 
 

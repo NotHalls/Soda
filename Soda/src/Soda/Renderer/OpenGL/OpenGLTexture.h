@@ -37,6 +37,11 @@ namespace Soda
 		virtual const uint32_t GetTextureID() const override
 		{ return m_TextureID; }
 
+		virtual const bool operator==(const Textrue& texture) const override
+		{
+			return m_TextureID == ((OpenGLTexture2D&)texture).m_TextureID;
+		}
+
 	private:
 		uint32_t m_Width, m_Height;
 		std::string m_Path;

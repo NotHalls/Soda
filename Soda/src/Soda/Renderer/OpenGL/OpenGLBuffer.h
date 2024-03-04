@@ -9,13 +9,13 @@ namespace Soda
 	{
 	public:
 		GLVertexBuffer(uint32_t size);
-		GLVertexBuffer(float* vertices, uint32_t size);
+		GLVertexBuffer(const float* vertices, uint32_t size);
 		~GLVertexBuffer();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void SetData(void* data, uint32_t dataSize, uint32_t offset) override;
+		virtual void SetData(const void* data, uint32_t dataSize, uint32_t offset = 0) override;
 
 		virtual const BufferLoadout& GetLoadout() const override
 		{ return m_loadout; }

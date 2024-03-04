@@ -22,6 +22,7 @@ namespace Soda
         m_FramebufferInfo.width = 1280;
         m_FramebufferInfo.height = 720;
         m_Framebuffer = Framebuffer::Create(m_FramebufferInfo);
+
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -43,7 +44,7 @@ namespace Soda
                 // Renderer2D::DrawRotatedQuad({2.0f, 0.0f}, glm::radians(45.0f), { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f }, 2);
                 Renderer2D::DrawQuad({2.0f, 0.0f, 0.1f}, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 
-                // Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.9f }, { 5.0f, 5.0f }, m_BoxTexture);
+                Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.9f }, { 5.0f, 5.0f }, m_BoxTexture);
             }
             Renderer2D::StopScene();
         }
@@ -156,5 +157,7 @@ namespace Soda
     }
 
     void SodaCan::OnDetach()
-    {}
+    {
+        Renderer2D::Shutdown();
+    }
 }
