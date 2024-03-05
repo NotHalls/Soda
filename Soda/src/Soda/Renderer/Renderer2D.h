@@ -11,6 +11,27 @@ namespace Soda
     class Renderer2D
     {
     public:
+
+        struct RendererStats
+        {
+            uint32_t noOfDrawCalls = 0;
+            uint32_t noOfQuads = 0;
+            uint32_t noIfTextures = 0;
+
+            // im trying new name "Query"
+            // cuz it seems appropriate for this
+            const uint32_t QueryNoOfTriangles()
+            { return noOfQuads * 2; }
+            const uint32_t QueryNoOfVertices()
+            { return noOfQuads * 4; }
+            const uint32_t QueryNoOfIndices()
+            { return noOfQuads * 6; }
+        };
+      
+        static const RendererStats& GetRendererStats();
+        static void ResetRendererStats();
+
+    public:
         // Init and Shutdown are like the constructor and destructor of the class
         static void Init();
         static void Shutdown();

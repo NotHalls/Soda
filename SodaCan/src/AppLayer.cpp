@@ -130,6 +130,22 @@ namespace Soda
             }
             ImGui::End();
 
+
+            ImGui::Begin("Renderer Stats");
+            {
+                // renderer2D stats
+                Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
+
+                ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
+                ImGui::Text("Quads: %d", stats.noOfQuads);
+                ImGui::Text("");
+				ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());
+				ImGui::Text("Vertices: %d", stats.QueryNoOfVertices());
+				ImGui::Text("Indices: %d", stats.QueryNoOfIndices());
+            }
+            ImGui::End();
+
+
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
             ImGui::Begin("Scene");
             {

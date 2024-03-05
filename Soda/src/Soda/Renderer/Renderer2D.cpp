@@ -1,5 +1,7 @@
 #include "SD_PCH.h"
 
+#include "Soda/_Main/Core.h"
+
 #include "Renderer2D.h"
 #include "Soda/Renderer/Render.h"
 
@@ -42,11 +44,14 @@ namespace Soda
 
     static QuadInfo m_QuadInfo;
 
+    Renderer2D::RendererStats m_RendererStats;
+
+
 
     void Renderer2D::Init()
     {
         m_QuadInfo.m_VA.reset(VertexArray::Create());
-        
+
         // setting up the vertex buffer
         m_QuadInfo.m_VB = VertexBuffer::Create(m_QuadInfo.m_maxVertices * sizeof(QuadVertex));
         m_QuadInfo.m_VB->Bind();
@@ -56,7 +61,7 @@ namespace Soda
             { "a_texCoords", ShaderDataType::Vec2  },
             { "a_texIndex",  ShaderDataType::Float },
             { "a_texScale",  ShaderDataType::Float }
-        });
+            });
         m_QuadInfo.m_VA->AddVertexBuffer(m_QuadInfo.m_VB);
 
         m_QuadInfo.m_QuadVertexStart = new QuadVertex[m_QuadInfo.m_maxVertices];
@@ -65,7 +70,7 @@ namespace Soda
         // setting up the indices
         uint32_t* boxIndices = new uint32_t[m_QuadInfo.m_maxIndices];
         uint32_t offset = 0;
-        for(uint32_t i = 0; i < m_QuadInfo.m_maxIndices; i += 6)
+        for (uint32_t i = 0; i < m_QuadInfo.m_maxIndices; i += 6)
         {
             boxIndices[i + 0] = offset + 0;
             boxIndices[i + 1] = offset + 1;
@@ -89,7 +94,7 @@ namespace Soda
         m_QuadInfo.m_DefaultTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
         int textures[m_QuadInfo.m_maxTextureCount];
-        for(uint32_t i = 0; i < m_QuadInfo.m_maxTextureCount; i++)
+        for (uint32_t i = 0; i < m_QuadInfo.m_maxTextureCount; i++)
         {
             textures[i] = i;
         }
@@ -101,10 +106,10 @@ namespace Soda
 
         m_QuadInfo.m_TextureSlots[0] = m_QuadInfo.m_DefaultTexture;
 
-        m_QuadInfo.m_VertexPositions[0] = {-0.5f, -0.5f, 0.0f, 1.0f};
-        m_QuadInfo.m_VertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f};
-        m_QuadInfo.m_VertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f};
-        m_QuadInfo.m_VertexPositions[3] = {-0.5f,  0.5f, 0.0f, 1.0f};
+        m_QuadInfo.m_VertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+        m_QuadInfo.m_VertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+        m_QuadInfo.m_VertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+        m_QuadInfo.m_VertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
     }
 
     void Renderer2D::Shutdown()
@@ -114,6 +119,10 @@ namespace Soda
     {
         m_QuadInfo.m_Shader->Bind();
         m_QuadInfo.m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
+
+
+        Renderer2D::ResetRendererStats();
+
 
         m_QuadInfo.m_QuadVertexPtr = m_QuadInfo.m_QuadVertexStart;
 
@@ -138,6 +147,10 @@ namespace Soda
         }
     
         RenderCommand::DrawThis(m_QuadInfo.m_VA, m_QuadInfo.m_IndicesCount);
+
+
+        m_RendererStats.noOfDrawCalls++;
+
     }
 
 
@@ -178,6 +191,10 @@ namespace Soda
         m_QuadInfo.m_QuadVertexPtr++;
 
         m_QuadInfo.m_IndicesCount += 6;
+
+
+        m_RendererStats.noOfQuads++;
+
     }
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture)
@@ -231,6 +248,10 @@ namespace Soda
         m_QuadInfo.m_QuadVertexPtr++;
 
         m_QuadInfo.m_IndicesCount += 6;
+        
+
+        m_RendererStats.noOfQuads++;
+
     }
 
 
@@ -277,6 +298,10 @@ namespace Soda
         m_QuadInfo.m_QuadVertexPtr++;
 
         m_QuadInfo.m_IndicesCount += 6;
+
+
+        m_RendererStats.noOfQuads++;
+
     }
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture)
@@ -333,5 +358,18 @@ namespace Soda
         m_QuadInfo.m_QuadVertexPtr++;
 
         m_QuadInfo.m_IndicesCount += 6;
+
+
+        m_RendererStats.noOfQuads++;
+
     }
+    
+
+
+        void Renderer2D::ResetRendererStats()
+        { memset(&m_RendererStats, 0, sizeof(RendererStats)); }
+
+        const Renderer2D::RendererStats& Renderer2D::GetRendererStats()
+		{ return m_RendererStats; }
+
 }
