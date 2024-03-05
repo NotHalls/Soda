@@ -137,6 +137,7 @@ namespace Soda
                 Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
 
                 ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
+                ImGui::Text("Textures: %d", stats.noIfTextures);
                 ImGui::Text("Quads: %d", stats.noOfQuads);
                 ImGui::Text("");
 				ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());

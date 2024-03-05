@@ -23,7 +23,7 @@ namespace Soda
 
     struct QuadInfo
     {
-        const uint32_t m_maxQuads = 10000;
+        const uint32_t m_maxQuads = 2;
         const uint32_t m_maxVertices = m_maxQuads * 4;
         const uint32_t m_maxIndices = m_maxQuads * 6;
         static const uint32_t m_maxTextureCount = 32;
@@ -115,19 +115,22 @@ namespace Soda
     void Renderer2D::Shutdown()
     { }
 
+    void Renderer2D::Setup()
+    {
+        m_QuadInfo.m_QuadVertexPtr = m_QuadInfo.m_QuadVertexStart;
+
+        m_QuadInfo.m_IndicesCount = 0;
+        m_QuadInfo.m_TextureIndex = 1;
+    }
+
     void Renderer2D::StartScene(const OrthoCamera& camera)
     {
         m_QuadInfo.m_Shader->Bind();
         m_QuadInfo.m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
 
-
         Renderer2D::ResetRendererStats();
 
-
-        m_QuadInfo.m_QuadVertexPtr = m_QuadInfo.m_QuadVertexStart;
-
-        m_QuadInfo.m_IndicesCount = 0;
-        m_QuadInfo.m_TextureIndex = 1;
+        Setup();
     }
 
     void Renderer2D::StopScene()
@@ -147,16 +150,18 @@ namespace Soda
         }
     
         RenderCommand::DrawThis(m_QuadInfo.m_VA, m_QuadInfo.m_IndicesCount);
-
-
         m_RendererStats.noOfDrawCalls++;
-
     }
-
 
     // for normal quads (the ones that dont rotate)
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
     {
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
         const float textureIndex = 0.0f;
 
         // we pass through the mem block of each QuadVertex and set their attributes;
@@ -199,6 +204,12 @@ namespace Soda
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
         float textureIndex = 0.0f;
 
         for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)
@@ -215,6 +226,7 @@ namespace Soda
             textureIndex = (float)m_QuadInfo.m_TextureIndex;
             m_QuadInfo.m_TextureSlots[m_QuadInfo.m_TextureIndex] = texture;
             m_QuadInfo.m_TextureIndex++;
+            m_RendererStats.noIfTextures++;
         }
 
 
@@ -258,6 +270,12 @@ namespace Soda
     // for rotated quads //
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color)
     {
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
                               glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
                               glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
@@ -306,6 +324,12 @@ namespace Soda
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
         float textureIndex = 0.0f;
 
         for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)

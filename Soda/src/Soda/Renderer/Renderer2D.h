@@ -40,6 +40,9 @@ namespace Soda
         static void StartScene(const OrthoCamera& camera);
         static void StopScene();
 
+        static void Setup(); // this will setup things like vars and stuff
+        // this func is partly added because we cant call StartScene when we check batch drawing limit
+
         // this is the draw call we make
         static void DrawBatch();
 
