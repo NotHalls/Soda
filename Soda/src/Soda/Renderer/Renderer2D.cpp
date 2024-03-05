@@ -12,7 +12,7 @@ namespace Soda
 {
     struct QuadVertex
     {
-        glm::vec3 position;
+        glm::vec4 position;
         glm::vec4 color;
         glm::vec2 texCoords;
         float texIndex;
@@ -36,6 +36,8 @@ namespace Soda
 
         std::array<Ref<Texture2D>, m_maxTextureCount> m_TextureSlots;
         uint32_t m_TextureIndex = 1;
+
+        glm::vec4 m_VertexPositions[3];
     };
 
     static QuadInfo m_QuadInfo;
@@ -49,7 +51,7 @@ namespace Soda
         m_QuadInfo.m_VB = VertexBuffer::Create(m_QuadInfo.m_maxVertices * sizeof(QuadVertex));
         m_QuadInfo.m_VB->Bind();
         m_QuadInfo.m_VB->SetLoadout({
-            { "a_position",  ShaderDataType::Vec3  },
+            { "a_position",  ShaderDataType::Vec4  },
             { "a_color",     ShaderDataType::Vec4  },
             { "a_texCoords", ShaderDataType::Vec2  },
             { "a_texIndex",  ShaderDataType::Float },
@@ -98,6 +100,11 @@ namespace Soda
 
 
         m_QuadInfo.m_TextureSlots[0] = m_QuadInfo.m_DefaultTexture;
+
+        m_QuadInfo.m_VertexPositions[0] = {-0.5f, -0.5f, 0.0f, 1.0f};
+        m_QuadInfo.m_VertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f};
+        m_QuadInfo.m_VertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f};
+        m_QuadInfo.m_VertexPositions[3] = {-0.5f,  0.5f, 0.0f, 1.0f};
     }
 
     void Renderer2D::Shutdown()
@@ -135,10 +142,6 @@ namespace Soda
 
 
     // for normal quads (the ones that dont rotate)
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, int zIndex)
-    {
-        Renderer2D::DrawQuad({ position.x, position.y, zIndex}, scale, color);
-    }
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
     {
         const float textureIndex = 0.0f;
@@ -146,28 +149,28 @@ namespace Soda
         // we pass through the mem block of each QuadVertex and set their attributes;
         // also texScale doesnt even matter but we are setting it just because
         // we dont wanna multiply the out Color with a random value in the frag shader
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y - scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y - scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = color;
         m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 0.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y - scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y - scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = color;
         m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 0.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex =  textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y + scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y + scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = color;
         m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y + scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y + scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = color;
         m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
@@ -177,10 +180,6 @@ namespace Soda
         m_QuadInfo.m_IndicesCount += 6;
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Ref<Texture2D>& texture, int zIndex)
-    {
-        Renderer2D::DrawQuad({ position.x, position.y, zIndex}, scale, texture);
-    }
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
         float textureIndex = 0.0f;
@@ -203,28 +202,28 @@ namespace Soda
 
 
         // we pass through the mem block of each QuadVertex and set their attributes
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y - scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y - scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
         m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 0.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y - scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y - scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
         m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 0.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y + scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x + scale.x/2, position.y + scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
         m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
         m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
         m_QuadInfo.m_QuadVertexPtr++;
 
-        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y + scale.y/2, position.z};
+        m_QuadInfo.m_QuadVertexPtr->position = {position.x - scale.x/2, position.y + scale.y/2, position.z, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
         m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 1.0f};
         m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
@@ -236,47 +235,103 @@ namespace Soda
 
 
     // for rotated quads //
-    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color, int zIndex)
-    {
-        Renderer2D::DrawRotatedQuad({ position.x, position.y, zIndex }, rotation, scale, color);
-    }
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color)
     {
-        // this will take one extra draw call to bind if we already bound it in the StartScene function.
-        // we will later check for cache memory to see if we need to bind the shader and vertex array.
-        m_QuadInfo.m_Shader->Bind();
-        m_QuadInfo.m_VA->Bind();
-        m_QuadInfo.m_DefaultTexture->Bind();
-
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-                              glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) *
-                              glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
+                              glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
 
-        m_QuadInfo.m_Shader->SetUniformVec4("u_Color", color);
-        m_QuadInfo.m_Shader->SetUniformMat4("u_ModelMat", transform);
-        m_QuadInfo.m_Shader->SetUniformFloat("u_TextureScale", 1.0f);
+        
 
-        RenderCommand::DrawThis(m_QuadInfo.m_VA);
+        const float textureIndex = 0.0f;
+
+        // we pass through the mem block of each QuadVertex and set their attributes;
+        // also texScale doesnt even matter but we are setting it just because
+        // we dont wanna multiply the out Color with a random value in the frag shader
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[0];
+        m_QuadInfo.m_QuadVertexPtr->color = color;
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 0.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[1];
+        m_QuadInfo.m_QuadVertexPtr->color = color;
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 0.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex =  textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[2];
+        m_QuadInfo.m_QuadVertexPtr->color = color;
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 1.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[3];
+        m_QuadInfo.m_QuadVertexPtr->color = color;
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 1.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_IndicesCount += 6;
     }
 
-    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, int zIndex)
-    {
-        Renderer2D::DrawRotatedQuad({ position.x, position.y, zIndex}, rotation, scale, texture);
-    }
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture)
     {
-        m_QuadInfo.m_Shader->Bind();
-        m_QuadInfo.m_VA->Bind();
-        texture->Bind();
+        float textureIndex = 0.0f;
+
+        for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)
+        {
+            if(*m_QuadInfo.m_TextureSlots[i].get() == *texture.get())
+            {
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        if(textureIndex == 0.0f)
+        {
+            textureIndex = (float)m_QuadInfo.m_TextureIndex;
+            m_QuadInfo.m_TextureSlots[m_QuadInfo.m_TextureIndex] = texture;
+            m_QuadInfo.m_TextureIndex++;
+        }
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-                              glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) *
-                              glm::scale(glm::mat4(1.0f), { scale.x, scale.y, 1.0f });
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
+                              glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
 
-        m_QuadInfo.m_Shader->SetUniformMat4("u_ModelMat", transform);
-        m_QuadInfo.m_Shader->SetUniformVec4("u_Color", texture->GetTextureTint());
-        m_QuadInfo.m_Shader->SetUniformFloat("u_TextureScale", texture->GetTextureScale());
+        // we pass through the mem block of each QuadVertex and set their attributes
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[0];
+        m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 0.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+        m_QuadInfo.m_QuadVertexPtr++;
 
-        RenderCommand::DrawThis(m_QuadInfo.m_VA);
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[1];
+        m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 0.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[2];
+        m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {1.0f, 1.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[3];
+        m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+        m_QuadInfo.m_QuadVertexPtr->texCoords = {0.0f, 1.0f};
+        m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+        m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+        m_QuadInfo.m_QuadVertexPtr++;
+
+        m_QuadInfo.m_IndicesCount += 6;
     }
 }

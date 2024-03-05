@@ -1,7 +1,7 @@
 @vertex
 #version 410 core
 			
-layout(location = 0) in vec3  a_position;
+layout(location = 0) in vec4  a_position;
 layout(location = 1) in vec4  a_color;
 layout(location = 2) in vec2  a_texCoord;
 layout(location = 3) in float a_texIndex;
@@ -17,7 +17,7 @@ uniform mat4 u_PVMat;
 
 void main()
 {
-	gl_Position = u_PVMat * vec4(a_position, 1.0);
+	gl_Position = u_PVMat * a_position;
 	
 	v_texCoord = a_texCoord;
 	v_color = a_color;
