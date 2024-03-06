@@ -17,9 +17,7 @@ namespace Soda
         void OnUpdate(Timestep dt) override;
         void OnEvent(Event& event) override;
         void OnImGuiUpdate() override;
-        
-    private:
-        glm::vec2 m_ViewportSize = glm::vec2(0.0f);
+
     private:
         OrthoCameraController m_CameraController;
 
@@ -35,5 +33,30 @@ namespace Soda
         glm::vec2 m_BoxScale = { 1.0f, 1.0f };
         float m_BoxRotation = 0.0f;
         glm::vec4 m_BoxColor = { 0.8f, 0.2f, 0.3f, 1.0f };
+
+        float m_GradFactor = 5.0f;
+
+    private:
+        glm::vec2 m_ViewportSize = glm::vec2(0.0f);
+
+    private:
+        enum Settings : char
+        {
+            None = 0,
+            EnableRendererStats = BIT(0),
+            EnableProfilerStats = BIT(1)
+        };
+        Settings m_DefaultSettings = Settings::None;
+
+        void toggoleSetting(Settings& defaultSetting, Settings settingToToggle)
+        { defaultSetting = static_cast<Settings>(defaultSetting ^ settingToToggle); }
+
+    private:
+        struct Profile
+        {
+            const char* name;
+            float time;
+        };
+        std::vector<Profile> m_Profiles;
     };
 }

@@ -23,7 +23,7 @@ namespace Soda
 
     struct QuadInfo
     {
-        const uint32_t m_maxQuads = 2;
+        const uint32_t m_maxQuads = 10000;
         const uint32_t m_maxVertices = m_maxQuads * 4;
         const uint32_t m_maxIndices = m_maxQuads * 6;
         static const uint32_t m_maxTextureCount = 32;
@@ -127,8 +127,6 @@ namespace Soda
     {
         m_QuadInfo.m_Shader->Bind();
         m_QuadInfo.m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
-
-        Renderer2D::ResetRendererStats();
 
         Setup();
     }

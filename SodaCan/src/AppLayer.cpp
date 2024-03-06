@@ -8,10 +8,42 @@
 #include <glm/gtx/string_cast.hpp>
 
 
+template <typename FN>
+class Profiler
+{
+public:
+    Profiler(const char* name, FN&& fn)
+        : m_name(name), m_fn(fn)
+    { m_StartTime = std::chrono::high_resolution_clock::now(); }
+
+    ~Profiler()
+    {
+        auto endTime = std::chrono::high_resolution_clock::now();
+
+        long long startPoint = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTime).time_since_epoch().count();
+        long long endPoint = std::chrono::time_point_cast<std::chrono::microseconds>(endTime).time_since_epoch().count();
+
+        float duration = (endPoint - startPoint) * 0.001f;
+        m_fn({m_name, duration});
+    }
+
+private:
+    std::chrono::time_point<std::chrono::steady_clock> m_StartTime;
+
+    const char* m_name;
+    FN m_fn;
+};
+
+#define ProfileThis(name) Profiler Profile##__LINE__(name, [&](Profile profile)\
+            {\
+				m_Profiles.push_back(profile);\
+			});
+
+
 namespace Soda
 {
     SodaCan::SodaCan()
-        : Layer("SodaCan"), m_CameraController(1280.0f / 720.0f, true)
+        : Layer("SodaCan"), m_CameraController(1280.0f / 720.0f, false)
     {}
 
     void SodaCan::OnAttach()
@@ -26,17 +58,24 @@ namespace Soda
 
     void SodaCan::OnUpdate(Timestep dt)
     {
+        ProfileThis("OnUpdate")
+
         m_Framebuffer->Bind();
 
         {
+            ProfileThis("Camera_OnUpdate")
             m_CameraController.OnUpdate(dt);
         }
 
         {
+            ProfileThis("Screen Setup")
             RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
+            Renderer2D::ResetRendererStats();
         }
-
+            
         {
+            ProfileThis("Rendering")
+
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
                 Renderer2D::DrawQuad({0.0f, 0.0f, -0.9f}, {10.0f, 10.0f}, m_BoxTexture);
@@ -44,13 +83,23 @@ namespace Soda
                 Renderer2D::DrawQuad({1.0f, 2.0f, 0.0f}, {1.0f, 1.0f}, glm::vec4(1.0f));
 
                 Renderer2D::DrawRotatedQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
-                Renderer2D::DrawRotatedQuad({1.0f, 0.0f, 0.0f}, m_BoxRotation, m_BoxScale, m_BoxTexture);
+            }
+
+
+            // THE STRESSSS TESTTT //
+            for(float x = -5.0f; x <= 5.0f; x += 1.0f)
+            {
+                for(float y = -5.0f; y <= 5.0f; y += 1.0f)
+                {
+                    glm::vec4 gradColor = {(y + m_GradFactor) / (5.0f + m_GradFactor), (x + m_GradFactor) / (5.0f + m_GradFactor), 0.5f, 0.9f};
+                    Renderer2D::DrawQuad({x, y, -0.1f}, glm::vec2(0.45f), gradColor);
+                }
             }
             Renderer2D::StopScene();
-        }
 
-        m_Framebuffer->Unbind();
-    }
+            m_Framebuffer->Unbind();
+        }
+}
 
 
     void SodaCan::OnEvent(Event& event)
@@ -60,7 +109,7 @@ namespace Soda
 
     void SodaCan::OnImGuiUpdate()
     {
-        static bool dockspaceEnabl = true;
+        static bool dockspaceEnable = true;
         static bool opt_fullscreen = true;
         static bool opt_padding = false;
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -96,7 +145,7 @@ namespace Soda
         // any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
         if (!opt_padding)
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin("DockSpace Demo", &dockspaceEnabl, window_flags);
+        ImGui::Begin("DockSpace Demo", &dockspaceEnable, window_flags);
         if (!opt_padding)
             ImGui::PopStyleVar();
 
@@ -119,30 +168,65 @@ namespace Soda
                     App::Get().CloseApp();
                 ImGui::EndMenu();
             }
-            ImGui::EndMenuBar();
+            if(ImGui::BeginMenu("View"))
+            {
+                if(ImGui::MenuItem("Statistics"))
+                    toggoleSetting(m_DefaultSettings, Settings::EnableRendererStats);
+                if(ImGui::MenuItem("Profiler"))
+                    toggoleSetting(m_DefaultSettings, Settings::EnableProfilerStats);
+                ImGui::EndMenu();
+            }
+        ImGui::EndMenuBar();
 
             ImGui::Begin("Stats");
             {
+                ImGui::Text("");
                 ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
                 ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
                 ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
                 ImGui::ColorEdit4("Box Color", &m_BoxColor.x);
-            }
-            ImGui::End();
+                ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
 
+                if(m_DefaultSettings & Settings::EnableRendererStats)
+                {
+                    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    ImGui::Begin("Renderer Stats", nullptr);
+                    {
+                        ImGui::Text("%.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
+                        ImGui::Text("%.1f FPS",ImGui::GetIO().Framerate);
+                        ImGui::Text("");
+                        // renderer2D stats
+                        Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
 
-            ImGui::Begin("Renderer Stats");
-            {
-                // renderer2D stats
-                Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
+                        ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
+                        ImGui::Text("Textures: %d", stats.noIfTextures);
+                        ImGui::Text("Quads: %d", stats.noOfQuads);
+                        ImGui::Spacing();
+                        ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());
+                        ImGui::Text("Vertices: %d", stats.QueryNoOfVertices());
+                        ImGui::Text("Indices: %d", stats.QueryNoOfIndices());
+                    }
+                    ImGui::End();   
+                    ImGui::PopStyleColor();
+                }
 
-                ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
-                ImGui::Text("Textures: %d", stats.noIfTextures);
-                ImGui::Text("Quads: %d", stats.noOfQuads);
-                ImGui::Text("");
-				ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());
-				ImGui::Text("Vertices: %d", stats.QueryNoOfVertices());
-				ImGui::Text("Indices: %d", stats.QueryNoOfIndices());
+                if(m_DefaultSettings & Settings::EnableProfilerStats)
+                {
+                    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    ImGui::Begin("Profiler", nullptr);
+                    {
+                        for(Profile& profile : m_Profiles)
+                        {
+                            char lable[50];
+                            strcpy(lable, profile.name);
+                            strcat(lable, " %.3fms");
+                            ImGui::Text(lable, profile.time);
+                        }
+                        m_Profiles.clear();
+                    }
+                    ImGui::End();
+                    ImGui::PopStyleColor();
+                }
             }
             ImGui::End();
 
@@ -154,7 +238,6 @@ namespace Soda
                 // because we dont wanna check the scene/viewport each frame,
                 // we only wanna do it when we resize.
                 ImVec2 sceneSize = ImGui::GetContentRegionAvail();
-                SD_LOG("x: {0}, y:{1}", sceneSize.x, sceneSize.y);
                 if(m_ViewportSize != *((glm::vec2*)&sceneSize))
                 {
                     m_ViewportSize = {sceneSize.x, sceneSize.y};
