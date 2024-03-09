@@ -4,7 +4,6 @@
 [submodule "Soda/submodules/imgui"]
 	path = Soda/submodules/imgui
 	url = https://github.com/CottonBall74/imgui
-	branch = docking
 [submodule "Soda/submodules/glfw"]
 	path = Soda/submodules/glfw
 	url = https://github.com/CottonBall74/glfw
