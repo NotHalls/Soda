@@ -50,13 +50,5 @@ namespace Soda
 
         void toggoleSetting(Settings& defaultSetting, Settings settingToToggle)
         { defaultSetting = static_cast<Settings>(defaultSetting ^ settingToToggle); }
-
-    private:
-        struct Profile
-        {
-            const char* name;
-            float time;
-        };
-        std::vector<Profile> m_Profiles;
     };
 }

@@ -8,37 +8,6 @@
 #include <glm/gtx/string_cast.hpp>
 
 
-template <typename FN>
-class Profiler
-{
-public:
-    Profiler(const char* name, FN&& fn)
-        : m_name(name), m_fn(fn)
-    { m_StartTime = std::chrono::high_resolution_clock::now(); }
-
-    ~Profiler()
-    {
-        auto endTime = std::chrono::high_resolution_clock::now();
-
-        long long startPoint = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTime).time_since_epoch().count();
-        long long endPoint = std::chrono::time_point_cast<std::chrono::microseconds>(endTime).time_since_epoch().count();
-
-        float duration = (endPoint - startPoint) * 0.001f;
-        m_fn({m_name, duration});
-    }
-
-private:
-    std::chrono::time_point<std::chrono::steady_clock> m_StartTime;
-
-    const char* m_name;
-    FN m_fn;
-};
-
-#define ProfileThis(name) Profiler Profile##__LINE__(name, [&](Profile profile)\
-            {\
-				m_Profiles.push_back(profile);\
-			});
-
 
 namespace Soda
 {
@@ -58,23 +27,23 @@ namespace Soda
 
     void SodaCan::OnUpdate(Timestep dt)
     {
-        ProfileThis("OnUpdate")
+        // ProfileThis("OnUpdate")
 
         m_Framebuffer->Bind();
 
         {
-            ProfileThis("Camera_OnUpdate")
+            // ProfileThis("Camera_OnUpdate")
             m_CameraController.OnUpdate(dt);
         }
 
         {
-            ProfileThis("Screen Setup")
+            // ProfileThis("Screen Setup")
             RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
             Renderer2D::ResetRendererStats();
         }
             
         {
-            ProfileThis("Rendering")
+            // ProfileThis("Rendering")
 
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
@@ -215,18 +184,14 @@ namespace Soda
                     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
                     ImGui::Begin("Profiler", nullptr);
                     {
-                        for(Profile& profile : m_Profiles)
-                        {
-                            char lable[50];
-                            strcpy(lable, profile.name);
-                            strcat(lable, " %.3fms");
-                            ImGui::Text(lable, profile.time);
-                        }
-                        m_Profiles.clear();
+                        // @TODO: Add a ImGui Graph that represents current framerate, and other system stats
+                        ImGui::Text("@TODO: ImGui Graph For Sys-Stats");
                     }
                     ImGui::End();
                     ImGui::PopStyleColor();
                 }
+
+                // @THOUGHT: something that shows the GPU stats maybe..?
             }
             ImGui::End();
 
