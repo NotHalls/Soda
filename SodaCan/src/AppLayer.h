@@ -44,7 +44,7 @@ namespace Soda
         {
             None = 0,
             EnableRendererStats = BIT(0),
-            EnableProfilerStats = BIT(1)
+            ADD_SOMETHING_HERE  = BIT(1) // for future settings
         };
         Settings m_DefaultSettings = Settings::None;
 

@@ -36,9 +36,9 @@ namespace Soda
 
 #ifdef SD_DEBUG
 	#define SD_ENABLE_ASSERTS // enables debug breaking
-	#define SD_ENABLE_RENDERER_STATS // enables showing RENDERER STATS
+	#define SD_ENABLE_PROFILING
 #elif SD_RELEASE
-	#define SD_ENABLE_RENDERER_STATS // enables showing RENDERER STATS
+	#define SD_ENABLE_PROFILING
 #endif
 
 

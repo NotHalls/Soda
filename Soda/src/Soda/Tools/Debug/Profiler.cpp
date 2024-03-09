@@ -15,7 +15,7 @@ namespace Soda
     void VisualProfiler::EndSession()
     {
         WriteFooter();
-        delete[] m_InstrumentProfile;
+        delete m_InstrumentProfile;
         m_InstrumentProfile == nullptr;
         m_OutputFile.close();
 

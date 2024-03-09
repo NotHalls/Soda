@@ -4,6 +4,7 @@
 
 #include "Soda/_Main/Core.h"
 #include "Soda/Tools/Logger.h"
+#include "Soda/Tools/Debug/Profiler.h"
 
 #include <iostream>
 #include <utility>

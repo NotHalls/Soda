@@ -27,23 +27,23 @@ namespace Soda
 
     void SodaCan::OnUpdate(Timestep dt)
     {
-        // ProfileThis("OnUpdate")
+        SD_PROFILE();
 
         m_Framebuffer->Bind();
 
         {
-            // ProfileThis("Camera_OnUpdate")
+            SD_PROFILE_SCOPE("Camera Update")
             m_CameraController.OnUpdate(dt);
         }
 
         {
-            // ProfileThis("Screen Setup")
+            SD_PROFILE_SCOPE("Screen Settings")
             RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
             Renderer2D::ResetRendererStats();
         }
             
         {
-            // ProfileThis("Rendering")
+            SD_PROFILE_SCOPE("Update Functions")
 
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
@@ -142,7 +142,7 @@ namespace Soda
                 if(ImGui::MenuItem("Statistics"))
                     toggoleSetting(m_DefaultSettings, Settings::EnableRendererStats);
                 if(ImGui::MenuItem("Profiler"))
-                    toggoleSetting(m_DefaultSettings, Settings::EnableProfilerStats);
+                    toggoleSetting(m_DefaultSettings, Settings::ADD_SOMETHING_HERE);
                 ImGui::EndMenu();
             }
         ImGui::EndMenuBar();
@@ -178,20 +178,6 @@ namespace Soda
                     ImGui::End();   
                     ImGui::PopStyleColor();
                 }
-
-                if(m_DefaultSettings & Settings::EnableProfilerStats)
-                {
-                    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
-                    ImGui::Begin("Profiler", nullptr);
-                    {
-                        // @TODO: Add a ImGui Graph that represents current framerate, and other system stats
-                        ImGui::Text("@TODO: ImGui Graph For Sys-Stats");
-                    }
-                    ImGui::End();
-                    ImGui::PopStyleColor();
-                }
-
-                // @THOUGHT: something that shows the GPU stats maybe..?
             }
             ImGui::End();
 
