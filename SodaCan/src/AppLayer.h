@@ -29,12 +29,13 @@ namespace Soda
 
         Ref<Framebuffer> m_Framebuffer;
     private:
-        glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.0f };
+        glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.1f };
         glm::vec2 m_BoxScale = { 1.0f, 1.0f };
         float m_BoxRotation = 0.0f;
         glm::vec4 m_BoxColor = { 0.8f, 0.2f, 0.3f, 1.0f };
 
         float m_GradFactor = 5.0f;
+        float m_MulFactor = 1.0f;
 
     private:
         glm::vec2 m_ViewportSize = glm::vec2(0.0f);

@@ -47,21 +47,21 @@ namespace Soda
 
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
-                Renderer2D::DrawQuad({0.0f, 0.0f, -0.9f}, {10.0f, 10.0f}, m_BoxTexture);
+                Renderer2D::DrawQuad({0.0f, 0.0f, -0.6f}, {10.0f, 10.0f}, m_BoxTexture);
 
-                Renderer2D::DrawQuad({1.0f, 2.0f, 0.0f}, {1.0f, 1.0f}, glm::vec4(1.0f));
+                Renderer2D::DrawQuad({1.0f, 2.0f, 0.1f}, {1.0f, 1.0f}, glm::vec4(1.0f));
 
                 Renderer2D::DrawRotatedQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
             }
 
 
             // THE STRESSSS TESTTT //
-            for(float x = -5.0f; x <= 5.0f; x += 1.0f)
+            for(float x = -5.0f; x <= 5.0f; x += m_MulFactor)
             {
-                for(float y = -5.0f; y <= 5.0f; y += 1.0f)
+                for(float y = -5.0f; y <= 5.0f; y += m_MulFactor)
                 {
                     glm::vec4 gradColor = {(y + m_GradFactor) / (5.0f + m_GradFactor), (x + m_GradFactor) / (5.0f + m_GradFactor), 0.5f, 0.9f};
-                    Renderer2D::DrawQuad({x, y, -0.1f}, glm::vec2(0.45f), gradColor);
+                    Renderer2D::DrawQuad({x, y, -0.5f}, glm::vec2(0.45f), gradColor);
                 }
             }
             Renderer2D::StopScene();
@@ -154,7 +154,9 @@ namespace Soda
                 ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
                 ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
                 ImGui::ColorEdit4("Box Color", &m_BoxColor.x);
+                ImGui::Text("");
                 ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
+                ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);
 
                 if(m_DefaultSettings & Settings::EnableRendererStats)
                 {
