@@ -23,28 +23,38 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ## deps
 make sure you have these installed on your computer <br>
-• [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/) (Install The Modules Specified Below)<br>
- &emsp; • Desktop Development With C++ <br>
- &emsp; • Game Development With C++ <br>
+- [cmake](https://cmake.org/download/)
+- [clang](https://github.com/llvm/llvm-project/releases/tag/llvmorg-17.0.1)
+- [ninja](https://github.com/ninja-build/ninja/releases) <br>
+if you are on windows then you can also use [scoop](https://scoop.sh/). <br>
+in case you dont know what scoop is, check it out, its a great tool. <br>
+##### NOTE: make sure you add cmake, clang and ninja to your $SYSTEM_PATH
 
 
+# building
+## cloning the repo
 ```bash
-# clone the repo
-git clone https://github.com/CottonBall74/Soda.git
-
-# update the submodules
-git submodule init
-git submodule update
+# NOTE: Make sure you clone the repo with the --recursive flag
+git clone https://github.com/CottonBall74/Soda.git --recursive
 
 # open the folder
 cd Soda
 
-# run the build script
-Others/premake/premake5.exe <your vs community version (EX: vs2022)>
-
-# few extra steps
-go to Soda/submodules/imgui/backends/imgui_impl_opengl3.cpp <br>
-(be careful, there is a imgui_impl_opengl3.c file that we dont want to edit. The one we want to edit is imgui_impl_opengl3.cpp)
+# update the submodules (just in case)
+git submodule init
+git submodule update
 ```
+## compiling
+```bash
+# if you are on windows
+./scripts/Run.bat
+# if you are on a unix device
+./scripts/Run.sh
+```
+## running the exec
+if everything went well then the exec should be in bin/system-build_type-arch/SodaCan.* (by * i mean whatever the exec file is called in your system .exe .out etc...)<br>
+i suggest not runnig the file yet. <br>
+- first, you should copy the SodaCan.* to a new folder
+- then, you should copy the imgui.ini in SodaCan/ project folder to the folder you put the SodaCan.* in
 
-if you are facing any troubles while installing, you can open an issue or a discussion page
+if you are facing any troubles while installing, you can always open an issue
