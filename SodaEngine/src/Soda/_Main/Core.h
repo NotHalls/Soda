@@ -27,6 +27,11 @@ namespace Soda
 	}
 }
 
+// @FIX ME: when i use camke, the compiler cant figure out where the assets folder is so we spesify it here as ASSETS_FOLDER
+// we dont wanna do that though
+// this is highly temparary
+#define ASSETS_DIR "c:/_dev/projects/Soda/SodaCan/assets/" // make sure to add the '/' at the end
+
 // We use this BIT operation to make checking easier on the compiler without bools to check if an IsEventHappning is true or not
 #define BIT(x) (1 << x)
 

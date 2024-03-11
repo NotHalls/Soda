@@ -99,7 +99,7 @@ namespace Soda
             textures[i] = i;
         }
 
-        m_QuadInfo.m_Shader.reset(Shader::Create("assets/shaders/Shader2D.glsl"));
+        m_QuadInfo.m_Shader.reset(Shader::Create(ASSETS_DIR "shaders/Shader2D.glsl"));
         m_QuadInfo.m_Shader->Bind();
         m_QuadInfo.m_Shader->SetUniformIntArray("u_Textures", textures, m_QuadInfo.m_maxTextureCount);
 

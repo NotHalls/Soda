@@ -18,7 +18,7 @@
 #include <vector>
 
 
-#ifdef SD_PLATFORM_WIN
+#ifdef SD_PLATFORM_WINDOWS
 
 	#include <Windows.h>
 

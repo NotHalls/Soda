@@ -17,7 +17,7 @@ namespace Soda
 
     void SodaCan::OnAttach()
     {
-        m_BoxTexture = Texture2D::Create("assets/textures/Grid.png");
+        m_BoxTexture = Texture2D::Create(ASSETS_DIR "textures/Grid.png");
 
         FramebufferInfo m_FramebufferInfo;
         m_FramebufferInfo.width = 1280;

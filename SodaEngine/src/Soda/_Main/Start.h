@@ -5,7 +5,7 @@
 
 
 // for Windows systems
-#ifdef SD_PLATFORM_WIN
+#ifdef SD_PLATFORM_WINDOWS
 
 extern Soda::App* Soda::CreateApp();
 
