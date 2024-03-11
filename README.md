@@ -31,6 +31,8 @@ in case you dont know what scoop is, check it out, its a great tool. <br>
 ##### NOTE: make sure you add cmake, clang and ninja to your $SYSTEM_PATH
 
 
+# DOESNT SUPPORT LINUX YET #
+
 # building
 ## cloning the repo
 ```bash
