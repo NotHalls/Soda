@@ -3,6 +3,7 @@
 .vscode/
 bin/
 bin-objs/
+build/
 
 #Files-Types
 *.sln

@@ -1,13 +1,13 @@
 [submodule "spdlog"]
-	path = Soda/submodules/spdlog
+	path = SodaEngine/submodules/spdlog
 	url = https://github.com/gabime/spdlog.git
-[submodule "Soda/submodules/imgui"]
-	path = Soda/submodules/imgui
+[submodule "SodaEngine/submodules/imgui"]
+	path = SodaEngine/submodules/imgui
 	url = https://github.com/CottonBall74/imgui
-[submodule "Soda/submodules/glfw"]
-	path = Soda/submodules/glfw
+[submodule "SodaEngine/submodules/glfw"]
+	path = SodaEngine/submodules/glfw
 	url = https://github.com/CottonBall74/glfw
 	branch = latest
-[submodule "Soda/submodules/glm"]
-	path = Soda/submodules/glm
+[submodule "SodaEngine/submodules/glm"]
+	path = SodaEngine/submodules/glm
 	url = https://github.com/g-truc/glm.git
