@@ -1,0 +1,65 @@
+cmake_minimum_required(VERSION 3.10)
+
+
+# files of the Soda project
+file(GLOB_RECURSE SODA_SOURCES "src/*.cpp" "src/*.hpp" "src/*.c" "src/*.h")
+file(GLOB_RECURSE STBI_SOURCES "submodules/stb_image/*.cpp" "submodules/stb_image/*.h")
+file(GLOB_RECURSE GLM_SOURCES "submodules/glm/glm/*.hpp")
+
+
+# creating the static lib
+add_library(SodaEngine STATIC ${SODA_SOURCES} ${STBI_SOURCES} ${GLM_SOURCES})
+
+
+# setting up libraries
+add_subdirectory(submodules/glfw)
+
+# imgui library
+add_library(imgui STATIC
+    submodules/imgui/imconfig.h
+    submodules/imgui/imgui.h
+    submodules/imgui/imgui.cpp
+    submodules/imgui/imgui_draw.cpp
+    submodules/imgui/imgui_internal.h
+    submodules/imgui/imgui_widgets.cpp
+    submodules/imgui/imstb_rectpack.h
+    submodules/imgui/imstb_textedit.h
+    submodules/imgui/imstb_truetype.h
+    submodules/imgui/imgui_demo.cpp
+)
+# adding the include dirs
+target_include_directories(imgui PUBLIC submodules/imgui)
+
+
+# glad library
+add_library(glad STATIC submodules/glad/src/glad.c)
+# setting the include dirs
+target_include_directories(glad PUBLIC submodules/glad/include)
+
+
+target_link_libraries(SodaEngine PRIVATE glad glfw imgui opengl32)
+
+
+# Build specific stuff
+target_compile_definitions(SodaEngine PUBLIC $<$<CONFIG:Debug>:SD_DEBUG>)
+target_compile_definitions(SodaEngine PUBLIC $<$<CONFIG:RELEASE>:SD_RELEASE>)
+target_compile_definitions(SodaEngine PUBLIC $<$<CONFIG:Dist>:SD_DIST>)
+# some other defines
+target_compile_definitions(SodaEngine PUBLIC GLFW_INCLUDE_NONE _CRT_SECURE_NO_WARNINGS)
+
+
+# pre compiled header
+set(PCH_HEADER "src/SD_PCH.h")
+set(PCH_SOURCE "src/SD_PCH.cpp")
+
+target_precompile_headers(SodaEngine PRIVATE ${PCH_HEADER})
+
+
+# specifying the include directories
+include_directories(src)
+include_directories(submodules/glfw/include)
+include_directories(submodules/glad/include)
+include_directories(submodules/imgui)
+include_directories(submodules/spdlog/include)
+include_directories(submodules/glm)
+include_directories(submodules/stb_image)
