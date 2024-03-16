@@ -180,6 +180,7 @@ namespace Soda
                     ImGui::End();   
                     ImGui::PopStyleColor();
                 }
+                // if(m_DefaultSettings & Settings::)
             }
             ImGui::End();
 

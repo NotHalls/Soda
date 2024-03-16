@@ -6,16 +6,13 @@
 
 #include "Soda/Input/Input.h"
 #include "Soda/Input/KeyboardCodes.h"
-#include "Soda/Input/MouseCodes.h"
 
 
 namespace Soda
 {
     OrthoCameraController::OrthoCameraController(float aspectRatio, bool rotation)
         : m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
-    {
-        m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-    }
+    {}
 
     void OrthoCameraController::OnUpdate(float dt)
     {

@@ -25,8 +25,8 @@
 #include "Soda/Renderer/Framebuffer.h"
 
 
-#include "Soda/Light.h"
-#include "Soda/OrthoCameraController.h"
+#include "Soda/Renderer/Light.h"
+#include "Soda/GameAssets/OrthoCameraController.h"
 
 #include "Soda/imgui/ImGuiLayer.h"
 

@@ -48,9 +48,9 @@ namespace Soda
         bool OnMouseScrolled(MouseScrollEvent& msEvent);
         bool OnWindowResized(WindowResizeEvent& wrEvent);
     private:
-        OrthoCamera m_Camera;
         float m_AspectRatio;
         float m_ZoomLevel = 1.0f;
+        OrthoCamera m_Camera;
 
         glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
         float m_CameraTranslationSpeed = 5.0f;
