@@ -67,6 +67,7 @@ namespace Soda
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthBufferID, 0);
 
+        // @FIX: this gets called when the scene viewport is < 0 pixels in width or height
         SD_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "The framebuffer was not created properly");
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

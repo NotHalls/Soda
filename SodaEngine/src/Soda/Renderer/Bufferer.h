@@ -35,7 +35,7 @@ namespace Soda
 			case ShaderDataType::Mat4:  return 4 * 4 * 4;
 		}
 
-		SD_ENGINE_ASSERT("No Correct ShaderDataType Found");
+		// SD_ENGINE_ASSERT("No Correct ShaderDataType Found");
 	}
 	
 
@@ -74,7 +74,7 @@ namespace Soda
 				case ShaderDataType::Mat4:  return 4 * 4;
 			}
 
-			SD_ENGINE_ASSERT("No ShaderDataType Found");
+			// SD_ENGINE_ASSERT("No ShaderDataType Found");
 		}
 	};
 

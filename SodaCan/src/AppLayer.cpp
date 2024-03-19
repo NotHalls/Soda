@@ -1,4 +1,8 @@
 #include "AppLayer.h"
+#include "Soda/ECS/Components.h"
+#include "Soda/ECS/Systems.h"
+#include "Soda/Renderer/Renderer2D.h"
+#include "Soda/_Main/Core.h"
 
 #include <imgui.h>
 
@@ -23,6 +27,12 @@ namespace Soda
         m_FramebufferInfo.width = 1280;
         m_FramebufferInfo.height = 720;
         m_Framebuffer = Framebuffer::Create(m_FramebufferInfo);
+
+        m_Scene = CreateRef<Systems>();
+
+        m_Square = m_Scene->CreateEntity();
+        m_Scene->GetReg().emplace<TransformComponent>(m_Square);
+        m_Scene->GetReg().emplace<SpriteComponent>(m_Square, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -30,6 +40,7 @@ namespace Soda
         SD_PROFILE();
 
         m_Framebuffer->Bind();
+
 
         {
             SD_PROFILE_SCOPE("Camera Update")
@@ -47,22 +58,7 @@ namespace Soda
 
             Renderer2D::StartScene(m_CameraController.GetCamera());
             {
-                Renderer2D::DrawQuad({0.0f, 0.0f, -0.6f}, {10.0f, 10.0f}, m_BoxTexture);
-
-                Renderer2D::DrawQuad({1.0f, 2.0f, 0.1f}, {1.0f, 1.0f}, glm::vec4(1.0f));
-
-                Renderer2D::DrawRotatedQuad(m_BoxPosition, m_BoxRotation, m_BoxScale, m_BoxColor);
-            }
-
-
-            // THE STRESSSS TESTTT //
-            for(float x = -5.0f; x <= 5.0f; x += m_MulFactor)
-            {
-                for(float y = -5.0f; y <= 5.0f; y += m_MulFactor)
-                {
-                    glm::vec4 gradColor = {(y + m_GradFactor) / (5.0f + m_GradFactor), (x + m_GradFactor) / (5.0f + m_GradFactor), 0.5f, 0.9f};
-                    Renderer2D::DrawQuad({x, y, -0.5f}, glm::vec2(0.45f), gradColor);
-                }
+                m_Scene->OnUpdate(dt);
             }
             Renderer2D::StopScene();
 
@@ -153,7 +149,7 @@ namespace Soda
                 ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
                 ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
                 ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
-                ImGui::ColorEdit4("Box Color", &m_BoxColor.x);
+                ImGui::ColorEdit4("Box Color", glm::value_ptr(m_Scene->GetReg().get<SpriteComponent>(m_Square).Color));
                 ImGui::Text("");
                 ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
                 ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);

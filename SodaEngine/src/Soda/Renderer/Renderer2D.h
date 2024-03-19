@@ -3,6 +3,9 @@
 #include "Soda/Renderer/Camera.h"
 #include "Soda/Renderer/Texture.h"
 
+#include "Soda/GameAssets/Object2D.h"
+#include "Soda/_Main/Core.h"
+
 
 namespace Soda
 {
@@ -46,16 +49,24 @@ namespace Soda
         // this is the draw call we make
         static void DrawBatch();
 
+
+        // quads with transforms specified
+        static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
+        static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture);
+
+
         // normal quads that dont rotate
         static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
         static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture);
 
 
         // rotation takes aq lot of shit to calculate, so we are making seperate function for rotated quads
+        // static void DrawRotatedObject(const Ref<Object2D>& object);
         static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color);
         static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture);
     };
 }
 
 // when you make a Renderer3D, dont forget about
-// std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition); // i forgot what this was about
+// EDIT: i forgot what this was about
+// std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformVec3("u_ViewPos", m_SceneData->CameraPosition);
