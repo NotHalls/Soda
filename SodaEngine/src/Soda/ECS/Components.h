@@ -2,6 +2,7 @@
 
 #include "Soda/ECS/Components.h"
 #include "glm/glm.hpp"
+#include <string>
 
 
 namespace Soda
@@ -9,7 +10,7 @@ namespace Soda
     // Global Components
     struct TagComponent
     {
-        std::string Tag = "Object";
+        std::string Tag = "NULL";
 
         TagComponent() = default;
         TagComponent(const TagComponent&) = default;

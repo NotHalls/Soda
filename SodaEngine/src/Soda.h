@@ -27,10 +27,12 @@
 
 #include "Soda/ECS/Systems.h"
 #include "Soda/ECS/Components.h"
+#include "Soda/ECS/Object.h"
 
 
 #include "Soda/Renderer/Light.h"
 #include "Soda/GameAssets/OrthoCameraController.h"
+
 
 #include "Soda/imgui/ImGuiLayer.h"
 

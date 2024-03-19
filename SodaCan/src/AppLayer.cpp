@@ -3,6 +3,7 @@
 #include "Soda/ECS/Systems.h"
 #include "Soda/Renderer/Renderer2D.h"
 #include "Soda/_Main/Core.h"
+#include "imgui_internal.h"
 
 #include <imgui.h>
 
@@ -30,9 +31,9 @@ namespace Soda
 
         m_Scene = CreateRef<Systems>();
 
-        m_Square = m_Scene->CreateEntity();
-        m_Scene->GetReg().emplace<TransformComponent>(m_Square);
-        m_Scene->GetReg().emplace<SpriteComponent>(m_Square, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+        m_Square = m_Scene->CreateObject();
+        m_Square.AddComponent<SpriteComponent>(glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
+        // m_Square.GetComponent<TagComponent>().Tag = "HI";
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -143,16 +144,26 @@ namespace Soda
             }
         ImGui::EndMenuBar();
 
-            ImGui::Begin("Stats");
+            if(m_Square)
             {
-                ImGui::Text("");
-                ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
-                ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
-                ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
-                ImGui::ColorEdit4("Box Color", glm::value_ptr(m_Scene->GetReg().get<SpriteComponent>(m_Square).Color));
-                ImGui::Text("");
-                ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
-                ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);
+                ImGui::Begin("Stats");
+                {
+                    ImGui::Text("");
+                    ImGui::Text("Object Tag: %s", m_Square.GetComponent<TagComponent>().Tag.c_str());
+                    ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
+                    ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
+                    ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
+                    ImGui::ColorEdit4("Box Color", glm::value_ptr(m_Square.GetComponent<SpriteComponent>().Color));
+                    
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+                    
+                    ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
+                    ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);
+                }
+                ImGui::End();
+            }
 
                 if(m_DefaultSettings & Settings::EnableRendererStats)
                 {
@@ -177,8 +188,6 @@ namespace Soda
                     ImGui::PopStyleColor();
                 }
                 // if(m_DefaultSettings & Settings::)
-            }
-            ImGui::End();
 
 
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));

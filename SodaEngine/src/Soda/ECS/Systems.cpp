@@ -1,9 +1,11 @@
 #include "Systems.h"
 
-#include "Soda/Renderer/Renderer2D.h"
 #include "glm/glm.hpp"
 
+#include "Soda/Renderer/Renderer2D.h"
+
 #include "Soda/ECS/Components.h"
+#include "Soda/ECS/Object.h"
 
 
 namespace Soda
@@ -17,5 +19,15 @@ namespace Soda
 
             Renderer2D::DrawQuad(Transform.Transform, Sprite.Color);
         }
+    }
+
+
+    Object Systems::CreateObject()
+    {
+        Object obj = { m_Registry.create(), this };
+        obj.AddComponent<TransformComponent>(glm::mat4(1.0f));
+        obj.AddComponent<TagComponent>("NULL");
+
+        return obj;
     }
 }

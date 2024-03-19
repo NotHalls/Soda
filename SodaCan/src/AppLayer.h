@@ -31,7 +31,7 @@ namespace Soda
         Ref<Framebuffer> m_Framebuffer;
     private:
         Ref<Systems> m_Scene;
-        entt::entity m_Square;
+        Object m_Square;
 
         glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.1f };
         glm::vec2 m_BoxScale = { 1.0f, 1.0f };

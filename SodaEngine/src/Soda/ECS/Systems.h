@@ -8,25 +8,22 @@
 
 namespace Soda
 {
+    class Object;
+
     class Systems
     {
     public:
         Systems() = default;
         ~Systems() = default;
 
-        entt::entity CreateEntity()
-        { return m_Registry.create(); }
-
-
-        // @TEMP
-        entt::registry& GetReg()
-        { return m_Registry; }
-
+        Object CreateObject(); // Object is basicly entity. I just like to call it Object and not Entity
         
         // entity functions
         void OnUpdate(Timestep dt);
 
     private:
         entt::registry m_Registry;
+
+        friend class Object;
     };
 }
