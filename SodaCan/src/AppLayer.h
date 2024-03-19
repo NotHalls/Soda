@@ -2,7 +2,6 @@
 
 #include "Soda.h"
 #include "Soda/ECS/Systems.h"
-#include "Soda/GameAssets/Object2D.h"
 
 
 namespace Soda
@@ -23,7 +22,6 @@ namespace Soda
     private:
         OrthoCameraController m_CameraController;
 
-        Ref<Object2D> m_Grid;
         Ref<Texture2D> m_BoxTexture;
 
         // could make a Object2D class to store all of this data

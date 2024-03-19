@@ -3,7 +3,6 @@
 #include "Soda/Renderer/Camera.h"
 #include "Soda/Renderer/Texture.h"
 
-#include "Soda/GameAssets/Object2D.h"
 #include "Soda/_Main/Core.h"
 
 

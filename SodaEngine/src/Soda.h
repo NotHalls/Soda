@@ -31,7 +31,6 @@
 
 #include "Soda/Renderer/Light.h"
 #include "Soda/GameAssets/OrthoCameraController.h"
-#include "Soda/GameAssets/Object2D.h"
 
 #include "Soda/imgui/ImGuiLayer.h"
 

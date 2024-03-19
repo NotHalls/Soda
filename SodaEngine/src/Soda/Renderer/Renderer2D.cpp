@@ -1,6 +1,5 @@
 #include "SD_PCH.h"
 
-#include "Soda/GameAssets/Object2D.h"
 #include "Soda/_Main/Core.h"
 
 #include "Renderer2D.h"

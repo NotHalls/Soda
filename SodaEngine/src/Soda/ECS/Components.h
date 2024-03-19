@@ -1,10 +1,23 @@
 #pragma once
 
+#include "Soda/ECS/Components.h"
 #include "glm/glm.hpp"
 
 
 namespace Soda
 {
+    // Global Components
+    struct TagComponent
+    {
+        std::string Tag = "Object";
+
+        TagComponent() = default;
+        TagComponent(const TagComponent&) = default;
+        TagComponent(const std::string& tag)
+            : Tag(tag)
+        {}
+    };
+
     struct TransformComponent
     {
         glm::mat4 Transform{1.0f};
@@ -16,6 +29,8 @@ namespace Soda
         {}
     };
 
+
+    // 2D Components
     struct SpriteComponent
     {
         glm::vec4 Color{1.0f, 1.0f, 1.0f, 1.0f};
