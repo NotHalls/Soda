@@ -1,7 +1,6 @@
 #include "SD_PCH.h"
 
-#include "WindowsWindow.h"
-#include "WindowsInput.h"
+#include "GLFWWindow.h"
 
 #include "Soda/Renderer/OpenGL/OpenGLContext.h"
 

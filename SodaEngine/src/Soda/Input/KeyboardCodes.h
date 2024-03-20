@@ -7,11 +7,11 @@
 
 /* Printable keys */
 #define SD_KEY_SPACE              32
-#define SD_KEY_APOSTROPHE         39  /* ' */
-#define SD_KEY_COMMA              44  /* , */
-#define SD_KEY_MINUS              45  /* - */
-#define SD_KEY_PERIOD             46  /* . */
-#define SD_KEY_SLASH              47  /* / */
+#define SD_KEY_APOSTROPHE         39  // '
+#define SD_KEY_COMMA              44  // ,
+#define SD_KEY_MINUS              45  // -
+#define SD_KEY_PERIOD             46  // .
+#define SD_KEY_SLASH              47  // /
 
 #define SD_KEY_0                  48
 #define SD_KEY_1                  49
@@ -24,8 +24,8 @@
 #define SD_KEY_8                  56
 #define SD_KEY_9                  57
 
-#define SD_KEY_SEMICOLON          59  /* ; */
-#define SD_KEY_EQUAL              61  /* = */
+#define SD_KEY_SEMICOLON          59  // ;
+#define SD_KEY_EQUAL              61  // =
 
 #define SD_KEY_A                  65
 #define SD_KEY_B                  66
@@ -54,13 +54,13 @@
 #define SD_KEY_Y                  89
 #define SD_KEY_Z                  90
 
-#define SD_KEY_LEFT_BRACKET       91  /* [ */
-#define SD_KEY_BACKSLASH          92  /* \ */
-#define SD_KEY_RIGHT_BRACKET      93  /* ] */
-#define SD_KEY_GRAVE_ACCENT       96  /* ` */
+#define SD_KEY_LEFT_BRACKET       91  // [
+#define SD_KEY_BACKSLASH          92  // \
+#define SD_KEY_RIGHT_BRACKET      93  // ]
+#define SD_KEY_GRAVE_ACCENT       96  // `
 
-#define SD_KEY_WORLD_1            161 /* non-US #1 */
-#define SD_KEY_WORLD_2            162 /* non-US #2 */
+#define SD_KEY_WORLD_1            161 // non-US #1
+#define SD_KEY_WORLD_2            162 // non-US #2
 
 
 /* Function keys */

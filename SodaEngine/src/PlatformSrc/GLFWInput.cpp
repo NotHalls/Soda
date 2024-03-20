@@ -1,6 +1,6 @@
 #include "SD_PCH.h"
 
-#include "WindowsInput.h"
+#include "Soda/Input/Input.h"
 
 #include "Soda/_Main/App.h"
 
@@ -9,9 +9,7 @@
 
 namespace Soda
 {
-	Input* Input::s_Input = new WindowsInput();
-
-	bool WindowsInput::IsKeyPressedImpl(int keycode)
+	bool Input::IsKeyPressed(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(App::Get().App::GetWindow().GetTheWindow());
 
@@ -20,7 +18,7 @@ namespace Soda
 	}
 
 
-	bool WindowsInput::IsMouseClickedImpl(int button)
+	bool Input::IsMouseClicked(int button)
 	{
 		auto window = static_cast<GLFWwindow*>(App::Get().App::GetWindow().GetTheWindow());
 
@@ -28,7 +26,7 @@ namespace Soda
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePosImpl()
+	std::pair<float, float> Input::GetMousePos()
 	{
 		auto window = static_cast<GLFWwindow*>(App::Get().App::GetWindow().GetTheWindow());
 
