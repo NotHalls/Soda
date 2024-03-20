@@ -45,6 +45,8 @@ namespace Soda
         glm::vec2 m_ViewportSize = glm::vec2(0.0f);
 
     private:
+        bool m_IsPanelFocused = false;
+
         enum Settings : char
         {
             None = 0,

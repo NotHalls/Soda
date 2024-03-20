@@ -38,34 +38,26 @@ namespace Soda
 
     void SodaCan::OnUpdate(Timestep dt)
     {
-        SD_PROFILE();
-
         m_Framebuffer->Bind();
 
-
-        {
-            SD_PROFILE_SCOPE("Camera Update")
+        // @TODO: The zoom still works when not focused
+        if(m_IsPanelFocused)
             m_CameraController.OnUpdate(dt);
-        }
 
-        {
-            SD_PROFILE_SCOPE("Screen Settings")
-            RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
-            Renderer2D::ResetRendererStats();
-        }
+        RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
+        Renderer2D::ResetRendererStats();
             
+
+        // Render Loop
+        Renderer2D::StartScene(m_CameraController.GetCamera());
         {
-            SD_PROFILE_SCOPE("Update Functions")
-
-            Renderer2D::StartScene(m_CameraController.GetCamera());
-            {
-                m_Scene->OnUpdate(dt);
-            }
-            Renderer2D::StopScene();
-
-            m_Framebuffer->Unbind();
+            m_Scene->OnUpdate(dt);
         }
-}
+        Renderer2D::StopScene();
+
+
+        m_Framebuffer->Unbind();
+    }
 
 
     void SodaCan::OnEvent(Event& event)
@@ -146,7 +138,7 @@ namespace Soda
 
             if(m_Square)
             {
-                ImGui::Begin("Stats");
+                ImGui::Begin("Properties");
                 {
                     ImGui::Text("");
                     ImGui::Text("Object Tag: %s", m_Square.GetComponent<TagComponent>().Tag.c_str());
@@ -165,34 +157,38 @@ namespace Soda
                 ImGui::End();
             }
 
-                if(m_DefaultSettings & Settings::EnableRendererStats)
+            if(m_DefaultSettings & Settings::EnableRendererStats)
+            {
+                ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
+                ImGui::Begin("Renderer Stats", nullptr);
                 {
-                    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
-                    ImGui::Begin("Renderer Stats", nullptr);
-                    {
-                        ImGui::Text("%.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
-                        ImGui::Text("%.1f FPS",ImGui::GetIO().Framerate);
-                        ImGui::Text("");
-                        // renderer2D stats
-                        Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
+                    ImGui::Text("%.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
+                    ImGui::Text("%.1f FPS",ImGui::GetIO().Framerate);
+                    ImGui::Text("");
+                    // renderer2D stats
+                    Renderer2D::RendererStats stats = Renderer2D::GetRendererStats();
 
-                        ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
-                        ImGui::Text("Textures: %d", stats.noIfTextures);
-                        ImGui::Text("Quads: %d", stats.noOfQuads);
-                        ImGui::Spacing();
-                        ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());
-                        ImGui::Text("Vertices: %d", stats.QueryNoOfVertices());
-                        ImGui::Text("Indices: %d", stats.QueryNoOfIndices());
-                    }
-                    ImGui::End();   
-                    ImGui::PopStyleColor();
+                    ImGui::Text("Draw Calls: %d", stats.noOfDrawCalls);
+                    ImGui::Text("Textures: %d", stats.noIfTextures);
+                    ImGui::Text("Quads: %d", stats.noOfQuads);
+                    ImGui::Spacing();
+                    ImGui::Text("Triangles: %d", stats.QueryNoOfTriangles());
+                    ImGui::Text("Vertices: %d", stats.QueryNoOfVertices());
+                    ImGui::Text("Indices: %d", stats.QueryNoOfIndices());
                 }
-                // if(m_DefaultSettings & Settings::)
+                ImGui::End();   
+                ImGui::PopStyleColor();
+            }
+            // if(m_DefaultSettings & Settings::)
 
 
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
             ImGui::Begin("Scene");
             {
+                // Checks is the panel is Focused
+                // @TODO: The Inputs should be consumed by the ImGui Panel and not the mani window.
+                m_IsPanelFocused = ImGui::IsWindowFocused();
+
                 // put this inside a OnWindowResize Callback somehow
                 // because we dont wanna check the scene/viewport each frame,
                 // we only wanna do it when we resize.
