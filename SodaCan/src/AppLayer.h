@@ -46,6 +46,7 @@ namespace Soda
 
     private:
         bool m_IsPanelFocused = false;
+        bool m_IsPanelHovered = false;
 
         enum Settings : char
         {

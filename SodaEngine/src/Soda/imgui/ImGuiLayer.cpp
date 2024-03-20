@@ -2,6 +2,7 @@
 
 #include "ImGuiLayer.h"
 
+#include "Soda/Events/Events.h"
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -65,6 +66,16 @@ namespace Soda
 		ImGui_ImplGlfw_Shutdown();
 
 		ImGui::DestroyContext();
+	}
+
+	void ImGuiLayer::OnEvent(Event& event)
+	{
+		if(m_ConsumeEvents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			event.m_Handled |= event.IsInCategory(EventCategory_Mouse) & io.WantCaptureMouse;
+			event.m_Handled |= event.IsInCategory(EventCategory_Keyboard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::Begin()

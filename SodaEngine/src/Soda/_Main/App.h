@@ -31,6 +31,9 @@ namespace Soda
 		inline SodaWindow& GetWindow()
 		{ return *m_MainWindow; }
 
+		inline ImGuiLayer* GetImGuiLayer()
+		{ return m_imguiLayer; }
+
 		inline static App& Get()
 		{ return *m_app; }
 

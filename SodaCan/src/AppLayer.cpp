@@ -2,6 +2,7 @@
 #include "Soda/ECS/Components.h"
 #include "Soda/ECS/Systems.h"
 #include "Soda/Renderer/Renderer2D.h"
+#include "Soda/_Main/App.h"
 #include "Soda/_Main/Core.h"
 #include "imgui_internal.h"
 
@@ -41,7 +42,7 @@ namespace Soda
         m_Framebuffer->Bind();
 
         // @TODO: The zoom still works when not focused
-        if(m_IsPanelFocused)
+        if(m_IsPanelHovered)
             m_CameraController.OnUpdate(dt);
 
         RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -188,6 +189,9 @@ namespace Soda
                 // Checks is the panel is Focused
                 // @TODO: The Inputs should be consumed by the ImGui Panel and not the mani window.
                 m_IsPanelFocused = ImGui::IsWindowFocused();
+                m_IsPanelHovered = ImGui::IsWindowHovered();
+
+                App::Get().GetImGuiLayer()->ShouldConsumeEvents(!m_IsPanelHovered);
 
                 // put this inside a OnWindowResize Callback somehow
                 // because we dont wanna check the scene/viewport each frame,
