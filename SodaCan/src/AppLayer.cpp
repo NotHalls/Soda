@@ -2,9 +2,9 @@
 #include "Soda/ECS/Components.h"
 #include "Soda/ECS/Systems.h"
 #include "Soda/Renderer/Renderer2D.h"
+#include "Soda/Tools/SpriteSheet.h"
 #include "Soda/_Main/App.h"
 #include "Soda/_Main/Core.h"
-#include "imgui_internal.h"
 
 #include <imgui.h>
 
@@ -24,6 +24,9 @@ namespace Soda
     void SodaCan::OnAttach()
     {
         m_BoxTexture = Texture2D::Create(ASSETS_DIR "textures/Grid.png");
+        m_TilesSpriteSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/spritesheet_tiles.png");
+
+        m_IronTex = SpriteSheet::TextureFromSheet(m_TilesSpriteSheet, {0, 0}, {128, 128});
 
         FramebufferInfo m_FramebufferInfo;
         m_FramebufferInfo.width = 1280;
@@ -52,7 +55,9 @@ namespace Soda
         // Render Loop
         Renderer2D::StartScene(m_CameraController.GetCamera());
         {
-            m_Scene->OnUpdate(dt);
+            // m_Scene->OnUpdate(dt);
+            Renderer2D::DrawQuad({0.0f, 0.0f, -0.9f}, {10.0f, 10.0f}, m_BoxTexture);
+            Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxColor);
         }
         Renderer2D::StopScene();
 

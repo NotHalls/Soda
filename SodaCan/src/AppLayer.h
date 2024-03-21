@@ -2,6 +2,8 @@
 
 #include "Soda.h"
 #include "Soda/ECS/Systems.h"
+#include "Soda/Renderer/Texture.h"
+#include "Soda/Tools/SpriteSheet.h"
 
 
 namespace Soda
@@ -21,15 +23,18 @@ namespace Soda
 
     private:
         OrthoCameraController m_CameraController;
-
+        Ref<Framebuffer> m_Framebuffer;
+    private:
+        Ref<Texture2D> m_TilesSpriteSheet;
         Ref<Texture2D> m_BoxTexture;
+
+        Ref<SpriteSheet> m_IronTex;
 
         // could make a Object2D class to store all of this data
         Ref<VertexArray> m_BoxVA;
         Ref<Shader> m_Shader2D;
 
-        Ref<Framebuffer> m_Framebuffer;
-    private:
+
         Ref<Systems> m_Scene;
         Object m_Square;
 
