@@ -7,7 +7,7 @@
 
 namespace Soda
 {
-    SpriteSheet::SpriteSheet(const Ref<Texture2D>& texture, const glm::vec2& start, const glm::vec2& end)
+    SpriteSheetTexture::SpriteSheetTexture(const Ref<Texture2D>& texture, const glm::vec2& start, const glm::vec2& end)
     // we can imagine start as 0, 0 and end as 1, 1
         : m_Texture(texture)
     {
@@ -18,12 +18,12 @@ namespace Soda
     }
 
 
-    Ref<SpriteSheet> SpriteSheet::TextureFromSheet(const Ref<Texture2D>& texture, const glm::vec2& coords, const glm::vec2& spriteSize)
+    Ref<SpriteSheetTexture> SpriteSheetTexture::TextureFromSheet(const Ref<Texture2D>& texture, const glm::vec2& coords, const glm::vec2& spriteSize)
     {
         // start is like 0, 0 and end is like 1, 1
         glm::vec2 start = {(coords.x * spriteSize.x) / texture->GetWidth(), (coords.y * spriteSize.y) / texture->GetHeight()};
         glm::vec2 end = {((coords.x * spriteSize.x) + spriteSize.x) / texture->GetWidth(), ((coords.y * spriteSize.y) + spriteSize.y) / texture->GetHeight()};
 
-        return CreateRef<SpriteSheet>(texture, start, end);
+        return CreateRef<SpriteSheetTexture>(texture, start, end);
     }
 }

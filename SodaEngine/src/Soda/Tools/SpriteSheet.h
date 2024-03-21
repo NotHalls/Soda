@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Soda/Tools/SpriteSheet.h"
 #include "glm/glm.hpp"
 
 #include "Soda/Renderer/Texture.h"
@@ -8,11 +9,11 @@
 
 namespace Soda
 {
-    class SpriteSheet
+    class SpriteSheetTexture
     {
     public:
-        SpriteSheet(const Ref<Texture2D>& texture, const glm::vec2& textureCoords, const glm::vec2& spriteSize);
-        static Ref<SpriteSheet> TextureFromSheet(const Ref<Texture2D>& texture, const glm::vec2& coords, const glm::vec2& spriteSize);
+        SpriteSheetTexture(const Ref<Texture2D>& texture, const glm::vec2& textureCoords, const glm::vec2& spriteSize);
+        static Ref<SpriteSheetTexture> TextureFromSheet(const Ref<Texture2D>& texture, const glm::vec2& coords, const glm::vec2& spriteSize);
 
 
         const Ref<Texture2D>& GetTexture()

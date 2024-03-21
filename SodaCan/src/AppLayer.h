@@ -28,7 +28,7 @@ namespace Soda
         Ref<Texture2D> m_TilesSpriteSheet;
         Ref<Texture2D> m_BoxTexture;
 
-        Ref<SpriteSheet> m_IronTex;
+        Ref<SpriteSheetTexture> m_IronTex;
 
         // could make a Object2D class to store all of this data
         Ref<VertexArray> m_BoxVA;

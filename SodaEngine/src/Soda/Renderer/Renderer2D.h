@@ -3,6 +3,7 @@
 #include "Soda/Renderer/Camera.h"
 #include "Soda/Renderer/Texture.h"
 
+#include "Soda/Tools/SpriteSheet.h"
 #include "Soda/_Main/Core.h"
 
 
@@ -57,12 +58,14 @@ namespace Soda
         // normal quads that dont rotate
         static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color);
         static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture);
+        static void DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture);
 
 
         // rotation takes aq lot of shit to calculate, so we are making seperate function for rotated quads
         // static void DrawRotatedObject(const Ref<Object2D>& object);
         static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const glm::vec4& color);
         static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture);
+        static void DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture);
     };
 }
 

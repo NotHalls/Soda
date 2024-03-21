@@ -152,6 +152,56 @@ namespace Soda
     }
 
 
+    
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture)
+    {
+        Ref<Texture2D> texture = spriteSheetTexture->GetTexture();
+        const glm::vec2* texCoords = spriteSheetTexture->GetSpriteCoords();
+
+
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
+        float textureIndex = 0.0f;
+
+        for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)
+        {
+            if(*m_QuadInfo.m_TextureSlots[i].get() == *texture.get())
+            {
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        if(textureIndex == 0.0f)
+        {
+            textureIndex = (float)m_QuadInfo.m_TextureIndex;
+            m_QuadInfo.m_TextureSlots[m_QuadInfo.m_TextureIndex] = texture;
+            m_QuadInfo.m_TextureIndex++;
+        }
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                    glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
+
+        // we pass through the mem block of each QuadVertex and set their attributes
+        for(int i = 0; i < 4; i++)
+        {
+            m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[i];
+            m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+            m_QuadInfo.m_QuadVertexPtr->texCoords = texCoords[i];
+            m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+            m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+            m_QuadInfo.m_QuadVertexPtr++;
+        }
+
+        m_QuadInfo.m_IndicesCount += 6;
+        m_RendererStats.noOfQuads++;
+    }
+
+
     // for normal quads (the ones that dont rotate)
     void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
     {
@@ -178,11 +228,8 @@ namespace Soda
             m_QuadInfo.m_QuadVertexPtr->textureScale = 1.0f;
             m_QuadInfo.m_QuadVertexPtr++;
         }
-
-
+    
         m_QuadInfo.m_IndicesCount += 6;
-
-
         m_RendererStats.noOfQuads++;
     }
 
@@ -226,10 +273,9 @@ namespace Soda
         }
 
         m_QuadInfo.m_IndicesCount += 6;
-
-
         m_RendererStats.noOfQuads++;
     }
+
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
     {
