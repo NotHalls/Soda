@@ -20,16 +20,6 @@ namespace Soda
 		virtual unsigned int GetHeight() const override
 		{ return m_Height; }
 
-		virtual const float GetTextureScale() const override
-		{ return m_TextureScale; }
-		virtual const void SetTextureScale(const float texScale) override
-		{ m_TextureScale = texScale; }
-
-		virtual const glm::vec4& GetTextureTint() const override
-		{ return m_TextureTint; }
-		virtual const void SetTextureTint(const glm::vec4& tint) override
-		{ m_TextureTint = tint; }
-
 		virtual void SetData(void* data, uint32_t size) override;
 
 		virtual const std::string& GetFilePath() const override
@@ -46,9 +36,6 @@ namespace Soda
 		uint32_t m_Width, m_Height;
 		std::string m_Path;
 		uint32_t m_TextureID;
-
-		float m_TextureScale;
-		glm::vec4 m_TextureTint;
 
 		int m_DataFormat, m_InternalFormat;
 	};

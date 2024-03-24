@@ -2,6 +2,7 @@
 #include "Soda/ECS/Components.h"
 #include "Soda/ECS/Systems.h"
 #include "Soda/Renderer/Renderer2D.h"
+#include "Soda/Renderer/Texture.h"
 #include "Soda/Tools/SpriteSheet.h"
 #include "Soda/_Main/App.h"
 #include "Soda/_Main/Core.h"
@@ -25,8 +26,12 @@ namespace Soda
     {
         m_BoxTexture = Texture2D::Create(ASSETS_DIR "textures/Grid.png");
         m_TilesSpriteSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/spritesheet_tiles.png");
+        // m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/miniSpriteSheet.png");
+        m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "textures/WoodenContainer_diff.png");
 
-        m_IronTex = SpriteSheetTexture::TextureFromSheet(m_TilesSpriteSheet, {2, 9}, {128, 128});
+        m_DirtTex = SpriteSheetTexture::TextureFromSheet(m_TilesSpriteSheet, {2, 9}, {128, 128});
+
+        m_miniDirt = SpriteSheetTexture::TextureFromSheet(m_MiniTileSheet, {0, 0}, {16, 16});
 
         FramebufferInfo m_FramebufferInfo;
         m_FramebufferInfo.width = 1280;
@@ -35,9 +40,11 @@ namespace Soda
 
         m_Scene = CreateRef<Systems>();
 
-        m_Square = m_Scene->CreateObject();
-        m_Square.AddComponent<SpriteComponent>(glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
-        // m_Square.GetComponent<TagComponent>().Tag = "HI";
+        m_Square = m_Scene->CreateObject("Square");
+        m_Square.AddComponent<SpriteComponent>(glm::vec4(0.5f, 1.0f, 1.0f, 1.0f), m_BoxTexture);
+        
+        m_Obj = m_Scene->CreateObject("Obj");
+        m_Obj.AddComponent<SpriteComponent>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, m_MiniTileSheet);
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -56,8 +63,11 @@ namespace Soda
         Renderer2D::StartScene(m_CameraController.GetCamera());
         {
             // m_Scene->OnUpdate(dt);
-            Renderer2D::DrawQuad({0.0f, 0.0f, -0.9f}, {10.0f, 10.0f}, m_BoxTexture);
-            Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_IronTex);
+
+            // Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_miniDirt, m_BoxColor);
+
+            Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxTexture, m_BoxColor);
+            Renderer2D::DrawQuad(m_BoxPosition + glm::vec3(1.0f, 0.0f, 0.0f), m_BoxScale, m_MiniTileSheet, m_BoxColor);
         }
         Renderer2D::StopScene();
 
@@ -147,7 +157,7 @@ namespace Soda
                 ImGui::Begin("Properties");
                 {
                     ImGui::Text("");
-                    ImGui::Text("Object Tag: %s", m_Square.GetComponent<TagComponent>().Tag.c_str());
+                    ImGui::Text("Object Name: %s", m_Square.GetComponent<NameComponent>().Name.c_str());
                     ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
                     ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
                     ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);

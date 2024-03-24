@@ -17,12 +17,6 @@ namespace Soda
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
 
-		virtual const float GetTextureScale() const = 0;
-		virtual const void SetTextureScale(const float texScale) = 0;
-
-		virtual const glm::vec4& GetTextureTint() const = 0;
-		virtual const void SetTextureTint(const glm::vec4& tint) = 0;
-
 		virtual void SetData(void* data, uint32_t size) = 0;
 
 		virtual const std::string& GetFilePath() const = 0;

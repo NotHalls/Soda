@@ -1,5 +1,8 @@
 #include "SD_PCH.h"
 
+#include "Soda/ECS/Components.h"
+#include "Soda/ECS/Object.h"
+#include "Soda/Tools/SpriteSheet.h"
 #include "Soda/_Main/Core.h"
 
 #include "Renderer2D.h"
@@ -152,57 +155,7 @@ namespace Soda
     }
 
 
-    
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture)
-    {
-        Ref<Texture2D> texture = spriteSheetTexture->GetTexture();
-        const glm::vec2* texCoords = spriteSheetTexture->GetSpriteCoords();
-
-
-        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
-        {
-            StopScene();
-            Setup();
-        }
-
-        float textureIndex = 0.0f;
-
-        for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)
-        {
-            if(*m_QuadInfo.m_TextureSlots[i].get() == *texture.get())
-            {
-                textureIndex = (float)i;
-                break;
-            }
-        }
-
-        if(textureIndex == 0.0f)
-        {
-            textureIndex = (float)m_QuadInfo.m_TextureIndex;
-            m_QuadInfo.m_TextureSlots[m_QuadInfo.m_TextureIndex] = texture;
-            m_QuadInfo.m_TextureIndex++;
-        }
-
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-                    glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
-
-        // we pass through the mem block of each QuadVertex and set their attributes
-        for(int i = 0; i < 4; i++)
-        {
-            m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[i];
-            m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
-            m_QuadInfo.m_QuadVertexPtr->texCoords = texCoords[i];
-            m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
-            m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
-            m_QuadInfo.m_QuadVertexPtr++;
-        }
-
-        m_QuadInfo.m_IndicesCount += 6;
-        m_RendererStats.noOfQuads++;
-    }
-
-
-    // for normal quads (the ones that dont rotate)
+    // draw the quads with matrices
     void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
     {
         if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
@@ -233,7 +186,7 @@ namespace Soda
         m_RendererStats.noOfQuads++;
     }
 
-    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture)
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, float texScale)
     {
         if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
         {
@@ -265,10 +218,54 @@ namespace Soda
         for(int i = 0; i < 4; i++)
         {
             m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[i];
-            m_QuadInfo.m_QuadVertexPtr->color = texture->GetTextureTint();
+            m_QuadInfo.m_QuadVertexPtr->color = color;
             m_QuadInfo.m_QuadVertexPtr->texCoords = texCoords[i];
             m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
-            m_QuadInfo.m_QuadVertexPtr->textureScale = texture->GetTextureScale();
+            m_QuadInfo.m_QuadVertexPtr->textureScale = texScale;
+            m_QuadInfo.m_QuadVertexPtr++;
+        }
+
+        m_QuadInfo.m_IndicesCount += 6;
+        m_RendererStats.noOfQuads++;
+    }
+
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SpriteSheetTexture>& spriteSheetTexture, const glm::vec4& color, float texScale)
+    {
+        Ref<Texture2D> texture = spriteSheetTexture->GetTexture();
+        const glm::vec2* texCoords = spriteSheetTexture->GetSpriteCoords();
+
+        if(m_QuadInfo.m_IndicesCount >= m_QuadInfo.m_maxIndices)
+        {
+            StopScene();
+            Setup();
+        }
+
+        float textureIndex = 0.0f;
+
+        for(uint32_t i = 1; i < m_QuadInfo.m_TextureIndex; i++)
+        {
+            if(*m_QuadInfo.m_TextureSlots[i].get() == *texture.get())
+            {
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        if(textureIndex == 0.0f)
+        {
+            textureIndex = (float)m_QuadInfo.m_TextureIndex;
+            m_QuadInfo.m_TextureSlots[m_QuadInfo.m_TextureIndex] = texture;
+            m_QuadInfo.m_TextureIndex++;
+        }
+
+        // we pass through the mem block of each QuadVertex and set their attributes
+        for(int i = 0; i < 4; i++)
+        {
+            m_QuadInfo.m_QuadVertexPtr->position = transform * m_QuadInfo.m_VertexPositions[i];
+            m_QuadInfo.m_QuadVertexPtr->color = color;
+            m_QuadInfo.m_QuadVertexPtr->texCoords = texCoords[i];
+            m_QuadInfo.m_QuadVertexPtr->texIndex = textureIndex;
+            m_QuadInfo.m_QuadVertexPtr->textureScale = texScale;
             m_QuadInfo.m_QuadVertexPtr++;
         }
 
@@ -277,6 +274,7 @@ namespace Soda
     }
 
 
+    // for normal quads (the ones that dont rotate)
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
@@ -285,12 +283,20 @@ namespace Soda
         DrawQuad(transform, color);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& color, float texScale)
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
                     glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
 
-        DrawQuad(transform, texture);
+        DrawQuad(transform, texture, color, texScale);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture, const glm::vec4& color, float texScale)
+    {
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
+
+        DrawQuad(transform, spriteSheetTexture, color, texScale);
     }
 
 
@@ -304,21 +310,29 @@ namespace Soda
         DrawQuad(transform, color);
     }
 
-    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture)
+    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<Texture2D>& texture, const glm::vec4& color, float texScale)
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
                               glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
                               glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
 
-        DrawQuad(transform, texture);
+        DrawQuad(transform, texture, color, texScale);
     }
-    
+
+    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const float& rotation, const glm::vec2& scale, const Ref<SpriteSheetTexture>& spriteSheetTexture, const glm::vec4& color, float texScale)
+    {
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
+                              glm::scale(glm::mat4(1.0f), {scale.x, scale.y, 1.0f});
+
+        DrawQuad(transform, spriteSheetTexture, color, texScale);  
+    }
 
 
-        void Renderer2D::ResetRendererStats()
-        { memset(&m_RendererStats, 0, sizeof(RendererStats)); }
+    void Renderer2D::ResetRendererStats()
+    { memset(&m_RendererStats, 0, sizeof(RendererStats)); }
 
-        const Renderer2D::RendererStats& Renderer2D::GetRendererStats()
-		{ return m_RendererStats; }
+    const Renderer2D::RendererStats& Renderer2D::GetRendererStats()
+    { return m_RendererStats; }
 
 }

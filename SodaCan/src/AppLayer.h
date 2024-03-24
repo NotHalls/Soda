@@ -26,9 +26,14 @@ namespace Soda
         Ref<Framebuffer> m_Framebuffer;
     private:
         Ref<Texture2D> m_TilesSpriteSheet;
+        Ref<Texture2D> m_MiniTileSheet;
         Ref<Texture2D> m_BoxTexture;
 
-        Ref<SpriteSheetTexture> m_IronTex;
+        Ref<SpriteSheetTexture> m_DirtTex;
+        Ref<SpriteSheetTexture> m_DirtWithGrass;
+
+        Ref<SpriteSheetTexture> m_miniDirt;
+        Ref<SpriteSheetTexture> m_miniDirtWithGrass;
 
         // could make a Object2D class to store all of this data
         Ref<VertexArray> m_BoxVA;
@@ -37,11 +42,12 @@ namespace Soda
 
         Ref<Systems> m_Scene;
         Object m_Square;
+        Object m_Obj;
 
         glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.1f };
         glm::vec2 m_BoxScale = { 1.0f, 1.0f };
         float m_BoxRotation = 0.0f;
-        glm::vec4 m_BoxColor = { 0.8f, 0.2f, 0.3f, 1.0f };
+        glm::vec4 m_BoxColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
         float m_GradFactor = 5.0f;
         float m_MulFactor = 1.0f;

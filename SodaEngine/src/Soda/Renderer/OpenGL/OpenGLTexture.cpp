@@ -9,7 +9,7 @@
 namespace Soda
 {
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
-		: m_Path(path), m_Width(0), m_Height(0), m_TextureID(0), m_TextureScale(1.0f), m_TextureTint(glm::vec4(1.0f))
+		: m_Path(path), m_Width(0), m_Height(0), m_TextureID(0)
 	{
 		stbi_set_flip_vertically_on_load(1);
 		
