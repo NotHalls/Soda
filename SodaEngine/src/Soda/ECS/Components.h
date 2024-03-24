@@ -21,14 +21,14 @@ namespace Soda
         {}
     };
 
-    struct TagComponent
+    struct LableComponent
     {
-        std::string Tag = "NULL";
+        std::string Lable = "NULL";
 
-        TagComponent() = default;
-        TagComponent(const TagComponent&) = default;
-        TagComponent(const std::string& tag)
-            : Tag(tag)
+        LableComponent() = default;
+        LableComponent(const LableComponent&) = default;
+        LableComponent(const std::string& lable)
+            : Lable(lable)
         {}
     };
 
