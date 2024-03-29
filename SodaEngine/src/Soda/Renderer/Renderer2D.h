@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Soda/Renderer/Camera.h"
+#include "Soda/Renderer/CameraComponent.h"
 #include "Soda/Renderer/Texture.h"
 
 #include "Soda/Tools/SpriteSheet.h"
 #include "Soda/_Main/Core.h"
-
-#include "Soda/ECS/Object.h"
 
 
 namespace Soda
@@ -42,6 +41,7 @@ namespace Soda
         static void Shutdown();
 
         // These command handle the batch rendering stuff and default shader uniform stuff
+        static void StartScene(const TheCamera& camera, const glm::mat4& transform);
         static void StartScene(const OrthoCamera& camera);
         static void StopScene();
 

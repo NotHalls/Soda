@@ -20,6 +20,7 @@ namespace Soda
         
         // entity functions
         void OnUpdate(Timestep dt);
+        void OnResize(uint32_t width, uint32_t height);
 
     private:
         entt::registry m_Registry;

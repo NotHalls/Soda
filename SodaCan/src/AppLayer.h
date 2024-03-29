@@ -1,10 +1,6 @@
 #pragma once
 
 #include "Soda.h"
-#include "Soda/ECS/Systems.h"
-#include "Soda/Renderer/Texture.h"
-#include "Soda/Tools/SpriteSheet.h"
-
 
 namespace Soda
 {
@@ -21,16 +17,22 @@ namespace Soda
         void OnEvent(Event& event) override;
         void OnImGuiUpdate() override;
 
+        void OnResize(uint32_t width, uint32_t height) override;
+
     private:
         OrthoCameraController m_CameraController;
         Ref<Framebuffer> m_Framebuffer;
     private:
-        Ref<Texture2D> m_TilesSpriteSheet;
+        Ref<Systems> m_Scene;
+        
+        Object m_Square;
+        Object m_EditorCamera;
+        Object m_SecondCam;
+
+        bool m_PrimaryCam = true;
+
         Ref<Texture2D> m_MiniTileSheet;
         Ref<Texture2D> m_BoxTexture;
-
-        Ref<SpriteSheetTexture> m_DirtTex;
-        Ref<SpriteSheetTexture> m_DirtWithGrass;
 
         Ref<SpriteSheetTexture> m_miniDirt;
         Ref<SpriteSheetTexture> m_miniDirtWithGrass;
@@ -38,11 +40,6 @@ namespace Soda
         // could make a Object2D class to store all of this data
         Ref<VertexArray> m_BoxVA;
         Ref<Shader> m_Shader2D;
-
-
-        Ref<Systems> m_Scene;
-        Object m_Square;
-        Object m_Obj;
 
         glm::vec3 m_BoxPosition = { 0.0f, 0.0f, 0.1f };
         glm::vec2 m_BoxScale = { 1.0f, 1.0f };

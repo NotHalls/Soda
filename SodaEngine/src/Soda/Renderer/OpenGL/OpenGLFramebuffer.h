@@ -20,6 +20,8 @@ namespace Soda
 
         virtual uint32_t GetFrameTextureID() const override
         { return m_FrameTextureID; }
+        virtual const FramebufferInfo& GetFramebufferInfo() const override
+        { return m_FramebufferInfo; }
         
     private:
         uint32_t m_FramebufferID;

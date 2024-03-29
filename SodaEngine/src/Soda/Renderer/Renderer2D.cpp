@@ -11,6 +11,7 @@
 #include "Soda/Renderer/VertexArray.h"
 #include "Soda/Renderer/Shaderer.h"
 #include "Soda/Renderer/Texture.h"
+#include "glm/gtx/dual_quaternion.hpp"
 
 
 namespace Soda
@@ -130,6 +131,15 @@ namespace Soda
     {
         m_QuadInfo.m_Shader->Bind();
         m_QuadInfo.m_Shader->SetUniformMat4("u_PVMat", camera.GetProjectionViewMat());
+
+        Setup();
+    }
+    void Renderer2D::StartScene(const TheCamera& camera, const glm::mat4& transform)
+    {
+        glm::mat4 m_ViewProjectionMat = camera.GetProjection() * glm::inverse(transform);
+
+        m_QuadInfo.m_Shader->Bind();
+        m_QuadInfo.m_Shader->SetUniformMat4("u_PVMat", camera.GetProjection() * glm::inverse(transform));
 
         Setup();
     }

@@ -1,10 +1,13 @@
 #pragma once
 
-#include "Soda/ECS/Components.h"
+#include "Soda/ECS/CameraSystem.h"
+#include "Soda/ECS/ScriptEntity.h"
+
 #include "Soda/Renderer/Texture.h"
 #include "Soda/Tools/SpriteSheet.h"
-#include "glm/glm.hpp"
-#include <string>
+
+#include "Soda/Renderer/CameraComponent.h"
+#include <functional>
 
 
 namespace Soda
@@ -57,5 +60,38 @@ namespace Soda
         SpriteComponent(const glm::vec4& color, const Ref<Texture2D>& texture = nullptr)
             : Color(color), Texture(texture)
         {}
+    };
+
+
+    // Other Components
+    struct CameraComponent
+    {
+        CameraSystem Camera;
+        bool PrimaryCamera = true;
+        bool FixedAspectRatio = false;
+
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent&) = default;
+    };
+
+    struct ScriptComponent
+    {
+        ScriptEntity* Script = nullptr;
+
+        ScriptEntity*(*InitScript)();
+        void (*DestroyScript)(ScriptComponent*);
+
+        template<typename T>
+        void Bind()
+        {
+            InitScript = []()
+            { return static_cast<ScriptEntity*>(new T()); };
+
+            DestroyScript = [](ScriptComponent* script)
+            {
+                delete script->Script;
+                script->Script = nullptr;
+            };
+        }
     };
 }

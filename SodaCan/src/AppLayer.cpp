@@ -1,18 +1,9 @@
 #include "AppLayer.h"
-#include "Soda/ECS/Components.h"
-#include "Soda/ECS/Systems.h"
-#include "Soda/Renderer/Renderer2D.h"
-#include "Soda/Renderer/Texture.h"
-#include "Soda/Tools/SpriteSheet.h"
-#include "Soda/_Main/App.h"
-#include "Soda/_Main/Core.h"
 
+#include <cstdint>
 #include <imgui.h>
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
 
 
 
@@ -25,11 +16,8 @@ namespace Soda
     void SodaCan::OnAttach()
     {
         m_BoxTexture = Texture2D::Create(ASSETS_DIR "textures/Grid.png");
-        m_TilesSpriteSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/spritesheet_tiles.png");
-        // m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/miniSpriteSheet.png");
+        m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/miniSpriteSheet.png");
         m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "textures/WoodenContainer_diff.png");
-
-        m_DirtTex = SpriteSheetTexture::TextureFromSheet(m_TilesSpriteSheet, {2, 9}, {128, 128});
 
         m_miniDirt = SpriteSheetTexture::TextureFromSheet(m_MiniTileSheet, {0, 0}, {16, 16});
 
@@ -41,33 +29,67 @@ namespace Soda
         m_Scene = CreateRef<Systems>();
 
         m_Square = m_Scene->CreateObject("Square");
-        m_Square.AddComponent<SpriteComponent>(glm::vec4(0.5f, 1.0f, 1.0f, 1.0f), m_BoxTexture);
-        
-        m_Obj = m_Scene->CreateObject("Obj");
-        m_Obj.AddComponent<SpriteComponent>(glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, m_MiniTileSheet);
+        m_Square.AddComponent<SpriteComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), m_BoxTexture);
+
+        m_EditorCamera = m_Scene->CreateObject("EditorCamera");
+        m_EditorCamera.AddComponent<CameraComponent>();
+
+        m_SecondCam = m_Scene->CreateObject("Second Cam");
+        m_SecondCam.AddComponent<CameraComponent>().PrimaryCamera = false;
+
+        // scripts
+        class CameraController : public ScriptEntity
+        {
+            void OnStart()
+            {
+                
+            }
+            
+            void OnUpdate(Timestep dt)
+            {
+                
+            }
+
+            void OnDestroy()
+            {
+
+            }
+        };
+
+        m_EditorCamera.AddComponent<ScriptComponent>().Bind<CameraController>();
     }
 
     void SodaCan::OnUpdate(Timestep dt)
     {
-        m_Framebuffer->Bind();
+        // resizing
+        // @TODO: maybe this could be in a better place?
+        if(FramebufferInfo fInfo = m_Framebuffer->GetFramebufferInfo();
+           m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
+           (fInfo.width != m_ViewportSize.x || fInfo.height != m_ViewportSize.y))
+        {
+            m_Framebuffer->Redo((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_CameraController.WhenResized(m_ViewportSize.x, m_ViewportSize.y); // Do we need to do this here, i think i do it already in the camera class
+
+            m_Scene->OnResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        }
 
         // @TODO: The zoom still works when not focused
         if(m_IsPanelHovered)
             m_CameraController.OnUpdate(dt);
 
+        m_Framebuffer->Bind();
         RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
         Renderer2D::ResetRendererStats();
             
-
         // Render Loop
         Renderer2D::StartScene(m_CameraController.GetCamera());
         {
-            // m_Scene->OnUpdate(dt);
+            m_Scene->OnUpdate(dt);
 
             // Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_miniDirt, m_BoxColor);
 
-            Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxTexture, m_BoxColor);
-            Renderer2D::DrawQuad(m_BoxPosition + glm::vec3(1.0f, 0.0f, 0.0f), m_BoxScale, m_MiniTileSheet, m_BoxColor);
+            // Renderer2D::DrawQuad(m_BoxPosition, m_BoxScale, m_BoxTexture, m_BoxColor);
+            // Renderer2D::DrawQuad(m_BoxPosition + glm::vec3(1.0f, 0.0f, 0.0f), m_BoxScale, m_MiniTileSheet, m_BoxColor);
         }
         Renderer2D::StopScene();
 
@@ -80,6 +102,12 @@ namespace Soda
     {
         m_CameraController.OnEvent(event);
     }
+
+
+    void SodaCan::OnResize(uint32_t width, uint32_t height)
+    {
+    }
+
 
     void SodaCan::OnImGuiUpdate()
     {
@@ -158,9 +186,9 @@ namespace Soda
                 {
                     ImGui::Text("");
                     ImGui::Text("Object Name: %s", m_Square.GetComponent<NameComponent>().Name.c_str());
-                    ImGui::DragFloat3("Box Position", &m_BoxPosition.x, 0.1f);
-                    ImGui::DragFloat("Box Rotation", &m_BoxRotation, 0.1f);
-                    ImGui::DragFloat2("Box Scale", &m_BoxScale.x, 0.1f);
+                    ImGui::DragFloat3("Box Position", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[3]));
+                    ImGui::DragFloat("Box Rotation", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[2]));
+                    ImGui::DragFloat2("Box Scale", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[1]));
                     ImGui::ColorEdit4("Box Color", glm::value_ptr(m_Square.GetComponent<SpriteComponent>().Color));
                     
                     ImGui::Spacing();
@@ -169,6 +197,19 @@ namespace Soda
                     
                     ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
                     ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);
+
+                    ImGui::Spacing();
+                    if(ImGui::Checkbox("Camera", &m_PrimaryCam))
+                    {
+                        m_SecondCam.GetComponent<CameraComponent>().PrimaryCamera = !m_PrimaryCam;
+                        m_EditorCamera.GetComponent<CameraComponent>().PrimaryCamera = m_PrimaryCam;
+                    }
+                    ImGui::Spacing();
+
+                    auto& camera = m_EditorCamera.GetComponent<CameraComponent>().Camera;
+                    float zoomLvl = camera.GetCameraSize();
+                    if(ImGui::DragFloat("Camera Zoom", &zoomLvl, 0.3f))
+                        camera.SetCameraSize(zoomLvl);
                 }
                 ImGui::End();
             }
@@ -212,15 +253,10 @@ namespace Soda
                 // because we dont wanna check the scene/viewport each frame,
                 // we only wanna do it when we resize.
                 ImVec2 sceneSize = ImGui::GetContentRegionAvail();
-                if(m_ViewportSize != *((glm::vec2*)&sceneSize))
-                {
-                    m_ViewportSize = {sceneSize.x, sceneSize.y};
-                    m_Framebuffer->Redo(m_ViewportSize.x, m_ViewportSize.y);
+                m_ViewportSize = {sceneSize.x, sceneSize.y};
 
-                    m_CameraController.WhenResized(m_ViewportSize.x, m_ViewportSize.y);
-                }
                 // till here...
-                ImGui::Image((void*)m_Framebuffer->GetFrameTextureID(), ImVec2(sceneSize.x, sceneSize.y), ImVec2(0, 1), ImVec2(1, 0));
+                ImGui::Image((void*)m_Framebuffer->GetFrameTextureID(), ImVec2(m_ViewportSize.x, m_ViewportSize.y), ImVec2(0, 1), ImVec2(1, 0));
             }
             ImGui::End();
             ImGui::PopStyleVar();

@@ -115,6 +115,9 @@ namespace Soda
 		IsMinimized = false;
 		Renderer::OnWindowResize(_WindowResizeEvent.GetWindowWidth(), _WindowResizeEvent.GetWindowHeight());
 
+		for (Layer* layer : m_LayerStack)
+			layer->OnResize(_WindowResizeEvent.GetWindowWidth(), _WindowResizeEvent.GetWindowHeight());
+
 		return false;
 	}
 }

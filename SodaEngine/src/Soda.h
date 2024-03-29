@@ -30,6 +30,7 @@
 #include "Soda/ECS/Systems.h"
 #include "Soda/ECS/Components.h"
 #include "Soda/ECS/Object.h"
+#include "Soda/ECS/ScriptEntity.h"
 
 
 #include "Soda/Renderer/Light.h"
