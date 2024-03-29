@@ -2,6 +2,7 @@
 
 #include "Soda/_Main/Core.h"
 #include "Systems.h"
+#include <cstdint>
 #include <utility>
 
 
@@ -46,6 +47,14 @@ namespace Soda
     public:
         operator bool() const
         { return m_Object != entt::null; }
+
+        operator uint32_t() const // well we need the m_Object of the selected for its ID so we can have select and open Tree list correctly
+        { return (uint32_t)m_Object; }
+
+        bool operator==(Object obj) const // we need this to check for object "selectivity" in the scene list panel
+        { return m_Object==obj.m_Object && m_System==obj.m_System; }
+        bool operator!=(Object obj) const
+        { return !(*this != obj); }
 
     private:
         Systems* m_System = nullptr;
