@@ -26,5 +26,6 @@ namespace Soda
         entt::registry m_Registry;
 
         friend class Object;
+        friend class SceneListPanel;
     };
 }

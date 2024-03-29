@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Soda.h"
+#include "Panels/SceneListPanel.h"
 
 namespace Soda
 {
@@ -23,6 +24,7 @@ namespace Soda
         OrthoCameraController m_CameraController;
         Ref<Framebuffer> m_Framebuffer;
     private:
+        // @TODO: change the name m_Scene to m_CurentSystem or m_System
         Ref<Systems> m_Scene;
         
         Object m_Square;
@@ -51,6 +53,10 @@ namespace Soda
 
     private:
         glm::vec2 m_ViewportSize = glm::vec2(0.0f);
+
+    // Scene List Panel
+    private:
+        SceneListPanel m_SceneList;
 
     private:
         bool m_IsPanelFocused = false;

@@ -13,7 +13,6 @@ namespace Soda
     {
     public:
         Object() = default;
-        Object(const Object& object) = default;
         Object(entt::entity object, Systems* system)
             : m_Object(object), m_System(system)
         {}

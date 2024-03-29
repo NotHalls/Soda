@@ -57,6 +57,8 @@ namespace Soda
         };
 
         m_EditorCamera.AddComponent<ScriptComponent>().Bind<CameraController>();
+
+        m_SceneList.SetSystem(m_Scene);
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -237,6 +239,8 @@ namespace Soda
                 ImGui::PopStyleColor();
             }
             // if(m_DefaultSettings & Settings::)
+
+            m_SceneList.OnImGuiRender();
 
 
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
