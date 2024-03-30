@@ -1,10 +1,6 @@
 #pragma once
 
 #include "Soda.h"
-#include "Soda/ECS/Components.h"
-#include "Soda/ECS/Object.h"
-#include <string>
-
 
 
 namespace Soda
@@ -15,9 +11,14 @@ namespace Soda
         SceneListPanel() = default;
 
         void DrawListObject(Object obj, const std::string& name);
+
+        // @TEMP: move every panel to a different class
+        void DrawObjectProperties(Object obj);
         
     private:
         Ref<Systems> m_CurrentSystem;
         Object m_SelectedObj;
+
+        friend class Panels;
     };
 }

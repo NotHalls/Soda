@@ -5,6 +5,8 @@
 #include "SceneListPanel.h"
 
 
+// dont knwo if its a bad practice but i made a pnels class as a container for all the panels
+// so that i can just create a panels object in the EditorClass
 namespace Soda
 {
     class Panels
@@ -17,6 +19,7 @@ namespace Soda
 
     private:
         Ref<Systems> m_CurrentSystem;
+
         SceneListPanel m_SceneListsPanel;
     };
 }

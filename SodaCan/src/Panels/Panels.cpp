@@ -23,5 +23,14 @@ namespace Soda
             });
         }
         ImGui::End();
+
+        ImGui::Begin("Details");
+        {
+            if(m_SceneListsPanel.m_SelectedObj)
+            {
+                m_SceneListsPanel.DrawObjectProperties(m_SceneListsPanel.m_SelectedObj);
+            }
+        }
+        ImGui::End();
     }
 }
