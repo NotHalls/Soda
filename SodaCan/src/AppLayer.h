@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Soda.h"
-#include "Panels/SceneListPanel.h"
+#include "Panels/Panels.h"
 
 namespace Soda
 {
@@ -54,10 +54,9 @@ namespace Soda
     private:
         glm::vec2 m_ViewportSize = glm::vec2(0.0f);
 
-    // Scene List Panel
+    // Panels
     private:
-        SceneListPanel m_SceneList;
-
+        Panels m_Panels;
     private:
         bool m_IsPanelFocused = false;
         bool m_IsPanelHovered = false;

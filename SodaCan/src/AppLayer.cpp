@@ -1,10 +1,9 @@
 #include "AppLayer.h"
 
-#include <cstdint>
 #include <imgui.h>
-
 #include <glm/glm.hpp>
 
+#include "Panels/Panels.h"
 
 
 namespace Soda
@@ -58,7 +57,7 @@ namespace Soda
 
         m_EditorCamera.AddComponent<ScriptComponent>().Bind<CameraController>();
 
-        m_SceneList.SetSystem(m_Scene);
+        m_Panels.SetSystem(m_Scene);
     }
 
     void SodaCan::OnUpdate(Timestep dt)
@@ -240,7 +239,7 @@ namespace Soda
             }
             // if(m_DefaultSettings & Settings::)
 
-            m_SceneList.OnImGuiRender();
+            m_Panels.OnImGuiRender();
 
 
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
