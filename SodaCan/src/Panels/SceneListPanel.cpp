@@ -46,7 +46,7 @@ namespace Soda
 
         if(obj.HasComponent<TransformComponent>())
         {        
-            if(ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)obj, ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+            if(ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
             {
                 auto& transform = obj.GetComponent<TransformComponent>().Transform;
                 ImGui::DragFloat3("Position", glm::value_ptr(transform[3]));
@@ -58,7 +58,7 @@ namespace Soda
 
         if(obj.HasComponent<CameraComponent>())
         {        
-            if(ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)obj, ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+            if(ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
             {
                 auto& camera = obj.GetComponent<CameraComponent>();
 
