@@ -21,6 +21,9 @@ namespace Soda
                 Object list(obj, m_CurrentSystem.get());
                 m_SceneListsPanel.DrawListObject(list, nameComponent.Name); // dont really know if i should do this or just pass in the object
             });
+
+            if(ImGui::IsWindowHovered() && ImGui::IsMouseDown(0))
+                m_SceneListsPanel.m_SelectedObj = {};
         }
         ImGui::End();
 

@@ -208,9 +208,9 @@ namespace Soda
                     ImGui::Spacing();
 
                     auto& camera = m_EditorCamera.GetComponent<CameraComponent>().Camera;
-                    float zoomLvl = camera.GetCameraSize();
+                    float zoomLvl = camera.GetOrthoCameraSize();
                     if(ImGui::DragFloat("Camera Zoom", &zoomLvl, 0.3f))
-                        camera.SetCameraSize(zoomLvl);
+                        camera.SetOrthoCameraSize(zoomLvl);
                 }
                 ImGui::End();
             }
