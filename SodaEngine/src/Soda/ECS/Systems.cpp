@@ -18,8 +18,8 @@ namespace Soda
     Object Systems::CreateObject(const std::string& name)
     {
         Object obj = { m_Registry.create(), this };
-        obj.AddComponent<TransformComponent>(glm::mat4(1.0f));
         obj.AddComponent<NameComponent>(name);
+        obj.AddComponent<TransformComponent>();
 
         return obj;
     }
@@ -45,7 +45,7 @@ namespace Soda
 
 
         TheCamera* SceneCamera = nullptr;
-        glm::mat4* CameraTransform = nullptr;
+        glm::mat4 CameraTransform(1.0f);
 
         auto viewGroup = m_Registry.view<TransformComponent, CameraComponent>();
         for(auto cameras : viewGroup)
@@ -55,21 +55,21 @@ namespace Soda
             if(Camera.PrimaryCamera)
             {
                 SceneCamera = &Camera.Camera;
-                CameraTransform = &Transform.Transform;
+                CameraTransform = Transform.GetTransform();
                 break;
             }
         }
 
         if(SceneCamera)
         {
-            Renderer2D::StartScene(*SceneCamera, *CameraTransform);
+            Renderer2D::StartScene(*SceneCamera, CameraTransform);
             {
                 auto group = m_Registry.group<TransformComponent>(entt::get<SpriteComponent>);
                 for(auto entity : group)
                 {
                     const auto& [Transform, Sprite] = group.get<TransformComponent, SpriteComponent>(entity);
 
-                    Renderer2D::DrawQuad(Transform.Transform, Sprite.Texture, Sprite.Color, Sprite.TextureScale);
+                    Renderer2D::DrawQuad(Transform.GetTransform(), Sprite.Texture, Sprite.Color, Sprite.TextureScale);
                 }
             }
             Renderer2D::StopScene();

@@ -7,7 +7,9 @@
 #include "Soda/Tools/SpriteSheet.h"
 
 #include "Soda/Renderer/CameraComponent.h"
-#include <functional>
+#include "glm/ext/matrix_transform.hpp"
+#include "glm/fwd.hpp"
+#include "glm/trigonometric.hpp"
 
 
 namespace Soda
@@ -37,13 +39,26 @@ namespace Soda
 
     struct TransformComponent
     {
-        glm::mat4 Transform{1.0f};
+        glm::vec3 Position = {0.0f, 0.0f, 0.0f};
+        glm::vec3 Rotation = {0.0f, 0.0f, 0.0f};
+        glm::vec3 Scale    = {1.0f, 1.0f, 1.0f};
 
         TransformComponent() = default;
         TransformComponent(const TransformComponent&) = default;
-        TransformComponent(const glm::mat4& transform)
-            : Transform(transform)
-        {}
+
+        // you know what... component related funcs in component structs makes sence to me
+        glm::mat4 GetTransform() const
+        {
+            glm::mat4 rotation =
+              glm::rotate(glm::mat4(1.0f), Rotation.x, glm::vec3{1.0f, 0.0f, 0.0f})
+            * glm::rotate(glm::mat4(1.0f), Rotation.y, glm::vec3{0.0f, 1.0f, 0.0f})
+            * glm::rotate(glm::mat4(1.0f), Rotation.z, glm::vec3{0.0f, 0.0f, 1.0f});
+
+            return
+              glm::mat4(glm::translate(glm::mat4(1.0f), Position)
+            * rotation
+            * glm::scale(glm::mat4(1.0f), Scale));
+        }
     };
 
 

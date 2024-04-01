@@ -1,10 +1,15 @@
 #include "SceneListPanel.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/trigonometric.hpp"
+#
+#include "imgui.h"
+
 #include "Soda/ECS/CameraSystem.h"
 #include "Soda/ECS/Components.h"
-#include "glm/trigonometric.hpp"
-#include "imgui.h"
-#include <cstdint>
+
+#include "../GUI/SodaGui.h"
 
 
 namespace Soda
@@ -48,8 +53,15 @@ namespace Soda
         {        
             if(ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
             {
-                auto& transform = obj.GetComponent<TransformComponent>().Transform;
-                ImGui::DragFloat3("Position", glm::value_ptr(transform[3]));
+                auto& transform = obj.GetComponent<TransformComponent>();
+
+                glm::vec3 rotation = glm::degrees(transform.Rotation);
+
+                SodaGui::DrawVec3Gui("Position", transform.Position, 0.0f);
+                SodaGui::DrawVec3Gui("Rotation", rotation, 0.0f);
+                SodaGui::DrawVec3Gui("Scale", transform.Scale, 1.0f);
+                
+                transform.Rotation = glm::radians(rotation);
 
                 ImGui::TreePop();
             }
@@ -109,6 +121,27 @@ namespace Soda
                     float perspFarPlane = camera.Camera.GetPerspectiveFarPlane();
                     if(ImGui::DragFloat("Far Plane", &perspFarPlane))
                         camera.Camera.SetPerspectiveFarPlane(perspFarPlane);
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+
+        if(obj.HasComponent<SpriteComponent>())
+        {
+            if(ImGui::TreeNodeEx((void*)typeid(SpriteComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite"))
+            {
+                auto& sprite = obj.GetComponent<SpriteComponent>();
+                
+                if(ImGui::ColorEdit4("color", glm::value_ptr(sprite.Color)))
+                    obj.GetComponent<SpriteComponent>().Color = sprite.Color;
+
+                ImGui::Text("Texture");
+                // ImGui::Image((void*)sprite.Texture->GetTextureID(), ImVec2(150.0f, 150.0f), ImVec2(0, 1), ImVec2(1, 0));
+                if(ImGui::ImageButton((void*)sprite.Texture->GetTextureID(), ImVec2(150.0f, 150.0f), ImVec2(0, 1), ImVec2(1, 0), 1))
+                {
+                    // open a file browser to select a texture
                 }
 
                 ImGui::TreePop();

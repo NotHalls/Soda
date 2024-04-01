@@ -181,40 +181,6 @@ namespace Soda
             }
         ImGui::EndMenuBar();
 
-            if(m_Square)
-            {
-                ImGui::Begin("Properties");
-                {
-                    ImGui::Text("");
-                    ImGui::Text("Object Name: %s", m_Square.GetComponent<NameComponent>().Name.c_str());
-                    ImGui::DragFloat3("Box Position", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[3]));
-                    ImGui::DragFloat("Box Rotation", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[2]));
-                    ImGui::DragFloat2("Box Scale", glm::value_ptr(m_Square.GetComponent<TransformComponent>().Transform[1]));
-                    ImGui::ColorEdit4("Box Color", glm::value_ptr(m_Square.GetComponent<SpriteComponent>().Color));
-                    
-                    ImGui::Spacing();
-                    ImGui::Separator();
-                    ImGui::Spacing();
-                    
-                    ImGui::DragFloat("Grad Factor", &m_GradFactor, 0.1f);
-                    ImGui::DragFloat("Multiply Factor", &m_MulFactor, 0.1f);
-
-                    ImGui::Spacing();
-                    if(ImGui::Checkbox("Camera", &m_PrimaryCam))
-                    {
-                        m_SecondCam.GetComponent<CameraComponent>().PrimaryCamera = !m_PrimaryCam;
-                        m_EditorCamera.GetComponent<CameraComponent>().PrimaryCamera = m_PrimaryCam;
-                    }
-                    ImGui::Spacing();
-
-                    auto& camera = m_EditorCamera.GetComponent<CameraComponent>().Camera;
-                    float zoomLvl = camera.GetOrthoCameraSize();
-                    if(ImGui::DragFloat("Camera Zoom", &zoomLvl, 0.3f))
-                        camera.SetOrthoCameraSize(zoomLvl);
-                }
-                ImGui::End();
-            }
-
             if(m_DefaultSettings & Settings::EnableRendererStats)
             {
                 ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.5f));
