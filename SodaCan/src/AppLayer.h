@@ -2,6 +2,8 @@
 
 #include "Soda.h"
 #include "Panels/Panels.h"
+#include "Soda/ECS/Object.h"
+
 
 namespace Soda
 {
@@ -28,12 +30,15 @@ namespace Soda
         Ref<Systems> m_Scene;
         
         Object m_Square;
+        Object m_Square2;
+        Object m_Square3;
         Object m_EditorCamera;
         Object m_SecondCam;
 
         bool m_PrimaryCam = true;
 
-        Ref<Texture2D> m_MiniTileSheet;
+        Ref<Texture2D> m_GridTex;
+        Ref<Texture2D> m_GingerCat;
         Ref<Texture2D> m_BoxTexture;
 
         Ref<SpriteSheetTexture> m_miniDirt;

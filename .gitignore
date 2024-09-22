@@ -4,7 +4,14 @@
 .cache/
 bin/
 bin-objs/
+libs/
 build/
+x64
+x32
+
+CMakeFiles
+
+*.dir
 
 #Files-Types
 *.sln
@@ -12,4 +19,10 @@ build/
 *.user
 *.filters
 
+*_Profiler.json
+
 Makefile
+cmake_install.cmake
+CMakeCache.txt
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake

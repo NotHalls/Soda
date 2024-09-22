@@ -26,7 +26,7 @@ namespace Soda
         }
 
         template<typename T>
-        T& DeleteComponent()
+        void DeleteComponent()
         {
             SD_ENGINE_ASSERT(HasComponent<T>(), "The Component Doesnt Exist")
             m_System->m_Registry.remove<T>(m_Object);
@@ -47,7 +47,8 @@ namespace Soda
     public:
         operator bool() const
         { return m_Object != entt::null; }
-
+        operator entt::entity() const
+        { return m_Object; }
         operator uint32_t() const // well we need the m_Object of the selected for its ID so we can have select and open Tree list correctly
         { return (uint32_t)m_Object; }
 
@@ -55,6 +56,10 @@ namespace Soda
         { return m_Object==obj.m_Object && m_System==obj.m_System; }
         bool operator!=(Object obj) const
         { return !(*this != obj); }
+
+    public:
+        const entt::entity GetObjectID()
+        { return m_Object; }
 
     private:
         Systems* m_System = nullptr;

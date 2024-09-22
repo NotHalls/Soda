@@ -23,6 +23,8 @@ namespace Soda
 
         return obj;
     }
+    void Systems::DestroyObject(Object obj)
+    { m_Registry.destroy(obj); }
 
 
     // systems
@@ -44,6 +46,7 @@ namespace Soda
         });
 
 
+        // Camera Stuff
         TheCamera* SceneCamera = nullptr;
         glm::mat4 CameraTransform(1.0f);
 
@@ -60,6 +63,8 @@ namespace Soda
             }
         }
 
+
+        // Rendering Scene
         if(SceneCamera)
         {
             Renderer2D::StartScene(*SceneCamera, CameraTransform);
@@ -69,7 +74,10 @@ namespace Soda
                 {
                     const auto& [Transform, Sprite] = group.get<TransformComponent, SpriteComponent>(entity);
 
-                    Renderer2D::DrawQuad(Transform.GetTransform(), Sprite.Texture, Sprite.Color, Sprite.TextureScale);
+                    if(Sprite.Texture)
+                        Renderer2D::DrawQuad(Transform.GetTransform(), Sprite.Texture, Sprite.Color, Sprite.TextureScale);
+                    else
+                        Renderer2D::DrawQuad(Transform.GetTransform(), Sprite.Color);
                 }
             }
             Renderer2D::StopScene();

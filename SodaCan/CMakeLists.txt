@@ -20,7 +20,7 @@ target_compile_definitions(SodaCan PUBLIC $<$<CONFIG:Dist>:SD_DIST>)
 
 
 # linking the Soda lib
-# add_subdirectory(../SodaEngine)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/SodaEngine SodaEngine/)
 target_link_libraries(SodaCan PRIVATE SodaEngine)
 # link_libraries(SodaEngine)
 

@@ -4,6 +4,9 @@
 #include <glm/glm.hpp>
 
 #include "Panels/Panels.h"
+#include "Soda/Input/Input.h"
+#include "Soda/Input/KeyboardCodes.h"
+#include "Soda/Tools/Logger.h"
 
 
 namespace Soda
@@ -14,11 +17,11 @@ namespace Soda
 
     void SodaCan::OnAttach()
     {
-        m_BoxTexture = Texture2D::Create(ASSETS_DIR "textures/Grid.png");
-        m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "game/spritesheets/miniSpriteSheet.png");
-        m_MiniTileSheet = Texture2D::Create(ASSETS_DIR "textures/WoodenContainer_diff.png");
+        m_GridTex = Texture2D::Create("SodaCan/assets/textures/Grid.png");
+        m_GingerCat = Texture2D::Create("SodaCan/assets/textures/GingerCat.png");
+        m_BoxTexture = Texture2D::Create("SodaCan/assets/textures/WoodenContainer_diff.png");
 
-        m_miniDirt = SpriteSheetTexture::TextureFromSheet(m_MiniTileSheet, {0, 0}, {16, 16});
+        m_miniDirt = SpriteSheetTexture::TextureFromSheet(m_GingerCat, {0, 0}, {16, 16});
 
         FramebufferInfo m_FramebufferInfo;
         m_FramebufferInfo.width = 1280;
@@ -28,7 +31,14 @@ namespace Soda
         m_Scene = CreateRef<Systems>();
 
         m_Square = m_Scene->CreateObject("Square");
-        m_Square.AddComponent<SpriteComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), m_BoxTexture);
+        m_Square.AddComponent<SpriteComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        m_Square2 = m_Scene->CreateObject("S2");
+        m_Square2.AddComponent<SpriteComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        m_Square3 = m_Scene->CreateObject("S3");
+        m_Square3.AddComponent<SpriteComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
 
         m_EditorCamera = m_Scene->CreateObject("EditorCamera");
         m_EditorCamera.AddComponent<CameraComponent>();
@@ -36,23 +46,48 @@ namespace Soda
         m_SecondCam = m_Scene->CreateObject("Second Cam");
         m_SecondCam.AddComponent<CameraComponent>().PrimaryCamera = false;
 
+
+        m_Square.GetComponent<TransformComponent>().Scale = glm::vec3(10.0f, 10.0f, 10.0f);
+        m_Square2.GetComponent<TransformComponent>().Scale = glm::vec3(2.0f, 2.0f, 2.0f);
+        m_Square3.GetComponent<TransformComponent>().Scale = glm::vec3(2.0f, 2.0f, 2.0f);
+
+        m_Square3.GetComponent<TransformComponent>().Position = glm::vec3(7.0f, 6.2f, 0.0f);
+        m_Square3.GetComponent<TransformComponent>().Rotation = glm::vec3(0.0f, 0.0f, glm::radians(130.0f));
+
+
+
+        m_Square3.GetComponent<SpriteComponent>().Texture = m_GingerCat;
+        m_Square2.GetComponent<SpriteComponent>().Texture = m_BoxTexture;
+        m_Square.GetComponent<SpriteComponent>().Texture = m_GridTex;
+
+        m_EditorCamera.GetComponent<CameraComponent>().Camera.SetOrthoCameraSize(15.0f);
+
         // scripts
         class CameraController : public ScriptEntity
         {
             void OnStart()
             {
-                
+                // m_GridTex = Texture2D::Create("SodaCan/assets/textures/Grid.png");
+                // m_BoxTex = Texture2D::Create("SodaCan/assets/textures/WoodenContainer_diff.png");
             }
             
             void OnUpdate(Timestep dt)
             {
-                
+                if(Soda::Input::IsKeyPressed(SD_KEY_W))
+                {
+                    SD_LOG("...");
+                }
             }
 
             void OnDestroy()
             {
 
             }
+
+            // Ref<Texture2D> m_GridTex;
+            // Ref<Texture2D> m_BoxTex;
+
+            Object m_BoxObj;
         };
 
         m_EditorCamera.AddComponent<ScriptComponent>().Bind<CameraController>();
@@ -81,6 +116,9 @@ namespace Soda
         m_Framebuffer->Bind();
         RenderCommand::ClearScreen({ 0.1f, 0.1f, 0.1f, 1.0f });
         Renderer2D::ResetRendererStats();
+
+        if(Soda::Input::IsKeyPressed(SD_KEY_END))
+            m_Scene->DestroyObject(m_Square2);
             
         // Render Loop
         Renderer2D::StartScene(m_CameraController.GetCamera());

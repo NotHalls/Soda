@@ -1,6 +1,6 @@
 #include "SceneListPanel.h"
 
-#include "glm/glm.hpp"
+#include "Soda/Tools/Logger.h"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/trigonometric.hpp"
 #
@@ -24,10 +24,25 @@ namespace Soda
             m_SelectedObj = obj;
         }
 
+        bool m_DeleteQueued = false;
+        // when an item is right clicked
+        if(ImGui::BeginPopupContextItem())
+        {
+            if(ImGui::MenuItem("Delete Object"))
+                m_DeleteQueued = true;
+
+            ImGui::EndPopup();
+        }
 
         if(opened)
         {
             ImGui::TreePop();
+        }
+
+        if(m_DeleteQueued)
+        {
+            m_CurrentSystem->DestroyObject(obj);
+            m_SelectedObj = {};
         }
     }
 
@@ -127,24 +142,45 @@ namespace Soda
             }
         }
 
-
         if(obj.HasComponent<SpriteComponent>())
         {
-            if(ImGui::TreeNodeEx((void*)typeid(SpriteComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite"))
+            bool removeComponent = false;
+
+            bool isOpen = ImGui::TreeNodeEx((void*)typeid(SpriteComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite");
+
+            ImGui::SameLine(ImGui::GetWindowWidth() - 45.0f);
+            if(ImGui::Button("-"))
+                removeComponent = true;
+
+            ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
+            if(ImGui::Button("+"))
+            {
+                if(ImGui::BeginMenu("ItemOptions"))
+                {
+                    if(ImGui::MenuItem("Remove Component"))
+                        removeComponent = true;
+                }
+            }
+
+            if(isOpen)
             {
                 auto& sprite = obj.GetComponent<SpriteComponent>();
                 
                 if(ImGui::ColorEdit4("color", glm::value_ptr(sprite.Color)))
                     obj.GetComponent<SpriteComponent>().Color = sprite.Color;
 
-                ImGui::Text("Texture");
-                // ImGui::Image((void*)sprite.Texture->GetTextureID(), ImVec2(150.0f, 150.0f), ImVec2(0, 1), ImVec2(1, 0));
-                if(ImGui::ImageButton((void*)sprite.Texture->GetTextureID(), ImVec2(150.0f, 150.0f), ImVec2(0, 1), ImVec2(1, 0), 1))
-                {
-                    // open a file browser to select a texture
-                }
-
+                // ImGui::Text("Texture");
+                // if(ImGui::ImageButton((void*)sprite.Texture->GetTextureID(), ImVec2(50.0f, 50.0f), ImVec2(0, 1), ImVec2(1, 0), 1))
+                // {
+                //     // open a file browser to select a texture
+                // }
                 ImGui::TreePop();
+            }
+
+            if(removeComponent)
+            {
+                obj.DeleteComponent<SpriteComponent>();
+                removeComponent = false;
             }
         }
     }

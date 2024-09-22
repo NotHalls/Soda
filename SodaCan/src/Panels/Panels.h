@@ -18,8 +18,6 @@ namespace Soda
         void OnImGuiRender();
 
     private:
-        Ref<Systems> m_CurrentSystem;
-
         SceneListPanel m_SceneListsPanel;
     };
 }
